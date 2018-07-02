@@ -1,0 +1,13 @@
+#+TITLE:       First day at Recurse Center
+#+AUTHOR:      Lincoln Clarete
+#+EMAIL:       lincoln@clarete.li
+#+DATE:        2018-07-02 Mon
+#+URI:         /blog/%y/%m/%d/first-day-at-recurse-center
+#+KEYWORDS:    Life Choicese, Career, Life Choices, Programming
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+#+DESCRIPTION:
+
+Today is a good day. I'm starting batch at Recurse Center. This blog
+is the first thing I'm putting together so I can document my journey
+and share achievements and experiences!
