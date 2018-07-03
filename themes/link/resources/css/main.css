@@ -19,8 +19,7 @@
 
 
 
-/* Body resets
-   -------------------------------------------------- */
+/* Body resets */
 
 * {
     -webkit-box-sizing: border-box;
@@ -174,12 +173,6 @@ table th.right, table td.right {
 .masthead {
     color: #888;
 }
-.masthead:after {
-    display: block;
-    content: '----------------------------------------------------------------';
-    margin: 10px 0;
-    color: #ccc;
-}
 .masthead a {
     color: #333;
 }
@@ -237,11 +230,8 @@ table th.right, table td.right {
 /* post */
 .post {
     position: relative;
-}
-.post:after {
-    display: block;
-    content: "----------------------------------------------------------------";
-    color: #ccc;
+    border-bottom: dashed 1px #ccc;
+    margin-bottom: 10px;
 }
 .post img {
     max-width: 100%;
@@ -343,7 +333,7 @@ table th.right, table td.right {
 
 /* footer */
 .footer {
-    margin: 80px 0 0;
+    margin: 20px 0 0;
     text-align: left;
     font-size: 12px;
     color: #999;
@@ -355,6 +345,9 @@ table th.right, table td.right {
 .footpara {
     display: inline;
 }
+
+.social { list-style: none; text-align: right }
+.social li { display: inline-block; margin-right: 10px; }
 
 /* Responsive
    -------------------------------------------------- */
