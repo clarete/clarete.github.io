@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>org-page</title>
+    <link>http://clarete.li/</link>
+    <description>static site generator</description>
+    <pubDate>Tue, 03 Jul 2018 15:14:07 EDT</pubDate>
+    <lastBuildDate>Tue, 03 Jul 2018 15:14:07 EDT</lastBuildDate>
+    <docs>http://www.rssboard.org/rss-specification</docs>
+    <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
+    <item>
+      <title>First day at Recurse Center</title>
+      <link>http://clarete.li/blog/2018/07/02/first-day-at-recurse-center</link>
+      <description><![CDATA[]]></description>
+      <pubDate>2018-07-03</pubDate>
+      <guid>http://clarete.li/blog/2018/07/02/first-day-at-recurse-center</guid>
+    </item>
+  </channel>
+</rss>
