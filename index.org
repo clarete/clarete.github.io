@@ -1,4 +1,6 @@
 #+TITLE: Hi! I'm Lincoln
+#+URI:       /
+#+LANGUAGE:  en
 
 I'm a human being that deeply enjoys the art of computer
 programming. I'm very curious and interested in various programming
