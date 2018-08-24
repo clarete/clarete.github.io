@@ -32,7 +32,7 @@ html, body {
 }
 body {
     padding: 20px;
-    font-family: Menlo, Monaco, monospace;
+    font-family: sans-serif;
     font-size: 14px;
     line-height: 1.5;
     color: #444;
