@@ -1,0 +1,129 @@
+#+TITLE: Parsing Machines
+#+AUTHOR: Lincoln Clarete • S'2
+#+OPTIONS: toc:0
+
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+REVEAL_EXTRA_CSS: extra.css
+#+REVEAL_THEME: black
+#+REVEAL_TRANS: linear
+
+# M-x<ret>load-library<ret>ox-reveal
+# C-c C-e R R: to export the presentation
+
+* What are Parsing Machines
+  Another way of parsing data that can give a fast implementation
+  of pattern matching. Also, very good for implementing semantics of
+  recursive grammars.
+* Where the idea came from
+  First read about it in article from Lua creators on pattern matching
+  (2008). Their work is based on Knuth's parsing machine (1971) and
+  there seems to be more research on the topic on its way.
+* Semantics
+** Parsing Expression Grammars
+   * Patterns are very similar to Regular Expressions, but...
+   * Use greedy patterns to describe parsers for *unambiguous*
+     languages;
+   * Are recursive;
+   * Very good for parsing "Machine Oriented" data;
+   * Introduced by Bryan Ford (2004): Parsing Expression Grammars: A
+     Recognition-Based Syntactic Foundation.
+** Operations
+   |----------------+-----------+------------------------|
+   | sequence       | =e1 e2=   |                        |
+   | ordered choice | =e1 / e2= |                        |
+   | not predicate  | =!e=      |                        |
+   | and predicate  | =&e=      | (sugar for =!!e=)      |
+   | zero or more   | =e*=      |                        |
+   | one or more    | =e+=      | (sugar for =ee*=)      |
+   | optional       | =e?=      | (sugar for =&ee / !e=) |
+** Small Example of Grammar
+   #+begin_src antlr
+   File <- CSV*
+   CSV  <- Val (',' Val)* '\n'
+   Val  <- (![,\n] .)*
+   #+end_src
+* Map PEG semantics into VM instructions
+** Not Operator
+    #+begin_src text
+    Π(!p) ≡ Choice |Π(p)| + 3
+            Π(p)
+            Commit 1
+            Fail
+    #+end_src
+** Ordered Choice
+    #+begin_src text
+    Π(p1/p2) ≡ Choice |Π(p1)| + 2
+               Π(p1)
+               Commit |Π(p2)| + 1
+               Π(p2)
+    #+end_src
+* Bootstrapping a Parse Machine
+** Implement a PEG System
+   #+begin_src sh
+   $ python peg.py -g csv.g -d tiny.csv -s File
+   #+end_src
+** Parse the parser description
+   #+begin_src sh
+   $ python peg.py -g peg.g -d peg.g -s Grammar
+   #+end_src
+** Who comes first? Compiler or VM?
+   [[./cae.svg]]
+** Design!
+*** Bytecode Format
+    #+begin_src src
+      32bits   32bits   32bits
+    -----|--------|--------|----
+    | Instr1 | Instr2 | InstrN |
+    ----------------------------
+    #+end_src
+*** Parse instructions with one or no parameters
+    #+begin_src text
+    opcode  | Parameter #1 (or 28bit of nothingness)
+    --------|--------------------------------------------------------
+    |0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1|0|0|0|0|1|
+    --------|--------------------------------------------------------
+    [ 0 - 4 |                                                5 - 32 ]
+    [     4 |                                                    28 ]
+    #+end_src
+*** Parse instructions with two parameters
+    #+begin_src text
+    opcode  | Parameter #1              | Parameter #2
+    --------|---------------------------|----------------------------
+    |0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|1|0|0|0|0|0|0|0|0|0|1|1|0|0|0|0|1|
+    --------|---------------------------|----------------------------
+    [ 0 - 4 |                    5 - 18 |                   19 - 32 ]
+    [     4 |                        14 |                        14 ]
+    #+end_src
+** Virtual Machine
+*** Instruction Set
+*** Example
+*** Grammar
+    #+begin_src antlr
+    S <- D '+' D
+    D <- '0' / '1'
+    #+end_src
+*** Program
+    #+begin_src c
+    /* Invariant */
+    0xc0, 0x0, 0x0, 0x02,       /* 0x1: Call 0x2 [0x3]     */
+    0xb0, 0x0, 0x0, 0x0b,       /* 0x2: Jump 0xb           */
+    /* S <- D '+' D */
+    0xc0, 0x0, 0x0, 0x04,       /* 0x3: Call 0x5 [0x7]     */
+    0x10, 0x0, 0x0, 0x2b,       /* 0x4: Char '+'           */
+    0xc0, 0x0, 0x0, 0x02,       /* 0x5: Call 0x2 [0x7]     */
+    0xd0, 0x0, 0x0, 0x00,       /* 0x6: Return             */
+    /* D <- '0' / '1' */
+    0x30, 0x0, 0x0, 0x03,       /* 0x7: Choice 0x3 [0x8]   */
+    0x10, 0x0, 0x0, 0x30,       /* 0x8: Char '0'           */
+    0x40, 0x0, 0x0, 0x03,       /* 0x9: Commit 0x03 [0xa]  */
+    0x10, 0x0, 0x0, 0x31,       /* 0xa: Char '1'           */
+    0xd0, 0x0, 0x0, 0x00,       /* 0xb: Return             */
+    /* We're done! */
+    0x00, 0x0, 0x0, 0x00,       /* 0xc: Halt               */
+    #+end_src
+** Compiler
+* What's next
+ * Extract lists of lists from the matching;
+ * Support matching on lists on top of matching text streams.
+ * Implement optimizations
+ * Import productions from external grammar files

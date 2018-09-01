@@ -1,0 +1,94 @@
+#+TITLE: Language Land
+#+AUTHOR: Lincoln Clarete • S'2
+#+OPTIONS: toc:0 reveal_title_slide:nil
+
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+REVEAL_EXTRA_CSS: extra.css
+#+REVEAL_THEME: black
+#+REVEAL_TRANS: linear
+
+# M-x<ret>load-library<ret>ox-reveal
+# C-c C-e R R: to export the presentation
+
+* 
+  :PROPERTIES:
+  :reveal_background: ./bg/1.png
+  :reveal_background_trans: slide
+  :END:
+* Parsing: Grammars
+  :PROPERTIES:
+  :reveal_background: ./bg/2.png
+  :reveal_background_trans: slide
+  :END:
+
+  [[./im/compiler.png]]
+
+** Parsing: Text Matching
+   :PROPERTIES:
+   :reveal_background: ./bg/3.png
+   :reveal_background_trans: slide
+   :END:
+
+  [[./im/pvm.png]]
+
+* Example Grammar
+  :PROPERTIES:
+  :reveal_background: ./bg/4.png
+  :reveal_background_trans: slide
+  :END:
+
+  #+begin_src antlr
+  S <- (!'a' .)*
+  #+end_src
+
+** Input Data
+   :PROPERTIES:
+   :reveal_background: ./bg/4.png
+   :reveal_background_trans: slide
+   :END:
+
+   #+begin_src antlr
+   FFFFF
+   #+end_src
+
+** Parsing Tree
+   :PROPERTIES:
+   :reveal_background: ./bg/4.png
+   :reveal_background_trans: slide
+   :END:
+
+   * Result the Parsing Machine
+     #+begin_src emacs-lisp
+     ((0
+       (2 . F)
+       (2 . F)
+       (2 . F)
+       (2 . F)
+       (2 . F)))
+     #+end_src
+
+* Future: Actions for productions
+   :PROPERTIES:
+   :reveal_background: ./bg/5.png
+   :reveal_background_trans: slide
+   :END:
+
+   #+begin_src antlr
+   S <- x:((!'a' .)*) -> { (join x "") }
+   #+end_src
+
+* Future: Data Structure Matching
+   :PROPERTIES:
+   :reveal_background: ./bg/5.png
+   :reveal_background_trans: slide
+   :END:
+
+   #+begin_src antlr
+   A <- [:0, [:1, [:2, 'F'], [:2, 'F']]]
+   #+end_src
+
+* Future: Code Generators
+   :PROPERTIES:
+   :reveal_background: ./bg/5.png
+   :reveal_background_trans: slide
+   :END:

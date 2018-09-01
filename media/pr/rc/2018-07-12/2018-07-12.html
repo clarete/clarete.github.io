@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Parsing with Parsimony</title>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/white.css" id="theme"/>
+
+<link rel="stylesheet" href="extra.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">Parsing with Parsimony</h1><p class="date">Created: 2018-07-12 Thu 17:59</p>
+</section>
+
+<section>
+<section id="slide-orgd6d950e">
+<h2 id="orgd6d950e"><span class="section-number-2">1</span> Text Parsing</h2>
+<p>
+A walk through a stream of bits to identify a pattern
+</p>
+
+</section>
+<section id="slide-orgd6373e6">
+<h3 id="orgd6373e6"><span class="section-number-3">1.1</span> Example of text pattern</h3>
+<div class="org-src-container">
+
+<pre  class="src src-text">abcde
+</pre>
+</div>
+
+</section>
+<section id="slide-org3f65ea1">
+<h3 id="org3f65ea1"><span class="section-number-3">1.2</span> What do I want to represent</h3>
+<div class="org-src-container">
+
+<pre  class="src src-text">abc,de
+</pre>
+</div>
+
+</section>
+<section id="slide-org913e76f">
+<h3 id="org913e76f"><span class="section-number-3">1.3</span> How can we parse that</h3>
+<div class="outline-text-3" id="text-1-3">
+</div>
+</section>
+<section id="slide-org364e9c8">
+<h4 id="org364e9c8"><span class="section-number-4">1.3.1</span> Skeleton</h4>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #ff79c6; font-weight: bold;">class</span> <span style="color: #bd93f9;">parser</span>:
+  <span style="color: #ff79c6; font-weight: bold;">def</span> <span style="color: #50fa7b; font-weight: bold;">__init__</span>(<span style="color: #ff79c6; font-weight: bold;">self</span>, code):
+    <span style="color: #ff79c6; font-weight: bold;">self</span>.code = code
+    <span style="color: #ff79c6; font-weight: bold;">self</span>.pos = 0
+
+  <span style="color: #ff79c6; font-weight: bold;">def</span> <span style="color: #50fa7b; font-weight: bold;">curC</span>(<span style="color: #ff79c6; font-weight: bold;">self</span>):
+    <span style="color: #ff79c6; font-weight: bold;">if</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.pos &gt;= <span style="color: #ffb86c;">len</span>(<span style="color: #ff79c6; font-weight: bold;">self</span>.code): <span style="color: #ff79c6; font-weight: bold;">return</span> <span style="color: #8be9fd;">None</span>
+    <span style="color: #ff79c6; font-weight: bold;">return</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.code[<span style="color: #ff79c6; font-weight: bold;">self</span>.pos]
+
+  <span style="color: #ff79c6; font-weight: bold;">def</span> <span style="color: #50fa7b; font-weight: bold;">nextC</span>(<span style="color: #ff79c6; font-weight: bold;">self</span>):
+    <span style="color: #ff79c6; font-weight: bold;">self</span>.pos += 1
+
+  <span style="color: #ff79c6; font-weight: bold;">def</span> <span style="color: #50fa7b; font-weight: bold;">matchC</span>(<span style="color: #ff79c6; font-weight: bold;">self</span>, c):
+    <span style="color: #ff79c6; font-weight: bold;">if</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC() == c:
+        <span style="color: #ff79c6; font-weight: bold;">self</span>.nextC()
+        <span style="color: #ff79c6; font-weight: bold;">return</span> <span style="color: #8be9fd;">True</span>
+    <span style="color: #ff79c6; font-weight: bold;">return</span> <span style="color: #8be9fd;">False</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org5ced1fd">
+<h4 id="org5ced1fd"><span class="section-number-4">1.3.2</span> Read the bits</h4>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #ff79c6; font-weight: bold;">def</span> <span style="color: #50fa7b; font-weight: bold;">parse</span>(<span style="color: #ff79c6; font-weight: bold;">self</span>):
+  <span style="color: #f8f8f2;">newList</span> = []
+  <span style="color: #ff79c6; font-weight: bold;">while</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC():
+    <span style="color: #ff79c6; font-weight: bold;">if</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC().isalpha():
+      <span style="color: #f8f8f2;">d</span> = <span style="color: #ff79c6; font-weight: bold;">self</span>.pos
+      <span style="color: #ff79c6; font-weight: bold;">while</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC() <span style="color: #ff79c6; font-weight: bold;">and</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC().isalpha():
+        <span style="color: #ff79c6; font-weight: bold;">self</span>.nextC()
+        newList.append(<span style="color: #ff79c6; font-weight: bold;">self</span>.code[d:<span style="color: #ff79c6; font-weight: bold;">self</span>.pos])
+    <span style="color: #ff79c6; font-weight: bold;">elif</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC() == <span style="color: #f1fa8c;">','</span>:
+      <span style="color: #ff79c6; font-weight: bold;">self</span>.nextC()
+    <span style="color: #ff79c6; font-weight: bold;">else</span>:
+      <span style="color: #ff79c6; font-weight: bold;">raise</span> <span style="color: #bd93f9;">SyntaxError</span>(<span style="color: #f1fa8c;">"Char %s isn't expected"</span> % <span style="color: #ff79c6; font-weight: bold;">self</span>.curC())
+  <span style="color: #ff79c6; font-weight: bold;">return</span> newList
+</pre>
+</div>
+
+</section>
+<section id="slide-org2ddce1d">
+<h3 id="org2ddce1d"><span class="section-number-3">1.4</span> Voilá</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python">&gt;&gt;&gt; parser(<span style="color: #f1fa8c;">"ab,c,d"</span>).parse()
+[<span style="color: #6272a4;">'ab'</span>, <span style="color: #6272a4;">'c'</span>, <span style="color: #6272a4;">'d'</span>]
+</pre>
+</div>
+</section>
+</section>
+<section>
+<section id="slide-org07fefdf">
+<h2 id="org07fefdf"><span class="section-number-2">2</span> Recursive Parsing</h2>
+<p>
+What if the pattern we want to represent is a tree-like structure
+</p>
+
+</section>
+<section id="slide-org21735f9">
+<h3 id="org21735f9"><span class="section-number-3">2.1</span> Let's say lists within lists</h3>
+<div class="org-src-container">
+
+<pre  class="src src-text">[a, b, [c, d]]
+</pre>
+</div>
+
+</section>
+<section id="slide-org73cf61a">
+<h3 id="org73cf61a"><span class="section-number-3">2.2</span> How do we parse that?</h3>
+<div class="outline-text-3" id="text-2-2">
+</div>
+</section>
+<section id="slide-orgf93a2c2">
+<h4 id="orgf93a2c2"><span class="section-number-4">2.2.1</span> First some refactoring</h4>
+<div class="outline-text-4" id="text-2-2-1">
+</div>
+<ol class="org-ol">
+<li><a id="org107ad26"></a>Single function to parse atoms<br />
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #ff79c6; font-weight: bold;">def</span> <span style="color: #50fa7b; font-weight: bold;">parseAtom</span>(<span style="color: #ff79c6; font-weight: bold;">self</span>):
+  <span style="color: #f8f8f2;">d</span> = <span style="color: #ff79c6; font-weight: bold;">self</span>.pos
+  <span style="color: #ff79c6; font-weight: bold;">while</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC() <span style="color: #ff79c6; font-weight: bold;">and</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC().isalpha():
+      <span style="color: #ff79c6; font-weight: bold;">self</span>.nextC()
+  <span style="color: #ff79c6; font-weight: bold;">return</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.code[d:<span style="color: #ff79c6; font-weight: bold;">self</span>.pos]
+</pre>
+</div>
+</li>
+</ol>
+
+</section>
+<section id="slide-orgb8da6dc">
+<h4 id="orgb8da6dc"><span class="section-number-4">2.2.2</span> New entry point for the parser</h4>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #ff79c6; font-weight: bold;">def</span> <span style="color: #50fa7b; font-weight: bold;">parseValue</span>(<span style="color: #ff79c6; font-weight: bold;">self</span>):
+   <span style="color: #ff79c6; font-weight: bold;">while</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC():
+       <span style="color: #ff79c6; font-weight: bold;">if</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC().isalpha():
+           <span style="color: #ff79c6; font-weight: bold;">return</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.parseAtom()
+       <span style="color: #ff79c6; font-weight: bold;">elif</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC() == <span style="color: #f1fa8c;">','</span>:
+           <span style="color: #ff79c6; font-weight: bold;">self</span>.nextC()
+       <span style="color: #ff79c6; font-weight: bold;">else</span>:
+           <span style="color: #ff79c6; font-weight: bold;">raise</span> <span style="color: #bd93f9;">SyntaxError</span>(<span style="color: #f1fa8c;">"Char %s isn't expected"</span> % <span style="color: #ff79c6; font-weight: bold;">self</span>.curC())
+   <span style="color: #ff79c6; font-weight: bold;">raise</span> <span style="color: #bd93f9;">RuntimeError</span>(<span style="color: #f1fa8c;">"Not sure what it means"</span>)
+</pre>
+</div>
+
+</section>
+<section id="slide-orgdfcb19e">
+<h3 id="orgdfcb19e"><span class="section-number-3">2.3</span> Add the recursive sauce</h3>
+<div class="outline-text-3" id="text-2-3">
+</div>
+</section>
+<section id="slide-orgc434438">
+<h4 id="orgc434438"><span class="section-number-4">2.3.1</span> Change the parser's entry point</h4>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #ff79c6; font-weight: bold;">def</span> <span style="color: #50fa7b; font-weight: bold;">parseValue</span>(<span style="color: #ff79c6; font-weight: bold;">self</span>):
+  <span style="color: #ff79c6; font-weight: bold;">while</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC():
+    <span style="color: #ff79c6; font-weight: bold;">if</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC().isalpha():
+      <span style="color: #ff79c6; font-weight: bold;">return</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.parseAtom()
+    <span style="color: #ff79c6; font-weight: bold;">elif</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.matchC(<span style="color: #f1fa8c;">"["</span>):
+      <span style="color: #ff79c6; font-weight: bold;">return</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.parseList()
+    <span style="color: #ff79c6; font-weight: bold;">elif</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC() == <span style="color: #f1fa8c;">','</span>:
+      <span style="color: #ff79c6; font-weight: bold;">self</span>.nextC()
+    <span style="color: #ff79c6; font-weight: bold;">else</span>:
+      <span style="color: #ff79c6; font-weight: bold;">raise</span> <span style="color: #bd93f9;">SyntaxError</span>(<span style="color: #f1fa8c;">"Char %s isn't expected"</span> % <span style="color: #ff79c6; font-weight: bold;">self</span>.curC())
+  <span style="color: #ff79c6; font-weight: bold;">raise</span> <span style="color: #bd93f9;">RuntimeError</span>(<span style="color: #f1fa8c;">"Not sure what it means"</span>)
+</pre>
+</div>
+
+</section>
+<section id="slide-org62c2b4f">
+<h4 id="org62c2b4f"><span class="section-number-4">2.3.2</span> Add the method to deal with lists</h4>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #ff79c6; font-weight: bold;">def</span> <span style="color: #50fa7b; font-weight: bold;">parseList</span>(<span style="color: #ff79c6; font-weight: bold;">self</span>):
+  <span style="color: #f8f8f2;">newList</span> = []
+  <span style="color: #ff79c6; font-weight: bold;">while</span> <span style="color: #ff79c6; font-weight: bold;">not</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.matchC(<span style="color: #f1fa8c;">"]"</span>):
+      newList.append(<span style="color: #ff79c6; font-weight: bold;">self</span>.parseValue())
+  <span style="color: #ff79c6; font-weight: bold;">return</span> newList
+</pre>
+</div>
+
+</section>
+<section id="slide-org8abe749">
+<h3 id="org8abe749"><span class="section-number-3">2.4</span> Voilá</h3>
+<div class="org-src-container">
+
+<pre  class="src src-python">&gt;&gt;&gt; parser(<span style="color: #f1fa8c;">"[abc,de,[fg,hij]]"</span>).parse()
+[<span style="color: #6272a4;">'abc'</span>, <span style="color: #6272a4;">'de'</span>, [<span style="color: #6272a4;">'fg'</span>, <span style="color: #6272a4;">'hij'</span>]]
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org23411bd">
+<h2 id="org23411bd"><span class="section-number-2">3</span> Resource we take for granted and possibli exhausting</h2>
+
+<div class="figure">
+<p><img src="https://www.snackncake.com/postpic/2017/08/stack-of-pancakes-ihop_676004.jpg" alt="stack-of-pancakes-ihop_676004.jpg" width="600px" />
+</p>
+</div>
+
+</section>
+<section id="slide-org0af0a75">
+<h3 id="org0af0a75"><span class="section-number-3">3.1</span> Wat?</h3>
+
+<div class="figure">
+<p><img src="https://blog.ampedsoftware.com/wp-content/uploads/2015/01/enhance.png" alt="enhance.png" width="600px" />
+</p>
+</div>
+
+</section>
+<section id="slide-org5296230">
+<h3 id="org5296230"><span class="section-number-3">3.2</span> Zoom into the problem</h3>
+<div class="outline-text-3" id="text-3-2">
+</div>
+</section>
+<section id="slide-org22f777b">
+<h4 id="org22f777b"><span class="section-number-4">3.2.1</span> Creating lists</h4>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #ff79c6; font-weight: bold;">def</span> <span style="color: #50fa7b; font-weight: bold;">parseValue</span>(<span style="color: #ff79c6; font-weight: bold;">self</span>):
+  <span style="color: #ff79c6; font-weight: bold;">while</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC():
+    <span style="color: #ff79c6; font-weight: bold;">if</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC().isalpha():
+      <span style="color: #ff79c6; font-weight: bold;">return</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.parseAtom()
+    <span style="color: #ff79c6; font-weight: bold;">elif</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.matchC(<span style="color: #f1fa8c;">"["</span>):
+      <span style="color: #ff79c6; font-weight: bold;">return</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.parseList() <span style="color: #6272a4;">## </span><span style="color: #6272a4;">HERE!!!!</span>
+    <span style="color: #ff79c6; font-weight: bold;">elif</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.curC() == <span style="color: #f1fa8c;">','</span>:
+      <span style="color: #ff79c6; font-weight: bold;">self</span>.nextC()
+    <span style="color: #ff79c6; font-weight: bold;">else</span>:
+      <span style="color: #ff79c6; font-weight: bold;">raise</span> <span style="color: #bd93f9;">SyntaxError</span>(<span style="color: #f1fa8c;">"Char %s isn't expected"</span> % <span style="color: #ff79c6; font-weight: bold;">self</span>.curC())
+  <span style="color: #ff79c6; font-weight: bold;">raise</span> <span style="color: #bd93f9;">RuntimeError</span>(<span style="color: #f1fa8c;">"Not sure what it means"</span>)
+</pre>
+</div>
+
+</section>
+<section id="slide-org26e6255">
+<h4 id="org26e6255"><span class="section-number-4">3.2.2</span> Creating list elements</h4>
+<div class="org-src-container">
+
+<pre  class="src src-python"><span style="color: #ff79c6; font-weight: bold;">def</span> <span style="color: #50fa7b; font-weight: bold;">parseList</span>(<span style="color: #ff79c6; font-weight: bold;">self</span>):
+  <span style="color: #f8f8f2;">newList</span> = []
+  <span style="color: #ff79c6; font-weight: bold;">while</span> <span style="color: #ff79c6; font-weight: bold;">not</span> <span style="color: #ff79c6; font-weight: bold;">self</span>.matchC(<span style="color: #f1fa8c;">"]"</span>):
+    newList.append(<span style="color: #ff79c6; font-weight: bold;">self</span>.parseValue()) <span style="color: #6272a4;">## </span><span style="color: #6272a4;">HERE!!!!</span>
+  <span style="color: #ff79c6; font-weight: bold;">return</span> newList
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org23660d4">
+<h2 id="org23660d4"><span class="section-number-2">4</span> How to save the stack?</h2>
+<ul>
+<li>Let's use stacks!</li>
+<li>But not recursion!</li>
+<li>To be continued</li>
+
+</ul>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>

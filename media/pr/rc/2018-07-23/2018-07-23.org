@@ -1,0 +1,107 @@
+#+TITLE: Ink, Clothing, Pottery and Afro-Brazilian History
+#+AUTHOR: Lincoln Clarete • S'2
+#+OPTIONS: toc:0
+
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+REVEAL_EXTRA_CSS: extra.css
+#+REVEAL_THEME: white
+#+REVEAL_TRANS: linear
+
+# M-x<ret>load-library<ret>ox-reveal
+# C-c C-e R R: to export the presentation
+
+* Adinkras
+  :PROPERTIES:
+  :reveal_background: /tmp/foo.jpg
+  :reveal_background_width: 100%
+  :reveal_background_trans: slide
+  :END:
+
+* Where do they come from
+
+** Gold Coast (Where Ghana is nowadays)
+
+   #+attr_html: :width 40%
+   [[./africa.png]]
+
+** Who created it?
+
+   Legend says that Ashanti people captured the king of Gyaman in
+   battle who wore the patterns to express his sorrow for being
+   captured.  Alongside with the king the Ashanti people assimilated
+   the Adinkras to their culture.
+
+* Where are they used
+
+** Clothing
+   #+attr_html: :width 40%
+   [[./adinkracloth.jpg]]
+
+** 
+
+   #+attr_html: :width 80%
+   [[./adinkracloth2.jpg]]
+
+** 
+
+   #+attr_html: :width 80%
+   [[./adinkracloth3.png]]
+
+** Pottery
+   #+attr_html: :width 40%
+   [[./adinkrapots.jpg]]
+
+* What do they mean
+
+** Mmere dane • time changes
+
+   #+attr_html: :width 20%
+   [[./mmeredane.gif]]
+
+   * symbol of change, life's dynamics 
+
+** Sankofa • return and get it
+
+   #+attr_html: :width 20%
+   [[./sankofa.gif]]
+
+   * symbol of importance of learning from the past. Value your
+     heritage
+
+** Ese ne tekrema • the teeth and the tongue
+
+   #+attr_html: :width 20%
+   [[./esene.gif]]
+   
+   * symbol of friendship and interdependence. The teeth and the
+     tongue play interdependent roles in the mouth. They may come into
+     conflict, but they need to work together.
+
+** Akoma ntoso • linked hearts
+
+   #+attr_html: :width 20%
+   [[./akon.gif]]
+   
+   * symbol of understanding and agreement
+
+** Boa me na me mmoa wo • Help me and let me help you
+
+   #+attr_html: :width 20%
+   [[./boame.gif]]
+   
+   * symbol of cooperation and interdependence 
+
+
+** Fawodhodie • Independence
+
+   #+attr_html: :width 20%
+   [[./fawo.gif]]
+
+   * symbol of independence, freedom, emancipation
+   * "From the expression: Fawodhodie ene obre na enam. Literal
+     translation: "Independence comes with its responsibilities."
+
+** References
+
+   * Cloth As Metaphor by G.F. Kojo Arthur
+   * Cultural Symbols of the Asante people by Valentina A. Tetteh

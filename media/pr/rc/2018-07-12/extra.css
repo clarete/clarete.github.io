@@ -1,0 +1,22 @@
+p.date {
+    display: none;
+}
+
+.section-number-1, .section-number-2, .section-number-3, .section-number-4 {
+    display: none;
+}
+
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4 {
+    padding-bottom: 40px;
+}
+
+.org-src-container pre {
+    padding: 40px;
+}
+
+.reveal section img {
+    border: 0;
+}

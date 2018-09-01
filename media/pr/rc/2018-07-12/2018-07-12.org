@@ -1,0 +1,189 @@
+#+TITLE: Parsing with Parsimony
+#+AUTHOR:
+#+OPTIONS: toc:0
+
+#+REVEAL_ROOT: http://cdn.jsdelivr.net/reveal.js/3.0.0/
+#+REVEAL_EXTRA_CSS: extra.css
+#+REVEAL_THEME: white
+#+REVEAL_TRANS: linear
+
+# M-x<ret>load-library<ret>ox-reveal
+# C-c C-e R R: to export the presentation
+
+* Text Parsing
+
+  A walk through a stream of bits to identify a pattern
+
+** Example of text pattern
+
+   #+begin_src text
+   abcde
+   #+end_src
+
+** What do I want to represent
+
+   #+begin_src text
+   abc,de
+   #+end_src
+
+** How can we parse that
+
+*** Skeleton
+
+    #+begin_src python
+    class parser:
+      def __init__(self, code):
+        self.code = code
+        self.pos = 0
+
+      def curC(self):
+        if self.pos >= len(self.code): return None
+        return self.code[self.pos]
+
+      def nextC(self):
+        self.pos += 1
+
+      def matchC(self, c):
+        if self.curC() == c:
+            self.nextC()
+            return True
+        return False
+    #+end_src
+    
+*** Read the bits
+    #+begin_src python
+    def parse(self):
+      newList = []
+      while self.curC():
+        if self.curC().isalpha():
+          d = self.pos
+          while self.curC() and self.curC().isalpha():
+            self.nextC()
+            newList.append(self.code[d:self.pos])
+        elif self.curC() == ',':
+          self.nextC()
+        else:
+          raise SyntaxError("Char %s isn't expected" % self.curC())
+      return newList
+    #+end_src
+
+** Voilá
+   #+begin_src python
+   >>> parser("ab,c,d").parse()
+   ['ab', 'c', 'd']
+   #+end_src
+* Recursive Parsing
+
+  What if the pattern we want to represent is a tree-like structure
+
+** Let's say lists within lists
+
+   #+begin_src text
+   [a, b, [c, d]]
+   #+end_src
+
+** How do we parse that?
+
+*** First some refactoring
+
+**** Single function to parse atoms
+
+     #+begin_src python
+     def parseAtom(self):
+       d = self.pos
+       while self.curC() and self.curC().isalpha():
+           self.nextC()
+       return self.code[d:self.pos]
+     #+end_src
+
+*** New entry point for the parser
+
+     #+begin_src python
+     def parseValue(self):
+        while self.curC():
+            if self.curC().isalpha():
+                return self.parseAtom()
+            elif self.curC() == ',':
+                self.nextC()
+            else:
+                raise SyntaxError("Char %s isn't expected" % self.curC())
+        raise RuntimeError("Not sure what it means")
+     #+end_src
+
+** Add the recursive sauce
+
+*** Change the parser's entry point
+
+    #+begin_src python
+    def parseValue(self):
+      while self.curC():
+        if self.curC().isalpha():
+          return self.parseAtom()
+        elif self.matchC("["):
+          return self.parseList()
+        elif self.curC() == ',':
+          self.nextC()
+        else:
+          raise SyntaxError("Char %s isn't expected" % self.curC())
+      raise RuntimeError("Not sure what it means")
+    #+end_src
+    
+*** Add the method to deal with lists
+
+    #+begin_src python
+    def parseList(self):
+      newList = []
+      while not self.matchC("]"):
+          newList.append(self.parseValue())
+      return newList
+    #+end_src
+
+** Voilá
+   #+begin_src python
+   >>> parser("[abc,de,[fg,hij]]").parse()
+   ['abc', 'de', ['fg', 'hij']]
+   #+end_src
+
+* Resource we take for granted and possibli exhausting
+
+  #+ATTR_HTML: :width 600px
+  [[https://www.snackncake.com/postpic/2017/08/stack-of-pancakes-ihop_676004.jpg]]
+
+** Wat?
+
+   #+ATTR_HTML: :width 600px
+   [[https://blog.ampedsoftware.com/wp-content/uploads/2015/01/enhance.png]]
+
+** Zoom into the problem
+
+*** Creating lists
+
+    #+begin_src python
+    def parseValue(self):
+      while self.curC():
+        if self.curC().isalpha():
+          return self.parseAtom()
+        elif self.matchC("["):
+          return self.parseList() ## HERE!!!!
+        elif self.curC() == ',':
+          self.nextC()
+        else:
+          raise SyntaxError("Char %s isn't expected" % self.curC())
+      raise RuntimeError("Not sure what it means")
+    #+end_src
+
+*** Creating list elements
+
+    #+begin_src python
+    def parseList(self):
+      newList = []
+      while not self.matchC("]"):
+        newList.append(self.parseValue()) ## HERE!!!!
+      return newList
+    #+end_src
+
+* How to save the stack?
+
+  * Let's use stacks!
+  * But not recursion!
+  * To be continued

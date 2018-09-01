@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Language Land</title>
+<meta name="author" content="(Lincoln Clarete • S'2)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="extra.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'http://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+<section id="slide-org2dbf6c4" data-background="./bg/1.png" data-background-transition="slide">
+<h2 id="org2dbf6c4"><span class="section-number-2">1</span> </h2>
+</section>
+</section>
+<section>
+<section id="slide-org86a5cbf" data-background="./bg/2.png" data-background-transition="slide">
+<h2 id="org86a5cbf"><span class="section-number-2">2</span> Parsing: Grammars</h2>
+
+<div class="figure">
+<p><img src="./im/compiler.png" alt="compiler.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org8d6448a" data-background="./bg/3.png" data-background-transition="slide">
+<h3 id="org8d6448a"><span class="section-number-3">2.1</span> Parsing: Text Matching</h3>
+
+<div class="figure">
+<p><img src="./im/pvm.png" alt="pvm.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org2b51561" data-background="./bg/4.png" data-background-transition="slide">
+<h2 id="org2b51561"><span class="section-number-2">3</span> Example Grammar</h2>
+<div class="org-src-container">
+
+<pre  class="src src-antlr"><span style="color: #50fa7b; font-weight: bold;">S</span> &lt;- <span style="color: #8be9fd;">(</span><span style="color: #8be9fd;">!</span><span style="color: #f1fa8c;">'a'</span> .<span style="color: #8be9fd;">)*</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org4d7fdf6" data-background="./bg/4.png" data-background-transition="slide">
+<h3 id="org4d7fdf6"><span class="section-number-3">3.1</span> Input Data</h3>
+<div class="org-src-container">
+
+<pre  class="src src-antlr"><span style="color: #50fa7b; font-weight: bold;">FFFFF</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org8a0c1a7" data-background="./bg/4.png" data-background-transition="slide">
+<h3 id="org8a0c1a7"><span class="section-number-3">3.2</span> Parsing Tree</h3>
+<ul>
+<li><p>
+Result the Parsing Machine
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp">((0
+  (2 . F)
+  (2 . F)
+  (2 . F)
+  (2 . F)
+  (2 . F)))
+</pre>
+</div></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf066d23" data-background="./bg/5.png" data-background-transition="slide">
+<h2 id="orgf066d23"><span class="section-number-2">4</span> Future: Actions for productions</h2>
+<div class="org-src-container">
+
+<pre  class="src src-antlr"><span style="color: #50fa7b; font-weight: bold;">S</span> &lt;- <span style="color: #f8f8f2;">x</span>:<span style="color: #8be9fd;">((</span><span style="color: #8be9fd;">!</span><span style="color: #f1fa8c;">'a'</span> .<span style="color: #8be9fd;">)*)</span> -&gt; { (<span style="color: #bd93f9;">join</span> <span style="color: #f8f8f2;">x</span> <span style="color: #f1fa8c;">""</span>) }
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org8bfc29a" data-background="./bg/5.png" data-background-transition="slide">
+<h2 id="org8bfc29a"><span class="section-number-2">5</span> Future: Data Structure Matching</h2>
+<div class="org-src-container">
+
+<pre  class="src src-antlr"><span style="color: #50fa7b; font-weight: bold;">A</span> &lt;- [:0, [:1, [:2, <span style="color: #f1fa8c;">'F'</span>], [:2, <span style="color: #f1fa8c;">'F'</span>]]]
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orga648962" data-background="./bg/5.png" data-background-transition="slide">
+<h2 id="orga648962"><span class="section-number-2">6</span> Future: Code Generators</h2>
+</section>
+</section>
+</div>
+</div>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/head.min.js"></script>
+<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: false,
+keyboard: true,
+overview: true,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
