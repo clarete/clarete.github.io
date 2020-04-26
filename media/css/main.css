@@ -119,3 +119,17 @@ ul.posts span.date {
     text-align: right;
     padding-right: 5px;
 }
+
+.footer {
+    background: #fc0;
+    margin: 0;
+    padding: 40px;
+}
+
+.footer a {
+    color: #000;
+    text-decoration: none;
+}
+.footer a:hover {
+    text-decoration: underline;
+}
