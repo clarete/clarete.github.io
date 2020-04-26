@@ -6,19 +6,19 @@ body {
     line-height: 32px;
 }
 
-h1 {
+h1, h2, h3, h4, h5 {
     padding: 0;
-    margin: 60px 0 0 0;
+    margin-top: 50px;
 }
 
+
 .container {
-    width: 80%;
+    width: calc(60% - 100px);
+    padding: 10px 150px;
     margin: auto auto;
 }
 
 .social {
-    width: calc(100%-100px);
-    padding: 10px 50px;
     background: #d14;
 }
 
@@ -94,7 +94,6 @@ h1 {
     font-family: 'Quicksand', sans-serif;
     font-size: 14pt;
     display: block;
-    padding: 0px 20px 20px 50px;
     min-height: 70vh;
 }
 
@@ -139,10 +138,12 @@ ul.posts span.date {
     display: none;
 }
 #content {
-    font-family: 'Quicksand', sans-serif;
-    width: calc(80% - 100px);
+    width: calc(60% - 100px);
+    padding: 10px 150px;
     margin: auto auto;
-    font-size: 16pt;
+
+    font-family: 'Quicksand', sans-serif;
+    font-size: 14pt;
 }
 #content a {
     color: #d14;
@@ -151,8 +152,6 @@ ul.posts span.date {
 #content a:hover {
     color: #fff;
     background: #d14;
-}
-#content h1, #content h2, #content h3, #content h4, #content h5 {
 }
 code {
     background: #eee;
@@ -165,17 +164,15 @@ code {
     h1 {
         margin-top: 20px;
     }
-    .social {
-        padding: 10px 10px;
-    }
-    .post {
-        padding: 10px 20px;
-    }
-    #content {
-        width: 90%;
-        padding: 10px 20px;
-    }
     .container {
         width: 100%;
+        padding: 10px;
+    }
+    .social .badges {
+        padding: 0 20px 0 0;
+    }
+    #content, .container {
+        width: 90%;
+        padding: 10px;
     }
 }
