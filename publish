@@ -1,0 +1,131 @@
+#!/usr/bin/env -S emacs --script
+;;; publish --- Publish contents of my blog
+;;
+;;; Commentary:
+;;
+;; A massive pile of barely useful of Emacs Lisp configuration for
+;; generating HTML files off the `.org' files within the `sources'
+;; directory.
+;;
+;;; Code:
+
+;; This is where I downloaded ox-rss
+(add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
+(require 'package)
+(package-initialize)
+
+(require 'org)
+(require 'org-element)
+
+(require 'ox)
+(require 'ox-publish)
+(require 'ox-html)
+(require 'ox-rss)
+
+(defun read-file-contents (path)
+  "Return contents of `PATH' file as a string."
+  (with-temp-buffer
+    (insert-file-contents path)
+    (buffer-string)))
+
+(defun relative-to-script (path)
+  "Return the relative path file at `PATH'."
+  (concat (file-name-directory
+           (or load-file-name buffer-file-name)) path))
+
+(defun blog-preamble (_plist)
+  "Header (or preamble) for the blog."
+  (read-file-contents (relative-to-script "layout/header.html")))
+
+(defun org-blog-sitemap-format-entry (entry _style project)
+  "Return string for each ENTRY in PROJECT."
+  (format "@@html:<span class=\"archive-item\"><span class=\"archive-date\">@@ %s @@html:</span>@@ [[file:%s][%s]] @@html:</span>@@"
+          (format-time-string "%h %d, %Y"
+                              (org-publish-find-date entry project))
+          entry
+          (org-publish-find-title entry project)))
+
+(defun org-blog-sitemap-function (title list)
+  "Return sitemap using TITLE and LIST returned by `org-blog-sitemap-format-entry'."
+  (concat "#+TITLE: " title "\n\n"
+          "\n#+begin_archive\n"
+          (mapconcat (lambda (li)
+                       (format "@@html:<li>@@ %s @@html:</li>@@" (car li)))
+                     (seq-filter #'car (cdr list))
+                     "\n")
+          "\n#+end_archive\n"))
+
+(let ((base-dir (relative-to-script "sources"))
+      (pub-dir (relative-to-script "blog")))
+
+  (setq org-export-with-toc nil
+        org-export-with-author t
+        org-export-with-email nil
+        org-export-with-creator nil
+        org-export-with-section-numbers nil
+
+        org-html-doctype "html5"
+        org-html-link-home "/"
+        org-html-link-up "/"
+        org-html-preamble nil
+        org-html-postamble 'auto
+        org-html-divs
+        '((preamble  "header" "top")
+          (content   "main"   "content")
+          (postamble "footer" "postamble"))
+        org-html-head
+        (concat
+         "<link rel=\"stylesheet\" type=\"text/css\" href=\"/media/css/main.css\" />\n"
+         "<link href=\"https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap\" rel=\"stylesheet\">\n"
+         "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css\">\n"
+         "<link rel=\"icon\" type=\"image/png\" href=\"/media/img/8bitme.png\" />")
+
+        org-publish-timestamp-directory ".cache/"
+        org-publish-project-alist
+        `(("blog" :components ("blog-posts" "blog-static" "blog-rss"))
+          ("blog-posts"
+           :html-head-include-default-style nil
+           :base-directory ,base-dir
+           :publishing-directory ,pub-dir
+           :section-numbers nil
+           :table-of-contents nil
+           :recursive t
+           :publishing-function org-html-publish-to-html
+           :auto-preamble t
+           :html-preamble blog-preamble
+           :headline-levels 4
+           :auto-sitemap t
+           :sitemap-filename "archive.org"
+           :sitemap-title "Archive"
+           :sitemap-style list
+           :sitemap-sort-files anti-chronologically
+           :sitemap-format-entry org-blog-sitemap-format-entry
+           :sitemap-function org-blog-sitemap-function
+           )
+
+          ("blog-static"
+           :base-directory ,base-dir
+           :publishing-directory ,pub-dir
+           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+           :recursive t
+           :publishing-function org-publish-attachment
+           )
+
+          ("blog-rss"
+           :base-directory ,base-dir
+           :base-extension "org"
+           :html-link-home "https://clarete.li/"
+           :html-link-use-abs-url t
+           :rss-extension "xml"
+           :publishing-directory ,pub-dir
+           :publishing-function (org-rss-publish-to-rss)
+           :exclude ".*"
+           :include ("archive.org")
+           :section-numbers nil
+           :table-of-contents nil)
+
+          )))
+
+(org-publish-project "blog")
+
+;;; publish ends here
