@@ -5,33 +5,38 @@ body {
     font-size: 14pt;
     line-height: 28px;
 }
+
 h1 {
     padding: 0;
-    margin: 0;
+    margin: 60px 0 0 0;
+}
+
+.container {
+    width: 80%;
+    margin: auto auto;
 }
 
 .social {
-    float: left;
-    width: 150px;
-    height: 100vh;
-    padding: 50px;
+    width: calc(100%-100px);
+    padding: 10px 50px;
     background: #d14;
-    position: fixed;
 }
+
 .social .avatar {
     width: 100px;
     height: 100px;
     display: block;
     margin: 0 auto;
+    float: left;
 }
 
 .social .balloon {
-    display: block;
-    background: url("../img/balloon.png") no-repeat;
+    display: table-cell;
+    background: url("../img/balloon.png") no-repeat 30% 60%;
     width: 100px;
-    height: 50px;
-    padding: 12px 0 0 12px;
-    margin: 4px auto 8px;
+    height: 100px;
+    vertical-align: middle;
+    padding: 10px 0 0 20px;
     font-size: 11pt;
     font-weight: bold;
     color: #fff;
@@ -58,13 +63,11 @@ h1 {
 }
 
 .social .badges {
-    margin: 10px auto;
-    padding: 20px;
-    width: 90px;
-    font-size: 18px;
+    float: right;
+    width: 115px;
+    font-size: 42px;
     list-style: none;
     display: block;
-    border-top: solid 1px #c00;
 }
 .social .badges li {
     padding-left: 8px;
@@ -73,17 +76,46 @@ h1 {
 .social .badges a {
     float: left;
     display: block;
-    width: 22px;
-    height: 23px;
+    width: 42px;
+    height: 42px;
     overflow: hidden;
+    margin-left: 5px;
+    padding: 1px;
     color: #000;
 }
-.social a:hover {
-    color: #fc0;
+.social .badges a:hover {
+    color: #9ade00;
+}
+.social .badges a span {
+    height: 50px;
 }
 
 .post {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16pt;
     display: block;
-    margin-left: 280px;
-    padding: 20px;
+    padding: 0px 20px 20px 50px;
+}
+
+.post hr {
+    border-top: 0;
+    border-bottom: solid 1px #d14;
+}
+
+ul.posts {
+    list-style: none;
+    padding: 0px;
+}
+
+ul.posts a {
+    color: #d14;
+    text-decoration: none;
+}
+ul.posts a:hover {
+    border-bottom: solid 1px;
+}
+
+ul.posts span.date {
+    text-align: right;
+    padding-right: 5px;
 }
