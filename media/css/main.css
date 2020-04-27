@@ -165,6 +165,14 @@ code {
     border-radius: 3px;
 }
 
+.org-src-container {
+    background-color: #282828;
+    color: #fff;
+    overflow-x: scroll;
+    padding: 0 20px;
+    border-radius: 10px;
+}
+
 /* Mobile stuff */
 @media (max-width: 480px) {
     h1 {
