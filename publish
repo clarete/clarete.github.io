@@ -8,6 +8,7 @@
 ;; directory.
 ;;
 ;; Huge thanks to the following references:
+;;  * https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html
 ;;  * https://vicarie.in/posts/blogging-with-org.html
 ;;  * https://gitlab.com/to1ne/blog/blob/master/elisp/publish.el#L69-112
 ;;  * https://www.brautaset.org/articles/2017/blogging-with-org-mode.html
@@ -34,12 +35,16 @@
 
 (defun relative-to-script (path)
   "Return the relative path file at `PATH'."
-  (concat (file-name-directory
-           (or load-file-name buffer-file-name)) path))
+  (let ((name (or load-file-name "~/src/github.com/clarete/clarete.github.io/")))
+    (concat (file-name-directory name) path)))
 
 (defun local-blog-preamble (_plist)
   "Header (or preamble) for the blog."
   (read-file-contents (relative-to-script "layout/header.html")))
+
+(defun local-blog-postamble (_plist)
+  "Footer (or postamble) for the blog."
+  (read-file-contents (relative-to-script "layout/footer.html")))
 
 (defun local-blog-sitemap-format-entry (entry _style project)
   "Return string for each ENTRY in PROJECT."
@@ -89,7 +94,6 @@ PUB-DIR the output directory."
         org-html-doctype "html5"
         org-html-link-home "/"
         org-html-link-up "/"
-        org-html-preamble nil
         org-html-postamble 'auto
         org-html-divs
         '((preamble  "header" "top")
@@ -115,6 +119,7 @@ PUB-DIR the output directory."
            :publishing-function local-blog-publish
            :auto-preamble t
            :html-preamble local-blog-preamble
+           :html-postamble local-blog-postamble
            :headline-levels 4
            :auto-sitemap t
            :sitemap-filename "archive.org"
@@ -128,7 +133,7 @@ PUB-DIR the output directory."
           ("blog-static"
            :base-directory ,base-dir
            :publishing-directory ,pub-dir
-           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf"
            :recursive t
            :publishing-function org-publish-attachment
            )
