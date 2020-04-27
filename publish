@@ -7,6 +7,10 @@
 ;; generating HTML files off the `.org' files within the `sources'
 ;; directory.
 ;;
+;; Huge thanks to the following references:
+;;  * https://vicarie.in/posts/blogging-with-org.html
+;;  * https://gitlab.com/to1ne/blog/blob/master/elisp/publish.el#L69-112
+;;  * https://www.brautaset.org/articles/2017/blogging-with-org-mode.html
 ;;; Code:
 
 ;; This is where I downloaded ox-rss
@@ -33,11 +37,11 @@
   (concat (file-name-directory
            (or load-file-name buffer-file-name)) path))
 
-(defun blog-preamble (_plist)
+(defun local-blog-preamble (_plist)
   "Header (or preamble) for the blog."
   (read-file-contents (relative-to-script "layout/header.html")))
 
-(defun org-blog-sitemap-format-entry (entry _style project)
+(defun local-blog-sitemap-format-entry (entry _style project)
   "Return string for each ENTRY in PROJECT."
   (format "@@html:<span class=\"archive-item\"><span class=\"archive-date\">@@ %s @@html:</span>@@ [[file:%s][%s]] @@html:</span>@@"
           (format-time-string "%h %d, %Y"
@@ -45,7 +49,7 @@
           entry
           (org-publish-find-title entry project)))
 
-(defun org-blog-sitemap-function (title list)
+(defun local-blog-sitemap-function (title list)
   "Return sitemap using TITLE and LIST returned by `org-blog-sitemap-format-entry'."
   (concat "#+TITLE: " title "\n\n"
           "\n#+begin_archive\n"
@@ -54,6 +58,24 @@
                      (seq-filter #'car (cdr list))
                      "\n")
           "\n#+end_archive\n"))
+
+(defun local-blog-date-subtitle (file project)
+  "Format the date found in FILE of PROJECT."
+  (format-time-string "%B %d %Y" (org-publish-find-date file project)))
+
+(defun local-blog-publish (plist filename pub-dir)
+  "Wrapper function to publish an file to html.
+
+PLIST contains the properties, FILENAME the source file and
+PUB-DIR the output directory."
+  (let ((project plist))
+    (plist-put plist :subtitle
+               (local-blog-date-subtitle filename project))
+    (org-html-publish-to-html plist filename pub-dir)))
+
+;; This is where we set all the variables and link to all the
+;; functions we created so far and finally call `org-publish-project'
+;; in the end.
 
 (let ((base-dir (relative-to-script "sources"))
       (pub-dir (relative-to-script "blog")))
@@ -90,17 +112,17 @@
            :section-numbers nil
            :table-of-contents nil
            :recursive t
-           :publishing-function org-html-publish-to-html
+           :publishing-function local-blog-publish
            :auto-preamble t
-           :html-preamble blog-preamble
+           :html-preamble local-blog-preamble
            :headline-levels 4
            :auto-sitemap t
            :sitemap-filename "archive.org"
            :sitemap-title "Archive"
            :sitemap-style list
            :sitemap-sort-files anti-chronologically
-           :sitemap-format-entry org-blog-sitemap-format-entry
-           :sitemap-function org-blog-sitemap-function
+           :sitemap-format-entry local-blog-sitemap-format-entry
+           :sitemap-function local-blog-sitemap-function
            )
 
           ("blog-static"

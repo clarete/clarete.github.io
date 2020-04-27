@@ -147,6 +147,10 @@ ul.posts span.date {
     font-size: 14pt;
     color: #333;
 }
+#content h1 span.subtitle {
+    color: #aaa;
+    font-size: 12pt;
+}
 #content a {
     color: #d14;
     text-decoration: none;
