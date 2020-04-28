@@ -66,8 +66,8 @@ h1, h2, h3, h4, h5 {
 
 .social .badges {
     float: right;
-    width: 115px;
-    font-size: 42px;
+    width: 155px;
+    font-size: 36px;
     list-style: none;
     display: block;
 }
@@ -78,8 +78,8 @@ h1, h2, h3, h4, h5 {
 .social .badges a {
     float: left;
     display: block;
-    width: 42px;
-    height: 42px;
+    width: 36px;
+    height: 36px;
     overflow: hidden;
     margin-left: 5px;
     padding: 1px;
