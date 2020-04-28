@@ -46,23 +46,41 @@
   "Footer (or postamble) for the blog."
   (read-file-contents (relative-to-script "layout/footer.html")))
 
-(defun local-blog-sitemap-format-entry (entry _style project)
-  "Return string for each ENTRY in PROJECT."
-  (format "@@html:<span class=\"archive-item\"><span class=\"archive-date\">@@ %s @@html:</span>@@ [[file:%s][%s]] @@html:</span>@@"
-          (format-time-string "%h %d, %Y"
-                              (org-publish-find-date entry project))
-          entry
-          (org-publish-find-title entry project)))
+(defun local-blog-sitemap-format-entry (entry style project)
+  "Format ENTRY for the RSS feed.
+ENTRY is a file name.  STYLE is either 'list' or 'tree'.
+PROJECT is the current project."
+  (cond ((not (directory-name-p entry))
+         (let* ((file (org-publish--expand-file-name entry project))
+                (title (org-publish-find-title entry project))
+                (date (format-time-string "%Y-%m-%d" (org-publish-find-date entry project)))
+                (link (concat "blog/" (file-name-sans-extension entry) ".html")))
+           (with-temp-buffer
+             (insert (format "* %s\n" title))
+             (org-set-property "TITLE" title)
+             (org-set-property "RSS_PERMALINK" link)
+             (org-set-property "PUBDATE" date)
+             (insert-file-contents file)
+             (buffer-string))))
+        ((eq style 'tree)
+         ;; Return only last subdir.
+         (file-name-nondirectory (directory-file-name entry)))
+        (t entry)))
 
 (defun local-blog-sitemap-function (title list)
-  "Return sitemap using TITLE and LIST returned by `org-blog-sitemap-format-entry'."
-  (concat "#+TITLE: " title "\n\n"
-          "\n#+begin_archive\n"
-          (mapconcat (lambda (li)
-                       (format "@@html:<li>@@ %s @@html:</li>@@" (car li)))
-                     (seq-filter #'car (cdr list))
-                     "\n")
-          "\n#+end_archive\n"))
+  "Generate RSS feed, as a string.
+
+TITLE is the title of the RSS feed.  LIST is an internal
+representation for the files to include, as returned by
+`org-list-to-lisp'.  PROJECT is the current project."
+  (message "FILES : %s" (length list))
+  (concat "#+TITLE: " title "\n\n" (org-list-to-subtree list nil '(:icount "" :istart ""))))
+
+(defun local-blog-rss-publish-to-rss (plist filename pub-dir)
+  "Publish RSS with PLIST, only when FILENAME is 'rss.org'.
+PUB-DIR is when the output will be placed."
+  (if (equal "rss.org" (file-name-nondirectory filename))
+      (org-rss-publish-to-rss plist filename pub-dir)))
 
 (defun local-blog-date-subtitle (file project)
   "Format the date found in FILE of PROJECT."
@@ -92,7 +110,7 @@ PUB-DIR the output directory."
         org-export-with-section-numbers nil
 
         org-html-doctype "html5"
-        org-html-link-home "/"
+        org-html-link-home "blog/"
         org-html-link-up "/"
         org-html-postamble 'auto
         org-html-divs
@@ -104,7 +122,8 @@ PUB-DIR the output directory."
          "<link rel=\"stylesheet\" type=\"text/css\" href=\"/media/css/main.css\" />\n"
          "<link href=\"https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap\" rel=\"stylesheet\">\n"
          "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css\">\n"
-         "<link rel=\"icon\" type=\"image/png\" href=\"/media/img/8bitme.png\" />")
+         "<link rel=\"icon\" type=\"image/png\" href=\"/media/img/8bitme.png\" />"
+         "<link rel=\"alternate\" type=\"application/rss+xml\" href=\"blog/rss.xml\" />")
 
         org-publish-timestamp-directory ".cache/"
         org-publish-project-alist
@@ -121,13 +140,6 @@ PUB-DIR the output directory."
            :html-preamble local-blog-preamble
            :html-postamble local-blog-postamble
            :headline-levels 4
-           :auto-sitemap t
-           :sitemap-filename "archive.org"
-           :sitemap-title "Archive"
-           :sitemap-style list
-           :sitemap-sort-files anti-chronologically
-           :sitemap-format-entry local-blog-sitemap-format-entry
-           :sitemap-function local-blog-sitemap-function
            )
 
           ("blog-static"
@@ -141,18 +153,25 @@ PUB-DIR the output directory."
           ("blog-rss"
            :base-directory ,base-dir
            :base-extension "org"
+           :rss-feed-url: "https://clarete.li/blog/rss.xml"
            :html-link-home "https://clarete.li/"
            :html-link-use-abs-url t
+           :html-link-org-files-as-html t
            :rss-extension "xml"
+           :auto-sitemap t
+           :sitemap-filename "rss.org"
+           :sitemap-title "Lincoln Clarete"
+           :sitemap-style list
+           :sitemap-sort-files anti-chronologically
+           :sitemap-format-entry local-blog-sitemap-format-entry
+           :sitemap-function local-blog-sitemap-function
            :publishing-directory ,pub-dir
-           :publishing-function (org-rss-publish-to-rss)
-           :exclude ".*"
-           :include ("archive.org")
+           :publishing-function local-blog-rss-publish-to-rss
+           :include ("rss.org")
            :section-numbers nil
            :table-of-contents nil)
-
           )))
 
-(org-publish-project "blog")
+;(org-publish-project "blog")
 
 ;;; publish ends here
