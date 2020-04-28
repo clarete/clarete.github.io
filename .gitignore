@@ -1,1 +1,5 @@
-.cache/*.cache
+.cache
+# auto-generated
+/sources/rss.org
+/blog/rss.org
+/blog/rss.html

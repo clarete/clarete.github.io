@@ -1,0 +1,172 @@
+#+TITLE: Starting a blog
+
+I've tried blogging before. All the attempts ended up following a very
+similar pattern: Took me a veeeery long time to write a single post
+and after that I never looked back at it again.
+
+This time I'm trying things differently. I'm not going to start from
+the perfect blog post. I'll start just documenting how I turned this
+GitHub Pages repository in a blog and see what comes next.
+
+* First things first
+
+  I already have a GitHub pages website setup. It's as simple as
+  creating a repository called ~YOURGITHUBUSER.github.io~ (you can see
+  mine [[https://github.com/clarete/clarete.github.io/][here]]). After that, you can push static HTML content and it will
+  be available under ~https://YOURGITHUBUSER.github.io~.
+
+  I also configured my DNS provider to point my domain ~clarete.li~ to
+  GitHub and created a ~CNAME~ file containing the domain name.
+
+  If you've never done that before, I highly recommend visiting the
+  GitHub Pages documentation. Specifically the articles for [[https://help.github.com/en/github/working-with-github-pages][creating a
+  new website]] and [[https://help.github.com/en/github/working-with-github-pages/configuring-a-custom-domain-for-your-github-pages-site][configuring a custom domain]] for your new website.
+
+* The home page
+
+  My lil website is as simple as it can get. My amazing [[https://www.instagram.com/pinkandsalt/][fiance]] got me
+  the logo you see on the top bar and I took care of putting it on a
+  proper pink background for the internet enjoyment.
+
+  The index file is just HTML and CSS, nothing else. Even the list of
+  recent posts is done manually.
+
+* The Posts
+
+  This very post is written as an Org-Mode file. For those who haven't
+  heard of Org-Mode before, checkout [[https://orgmode.org/][their website]].  Long story short,
+  Org-Mode is a text-based document format.  From that perspective, it
+  could be compared with ~Markdown~. The difference is the ginormous
+  feature set that Org-Mode supports compared.  Including, but not
+  limited to, many output formats and an incredible interactive
+  experience. 
+
+  HTML is one of the output formats that Org-Mode supports. Each post
+  written in an ~.org~ file will be translated into an HTML page.
+  This feature is built into Org-Mode. It just takes a bit of
+  configuration.
+
+* Org-Mode Publishing
+
+  Being completely honest, the HTML publishing feature doesn't seem
+  exactly designed for the blogging use case. It took quite a bit of
+  tweaking of the configuration to get it to do all the things that I
+  wanted.
+
+  You can read the entirety of my configuration in the file that I
+  submitted to git as part of this website: [[https://github.com/clarete/clarete.github.io/blob/master/publish][publish]]. But there is one
+  little part that I consider worth mentioning: Setting the variable
+  ~org-publish-project-alist~.
+
+  Although a single document can be exported to HTML, in order to
+  apply the same configuration to various files, I was required to
+  create a project with a source directory and an output directory.
+
+  The cool thing about this project thing was that I could have
+  different groups of settings and aggregate them all under a single
+  project.  The commented snippet bellow will shad some light in the
+  most essential parts of the configuration:
+
+  #+begin_src emacs-lisp
+    (setq org-publish-project-alist
+      ;; Here's the project definition with other 3 components
+      `(("blog" :components ("blog-posts" "blog-static" "blog-rss"))
+        ;; This is the component that translates the .org files into
+        ;; the .html ones. There are lots of things happening here
+        ("blog-posts"
+         ;; Where your org files are coming from
+         :base-directory ,base-dir
+         ;; Where your HTML files will be generated
+         :publishing-directory ,pub-dir
+         ;; Customize the Org file tree before it's translated into
+         ;; HTML. I needed to override this function to hook up
+         ;; inserting the date of the post into the subtitle.
+         :publishing-function local-blog-publish
+         ;; Some configuration of what is going to be auto-generated
+         ;; and what won't
+         :auto-sitemap t
+         :auto-preamble t
+         :section-numbers nil
+         :table-of-contents nil
+         :html-head-include-default-style nil
+         ;; These allowed me to inject my own HTML for the header and
+         ;; the footer. I'm in fact reading these two snippets from
+         ;; separate files
+         :html-preamble local-blog-preamble
+         :html-postamble local-blog-postamble)
+        ;; Tis is actually straight forward. It will take care of the
+        ;; asset files included in the blog posts
+        ("blog-static"
+         :base-directory ,base-dir
+         :publishing-directory ,pub-dir
+         :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf"
+         :recursive t
+         :publishing-function org-publish-attachment)
+        ;; Also straightforward, but needed to install an extension
+        ;; `ox-rss' that wasn't available via package manager. This little
+        ;; snippet will be responsible for generating the `rss.xml'
+        ;; file.
+        ("blog-rss"
+         :base-directory ,base-dir
+         :publishing-directory ,pub-dir
+         :publishing-function (org-rss-publish-to-rss)
+         :base-extension "org"
+         :rss-extension "xml"
+         :html-link-home "https://clarete.li/"
+         :html-link-use-abs-url t
+         :include ("rss.org")
+         ;; This is what generates the file `rss.org', which in turn is
+         ;; what's used to generate `rss.xml'. The trickiest part for sure
+         ;; was stitching together the custom functions starting with
+         ;; `local-blog-'. The references I linked in the last paragraph
+         ;; can be of great help if my `publish' file isn't enough for
+         ;; you.
+         :auto-sitemap t
+         :sitemap-filename "rss.org"
+         :sitemap-title "Lincoln Clarete"
+         :sitemap-style list
+         :sitemap-sort-files anti-chronologically
+         :sitemap-format-entry local-blog-sitemap-format-entry
+         :sitemap-function local-blog-sitemap-function
+         :publishing-function local-blog-rss-publish-to-rss)))
+  #+end_src
+
+* Operating the blog
+
+  From now one, I just have to execute the command ~C-c C-e P p~ to
+  ask Org Publishing to generate the HTML file of all the org files that
+  have been updated since I last executed it. It feels quite
+  convenient, I have to say.
+
+  After changing stuff and regenerating the HTML, the last step in my
+  publication journey is to add the changes to Git and push the
+  changes to GitHub. Then it just takes a minute or two for GitHub
+  Pages to pick up the changes and display it properly.
+
+* Open issues
+
+  I'm very happy with the current setup and there really aren't that
+  many issues so far. But there are two that I want to tackle:
+
+  1. I haven't added the unfurling links as suggested by [[https://writepermission.com/org-blogging-unfurling-links.html][rw-r-r]];
+  2. Still need to decide if I'll use Google Analytics or another less
+     intrusive alternative;
+  3. Source code snippets don't get syntax highlight if I the script
+     ~publish~ directly from the terminal. It errors out with the
+     following message: ~Cannot fontify source block (htmlize.el >=
+     1.34 required)~. Which is quite weird because I have ~htmlize
+     1.57~ installed.  I'm OK not fixing it for now because I can just
+     do it from within emacs and that's actually more convenient.
+
+* Final thoughts
+
+  The fine grained customizations were certaingly the hardest to get
+  to work and I wouldn't have been able to figure it out in the amount
+  of time I had to dedicate to this task without the amazing reference
+  other Emacs users put together. Here's what I consulted in no
+  particular order:
+
+  * https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html
+  * https://www.brautaset.org/articles/2017/blogging-with-org-mode.html
+  * https://vicarie.in/posts/blogging-with-org.html
+  * https://writepermission.com/org-blogging-rss-feed.html
