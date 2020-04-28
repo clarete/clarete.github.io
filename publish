@@ -153,11 +153,11 @@ PUB-DIR the output directory."
           ("blog-rss"
            :base-directory ,base-dir
            :base-extension "org"
+           :rss-extension "xml"
            :rss-feed-url: "https://clarete.li/blog/rss.xml"
            :html-link-home "https://clarete.li/"
            :html-link-use-abs-url t
            :html-link-org-files-as-html t
-           :rss-extension "xml"
            :auto-sitemap t
            :sitemap-filename "rss.org"
            :sitemap-title "Lincoln Clarete"
@@ -165,8 +165,8 @@ PUB-DIR the output directory."
            :sitemap-sort-files anti-chronologically
            :sitemap-format-entry local-blog-sitemap-format-entry
            :sitemap-function local-blog-sitemap-function
-           :publishing-directory ,pub-dir
            :publishing-function local-blog-rss-publish-to-rss
+           :publishing-directory ,pub-dir
            :include ("rss.org")
            :section-numbers nil
            :table-of-contents nil)
