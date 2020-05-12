@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-04-27 Mon 20:39 -->
+<!-- 2020-05-06 Wed 20:12 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Starting a blog</title>
@@ -78,6 +78,11 @@ for the JavaScript code in this tag.
           <span class="fa fa-github-alt"></span>Github
         </a>
       </li>
+      <li>
+        <a href="/blog/rss.xml" alt="RSS">
+          <span class="fa fa-rss"></span>RSS
+        </a>
+      </li>
     </ul>
 
     <a href="/">
@@ -92,10 +97,11 @@ for the JavaScript code in this tag.
 </div>
 </header>
 <main id="content">
-<header>
-<h1 class="title">Starting a blog</h1>
-<p class="subtitle">April 26 2020</p>
-</header><p>
+<h1 class="title">Starting a blog
+<br>
+<span class="subtitle">April 26 2020</span>
+</h1>
+<p>
 I've tried blogging before. All the attempts ended up following a very
 similar pattern: Took me a veeeery long time to write a single post
 and after that I never looked back at it again.
@@ -259,8 +265,7 @@ most essential parts of the configuration:
      <span style="color: #fe8019;">:sitemap-sort-files</span> anti-chronologically
      <span style="color: #fe8019;">:sitemap-format-entry</span> local-blog-sitemap-format-entry
      <span style="color: #fe8019;">:sitemap-function</span> local-blog-sitemap-function
-     <span style="color: #fe8019;">:publishing-function</span> local-blog-rss-publish-to-rss
-     <span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+     <span style="color: #fe8019;">:publishing-function</span> local-blog-rss-publish-to-rss<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
 </pre>
 </div>
 </div>
@@ -330,7 +335,7 @@ particular order:
 <footer id="postamble" class="status">
 <div class="footer">
   <div class="container">
-    © Lincoln Clarete &mdash; <a href="mailto:lincoln@clarete.li">Email</a>, <a href="https://github.com/clarete">GitHub</a>
+    © Lincoln Clarete &mdash; <a href="mailto:lincoln@clarete.li">Email</a>, <a href="https://github.com/clarete">GitHub</a>,
     <a rel="alternate" type="application/rss+xml" href="/blog/rss.xml">RSS</a>
   </div>
 </div>
