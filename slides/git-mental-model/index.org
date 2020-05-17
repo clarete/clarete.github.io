@@ -3,7 +3,7 @@
 #+OPTIONS: toc:nil num:nil reveal_title_slide:nil
 #+REVEAL_INIT_OPTIONS: hash: true, history: true
 #+REVEAL_ROOT: https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/
-#+REVEAL_EXTRA_CSS: main.css
+#+REVEAL_EXTRA_CSS: ./index.css
 #+REVEAL_THEME: simple
 #+REVEAL_TRANS: linear
 

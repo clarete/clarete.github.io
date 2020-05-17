@@ -11,7 +11,7 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/theme/simple.css" id="theme"/>
 
-<link rel="stylesheet" href="main.css"/>
+<link rel="stylesheet" href="./index.css"/>
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
 <script>
@@ -33,8 +33,8 @@
 <div class="slides">
 
 <section>
-<section id="slide-org3907a2e">
-<h2 id="org3907a2e">Um modelo mental para o git</h2>
+<section id="slide-orge1801d6">
+<h2 id="orge1801d6">Um modelo mental para o git</h2>
 <div class="titleimg">
 
 <div class="figure">
@@ -47,8 +47,8 @@
 </section>
 </section>
 <section>
-<section id="slide-orga938e9b">
-<h2 id="orga938e9b">O que é git</h2>
+<section id="slide-org9b8381f">
+<h2 id="org9b8381f">O que é git</h2>
 
 <div class="figure">
 <p><img src="./git.jpg" alt="git.jpg">
@@ -58,18 +58,18 @@
 </section>
 </section>
 <section>
-<section id="slide-org84649a7">
-<h2 id="org84649a7">Controle de versão distribuído</h2>
+<section id="slide-org01d6280">
+<h2 id="org01d6280">Controle de versão distribuído</h2>
 </section>
 </section>
 <section>
-<section id="slide-orgb20a777">
-<h2 id="orgb20a777">O que são repositórios</h2>
-<div class="outline-text-2" id="text-orgb20a777">
+<section id="slide-org8490ad9">
+<h2 id="org8490ad9">O que são repositórios</h2>
+<div class="outline-text-2" id="text-org8490ad9">
 </div>
 </section>
-<section id="slide-orga42c91d">
-<h3 id="orga42c91d">Repositório</h3>
+<section id="slide-org55d55cc">
+<h3 id="org55d55cc">Repositório</h3>
 <p>
 É onde o git guarda todas as informações sobre versões de um
 projeto
@@ -82,8 +82,8 @@ projeto
 </ul>
 
 </section>
-<section id="slide-orge79aad3">
-<h3 id="orge79aad3">Criação de novo Repositório (Terminal)</h3>
+<section id="slide-org33073fb">
+<h3 id="org33073fb">Criação de novo Repositório (Terminal)</h3>
 <div class="org-src-container">
 
 <pre  class="src src-plain"><code trim>$ mkdir projeto
@@ -94,8 +94,8 @@ Initialized empty Git repository in /home/lincoln/projeto/.git/
 </div>
 
 </section>
-<section id="slide-org0d53dd0">
-<h3 id="org0d53dd0">Criação de novo Repositório (Github Desktop)</h3>
+<section id="slide-orgbc85ec8">
+<h3 id="orgbc85ec8">Criação de novo Repositório (Github Desktop)</h3>
 <table>
 
 
@@ -113,8 +113,8 @@ Initialized empty Git repository in /home/lincoln/projeto/.git/
 </table>
 
 </section>
-<section id="slide-orgc34a515">
-<h3 id="orgc34a515">Clone de projeto já existente (Terminal)</h3>
+<section id="slide-org1d14d51">
+<h3 id="org1d14d51">Clone de projeto já existente (Terminal)</h3>
 <div class="org-src-container">
 
 <pre  class="src src-plain"><code trim>$ git clone git@github.com:python/cpython.git
@@ -122,8 +122,8 @@ Initialized empty Git repository in /home/lincoln/projeto/.git/
 </div>
 
 </section>
-<section id="slide-org92a0287">
-<h3 id="org92a0287">Clone de projeto já existente (Github Desktop)</h3>
+<section id="slide-org097e45d">
+<h3 id="org097e45d">Clone de projeto já existente (Github Desktop)</h3>
 <table>
 
 
@@ -143,8 +143,8 @@ Initialized empty Git repository in /home/lincoln/projeto/.git/
 </section>
 </section>
 <section>
-<section id="slide-org2d7e86e">
-<h2 id="org2d7e86e">O que são <i>commits</i></h2>
+<section id="slide-org702e949">
+<h2 id="org702e949">O que são <i>commits</i></h2>
 
 <div class="figure">
 <p><img src="./your-own-work.png" alt="your-own-work.png">
@@ -152,16 +152,16 @@ Initialized empty Git repository in /home/lincoln/projeto/.git/
 </div>
 
 </section>
-<section id="slide-org1617010">
-<h3 id="org1617010"><i>Commit</i></h3>
+<section id="slide-orgd4030b3">
+<h3 id="orgd4030b3"><i>Commit</i></h3>
 <p>
 É a operação que armazena as modificações do projeto numa nova
 versão
 </p>
 
 </section>
-<section id="slide-org135960e">
-<h3 id="org135960e">Aplicação de modificações</h3>
+<section id="slide-org9055a9a">
+<h3 id="org9055a9a">Aplicação de modificações</h3>
 
 <div class="figure">
 <p><img src="./commit-a-change.png" alt="commit-a-change.png">
@@ -169,8 +169,8 @@ versão
 </div>
 
 </section>
-<section id="slide-orga73f423">
-<h3 id="orga73f423">Visualização de modificações</h3>
+<section id="slide-org0790b6d">
+<h3 id="org0790b6d">Visualização de modificações</h3>
 <div class="org-src-container">
 
 <pre  class="src src-diff"><code trim>$ git diff
@@ -190,8 +190,8 @@ versão
 </div>
 
 </section>
-<section id="slide-orgc596c63">
-<h3 id="orgc596c63">Visualização do índice antes da adição</h3>
+<section id="slide-org73f1feb">
+<h3 id="org73f1feb">Visualização do índice antes da adição</h3>
 <div class="org-src-container">
 
 <pre  class="src src-plain"><code trim>$ git status
@@ -209,8 +209,8 @@ no changes added to commit (use "git add" and/or "git commit -a")
 </div>
 
 </section>
-<section id="slide-org89e88b7">
-<h3 id="org89e88b7">Adição ao índice</h3>
+<section id="slide-orgd6aebc8">
+<h3 id="orgd6aebc8">Adição ao índice</h3>
 <div class="org-src-container">
 
 <pre  class="src src-plain"><code trim>$ git add Programs/python.c
@@ -218,8 +218,8 @@ no changes added to commit (use "git add" and/or "git commit -a")
 </div>
 
 </section>
-<section id="slide-org88794a4">
-<h3 id="org88794a4">Visualização do índice após adição</h3>
+<section id="slide-org8ac0f51">
+<h3 id="org8ac0f51">Visualização do índice após adição</h3>
 <div class="org-src-container">
 
 <pre  class="src src-plain"><code trim>$ git status
@@ -234,8 +234,8 @@ Changes to be committed:
 </div>
 
 </section>
-<section id="slide-org3e12c53">
-<h3 id="org3e12c53">Criação do <i>commit</i></h3>
+<section id="slide-org2014d1d">
+<h3 id="org2014d1d">Criação do <i>commit</i></h3>
 <div class="org-src-container">
 
 <pre  class="src src-plain"><code trim>$ git commit -m "Imprime uma frase encorajadora"
@@ -245,8 +245,8 @@ Changes to be committed:
 </div>
 
 </section>
-<section id="slide-orga58ab3b">
-<h3 id="orga58ab3b">Visualização do índice após o <i>commit</i></h3>
+<section id="slide-org03a03fc">
+<h3 id="org03a03fc">Visualização do índice após o <i>commit</i></h3>
 <div class="org-src-container">
 
 <pre  class="src src-plain"><code trim>$ git status
@@ -259,8 +259,8 @@ nothing to commit, working tree clean
 </div>
 
 </section>
-<section id="slide-org915b77a">
-<h3 id="org915b77a">Índice antes da modificação  (Github Desktop)</h3>
+<section id="slide-orga711ec9">
+<h3 id="orga711ec9">Índice antes da modificação  (Github Desktop)</h3>
 
 <div class="figure">
 <p><img src="./github-status-before.jpg" alt="github-status-before.jpg">
@@ -268,8 +268,8 @@ nothing to commit, working tree clean
 </div>
 
 </section>
-<section id="slide-org3982272">
-<h3 id="org3982272">Aplicação de modificação (Github Desktop)</h3>
+<section id="slide-org8766917">
+<h3 id="org8766917">Aplicação de modificação (Github Desktop)</h3>
 
 <div class="figure">
 <p><img src="./github-add-commit-status.jpg" alt="github-add-commit-status.jpg">
@@ -277,8 +277,8 @@ nothing to commit, working tree clean
 </div>
 
 </section>
-<section id="slide-orgf17d19a">
-<h3 id="orgf17d19a">Visualização de <i>commits</i> (Terminal)</h3>
+<section id="slide-org1b7c25c">
+<h3 id="org1b7c25c">Visualização de <i>commits</i> (Terminal)</h3>
 <div class="org-src-container">
 
 <pre  class="src src-plain"><code trim>$ git log
@@ -297,8 +297,8 @@ Date:   Sun May 17 01:05:40 2020 +0200
 </div>
 
 </section>
-<section id="slide-orgbb78dd3">
-<h3 id="orgbb78dd3">Visualização de <i>commits</i> (Github Desktop)</h3>
+<section id="slide-org81dd66b">
+<h3 id="org81dd66b">Visualização de <i>commits</i> (Github Desktop)</h3>
 
 <div class="figure">
 <p><img src="./github-log.jpg" alt="github-log.jpg">
@@ -308,8 +308,8 @@ Date:   Sun May 17 01:05:40 2020 +0200
 </section>
 </section>
 <section>
-<section id="slide-org58aa0fe">
-<h2 id="org58aa0fe">O que são <i>branches</i></h2>
+<section id="slide-org7238790">
+<h2 id="org7238790">O que são <i>branches</i></h2>
 
 <div class="figure">
 <p><img src="./your-own-branches-2.png" alt="your-own-branches-2.png">
@@ -317,16 +317,16 @@ Date:   Sun May 17 01:05:40 2020 +0200
 </div>
 
 </section>
-<section id="slide-org68195b4">
-<h3 id="org68195b4"><i>Branch</i></h3>
+<section id="slide-org2c081b1">
+<h3 id="org2c081b1"><i>Branch</i></h3>
 <p>
 É um mecanismo que permite criar uma linha diferente de
 modificações de um certo <i>commit</i> em diante
 </p>
 
 </section>
-<section id="slide-org29d6024">
-<h3 id="org29d6024">Criação de nova <i>branch</i></h3>
+<section id="slide-org9b775c9">
+<h3 id="org9b775c9">Criação de nova <i>branch</i></h3>
 <div class="org-src-container">
 
 <pre  class="src src-plain"><code trim>$ git checkout -b outra-branch
@@ -334,8 +334,8 @@ modificações de um certo <i>commit</i> em diante
 </div>
 
 </section>
-<section id="slide-org145fdda">
-<h3 id="org145fdda">Listagem de <i>branches</i></h3>
+<section id="slide-org0345cb9">
+<h3 id="org0345cb9">Listagem de <i>branches</i></h3>
 <div class="org-src-container">
 
 <pre  class="src src-plain"><code trim>$ git branch
@@ -345,16 +345,16 @@ modificações de um certo <i>commit</i> em diante
 </div>
 
 </section>
-<section id="slide-org8d7b529">
-<h3 id="org8d7b529">Alterar a <i>branch</i> atual</h3>
+<section id="slide-org4e47603">
+<h3 id="org4e47603">Alterar a <i>branch</i> atual</h3>
 <div class="org-src-container">
 
 <pre  class="src src-plain"><code trim>$ git checkout outra-branch
 </code></pre>
 </div>
 </section>
-<section id="slide-org1af1f30">
-<h3 id="org1af1f30"><i>Branches</i> no Github Desktop</h3>
+<section id="slide-org47824e0">
+<h3 id="org47824e0"><i>Branches</i> no Github Desktop</h3>
 <table>
 
 
@@ -372,8 +372,8 @@ modificações de um certo <i>commit</i> em diante
 </table>
 
 </section>
-<section id="slide-org176cea9">
-<h3 id="org176cea9">Diferença entre <i>branches</i> (Terminal)</h3>
+<section id="slide-org7d6e3d8">
+<h3 id="org7d6e3d8">Diferença entre <i>branches</i> (Terminal)</h3>
 <div class="org-src-container">
 
 <pre  class="src src-diff"><code trim>$ git diff master..HEAD
@@ -393,16 +393,16 @@ modificações de um certo <i>commit</i> em diante
 </code></pre>
 </div>
 </section>
-<section id="slide-org24ba4ef">
-<h3 id="org24ba4ef">Diferença entre <i>branches</i> (Github Desktop)</h3>
+<section id="slide-orgd4825c2">
+<h3 id="orgd4825c2">Diferença entre <i>branches</i> (Github Desktop)</h3>
 
 <div class="figure">
 <p><img src="./github-branch-diff.jpg" alt="github-branch-diff.jpg">
 </p>
 </div>
 </section>
-<section id="slide-orgac9e55a">
-<h3 id="orgac9e55a"><i>Merge</i> de duas <i>branches</i> (Terminal)</h3>
+<section id="slide-orgeeac24e">
+<h3 id="orgeeac24e"><i>Merge</i> de duas <i>branches</i> (Terminal)</h3>
 <div class="org-src-container">
 
 <pre  class="src src-shell"><code trim>$ git checkout master
@@ -415,8 +415,8 @@ Programs/python.c | 2 +-
 </div>
 
 </section>
-<section id="slide-org3441cdc">
-<h3 id="org3441cdc"><i>Merge</i> de duas <i>branches</i> (Github Desktop)</h3>
+<section id="slide-org275441e">
+<h3 id="org275441e"><i>Merge</i> de duas <i>branches</i> (Github Desktop)</h3>
 
 <div class="figure">
 <p><img src="./github-merge.jpg" alt="github-merge.jpg">
@@ -425,8 +425,8 @@ Programs/python.c | 2 +-
 </section>
 </section>
 <section>
-<section id="slide-org5635f7d">
-<h2 id="org5635f7d">O que são <i>Pull Requests</i></h2>
+<section id="slide-org34009ad">
+<h2 id="org34009ad">O que são <i>Pull Requests</i></h2>
 
 <div class="figure">
 <p><img src="./everyones-branches.png" alt="everyones-branches.png">
@@ -434,20 +434,20 @@ Programs/python.c | 2 +-
 </div>
 
 </section>
-<section id="slide-orgc8f6e8b">
-<h3 id="orgc8f6e8b"><i>Pull Request</i></h3>
+<section id="slide-org5650096">
+<h3 id="org5650096"><i>Pull Request</i></h3>
 <p>
 É a operação que permite que pessoas proponham modificações a um
 projeto existente
 </p>
 
 </section>
-<section id="slide-orgcf7a019">
-<h3 id="orgcf7a019">Criação de um <i>Pull Request</i></h3>
+<section id="slide-org4511b1f">
+<h3 id="org4511b1f">Criação de um <i>Pull Request</i></h3>
 
 </section>
-<section id="slide-org1704577">
-<h3 id="org1704577"><i>Fork</i> de um repositório</h3>
+<section id="slide-orgcb2f226">
+<h3 id="orgcb2f226"><i>Fork</i> de um repositório</h3>
 
 <div class="figure">
 <p><img src="./githubweb-fork.jpg" alt="githubweb-fork.jpg">
@@ -455,8 +455,8 @@ projeto existente
 </div>
 
 </section>
-<section id="slide-orgbcb5b59">
-<h3 id="orgbcb5b59">Clone do seu próprio <i>fork</i></h3>
+<section id="slide-org228e2c1">
+<h3 id="org228e2c1">Clone do seu próprio <i>fork</i></h3>
 <div class="org-src-container">
 
 <pre  class="src src-plain"><code trim>$ git clone github.com/clarete/cpython
@@ -464,15 +464,15 @@ projeto existente
 </div>
 
 </section>
-<section id="slide-org03a2a29">
-<h3 id="org03a2a29"></h3>
+<section id="slide-orgc063017">
+<h3 id="orgc063017"></h3>
 <p>
 Faça o <i>commit</i> de suas modificações localmente
 </p>
 
 </section>
-<section id="slide-orge2d1777">
-<h3 id="orge2d1777"><i>Push</i> dos <i>commits</i> locais para o seu <i>fork</i></h3>
+<section id="slide-org4eb6f97">
+<h3 id="org4eb6f97"><i>Push</i> dos <i>commits</i> locais para o seu <i>fork</i></h3>
 <div class="org-src-container">
 
 <pre  class="src src-plain"><code trim>$ git push
@@ -493,8 +493,8 @@ To github.com:clarete/cpython
 </div>
 
 </section>
-<section id="slide-orgc228e6b">
-<h3 id="orgc228e6b">Abra um <i>Pull Request</i></h3>
+<section id="slide-orge824af8">
+<h3 id="orge824af8">Abra um <i>Pull Request</i></h3>
 
 <div class="figure">
 <p><img src="./githubweb-open-pullrequest.jpg" alt="githubweb-open-pullrequest.jpg">
@@ -504,8 +504,8 @@ To github.com:clarete/cpython
 </section>
 </section>
 <section>
-<section id="slide-orge13fd75">
-<h2 id="orge13fd75"></h2>
+<section id="slide-org92203c0">
+<h2 id="org92203c0"></h2>
 <div class="thanks">
 
 <div class="figure">
