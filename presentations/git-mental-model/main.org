@@ -1,4 +1,4 @@
-#+TITLE: Parsing, Backtracking & Caching
+#+TITLE: Um modelo mental para o git
 #+AUTHOR: Lincoln
 #+OPTIONS: toc:nil num:nil reveal_title_slide:nil
 #+REVEAL_INIT_OPTIONS: hash: true, history: true
@@ -10,10 +10,10 @@
 # M-x load-library<ret>ox-reveal
 # Execute 'C-c C-e R R' to export the presentation
 
-* Modelo mental para o git
+* Um modelo mental para o git
 
   #+BEGIN_titleimg
-  [[./smart-brain-character-vector-9631493.jpg]]
+  [[./mental-model.png]]
   #+END_titleimg
 
 * O que é git
@@ -24,7 +24,8 @@
 * O que são repositórios
 ** Repositório
 
-   É onde o git guarda informações sobre um projeto
+   É onde o git guarda todas as informações sobre versões de um
+   projeto
 
    * Criação de um novo projeto
    * Clone de repositório já existente
@@ -55,6 +56,11 @@
 * O que são /commits/
 
   [[./your-own-work.png]]
+
+** /Commit/
+
+   É a operação que armazena as modificações do projeto numa nova
+   versão
 
 ** Aplicação de modificações
 
@@ -113,7 +119,7 @@ Changes to be committed:
         modified:   Programs/python.c
    #+end_src
 
-** Criação do commit
+** Criação do /commit/
 
    #+begin_src plain
 $ git commit -m "Imprime uma frase encorajadora"
@@ -121,7 +127,7 @@ $ git commit -m "Imprime uma frase encorajadora"
 1 file changed, 1 insertion(+)
    #+end_src
 
-** Visualização do índice após o commit
+** Visualização do índice após o /commit/
 
    #+begin_src plain
 $ git status
@@ -140,7 +146,7 @@ nothing to commit, working tree clean
 
   [[./github-add-commit-status.jpg]]
 
-** Visualização de commits (Terminal)
+** Visualização de /commits/ (Terminal)
 
    #+begin_src plain
 $ git log
@@ -157,13 +163,18 @@ Date:   Sun May 17 01:05:40 2020 +0200
     bpo-40645: Deprecated internal details of hmac.HMAC (GH-20132)
    #+end_src
 
-** Visualização de commits (Github Desktop)
+** Visualização de /commits/ (Github Desktop)
 
   [[./github-log.jpg]]
 
 * O que são /branches/
 
   [[./your-own-branches-2.png]]
+
+** /Branch/
+
+   É um mecanismo que permite criar uma linha diferente de
+   modificações de um certo /commit/ em diante
 
 ** Criação de nova /branch/
 
@@ -223,3 +234,20 @@ index 96ce1534cb..bab46be816 100644
 ** /Merge/ de duas /branches/ (Github Desktop)
 
    [[./github-merge.jpg]]
+* O que são /Pull Requests/
+
+  [[./everyones-branches.png]]
+
+** /Pull Request/
+
+   É a operação que permite que pessoas proponham modificações a um
+   projeto existente
+
+** Criação de um /Pull Request/
+
+   * Faça o /fork/ do repositório que você pretende contribuir
+   * Faça o clone do seu /fork/ localmente
+   * Faça as modificações que você desejar
+   * Faça o /commit/ de suas modificações localmente
+   * Faça o /push/ de seus commits locais para o seu /fork/
+   * Abra um /Pull Request/
