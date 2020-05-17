@@ -16,11 +16,15 @@
     width: 50%;
 }
 
+code {
+    background: none;
+}
 
 .org-src-container {
     background: #333;
     color: #fff;
 }
+
 .reveal pre {
     line-height: 1.3em;
     font-size: 0.5em;
