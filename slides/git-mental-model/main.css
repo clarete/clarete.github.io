@@ -29,3 +29,15 @@
     padding: 20px;
     width: 100%;
 }
+
+.thanks object {
+    width: 250px;
+    display: block;
+    float: left;
+    margin-right: -100px;
+}
+
+.thanks ul {
+    list-style: none;
+    padding: none:
+}

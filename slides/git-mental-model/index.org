@@ -245,9 +245,48 @@ index 96ce1534cb..bab46be816 100644
 
 ** Criação de um /Pull Request/
 
-   * Faça o /fork/ do repositório que você pretende contribuir
-   * Faça o clone do seu /fork/ localmente
-   * Faça as modificações que você desejar
-   * Faça o /commit/ de suas modificações localmente
-   * Faça o /push/ de seus commits locais para o seu /fork/
-   * Abra um /Pull Request/
+** /Fork/ de um repositório
+
+   [[./githubweb-fork.jpg]]
+
+** Clone do seu próprio /fork/
+
+   #+begin_src plain
+   $ git clone github.com/clarete/cpython
+   #+end_src
+
+** 
+   Faça o /commit/ de suas modificações localmente
+
+** /Push/ dos /commits/ locais para o seu /fork/
+
+   #+begin_src plain
+ $ git push
+ Enumerating objects: 29408, done.
+ Counting objects: 100% (29408/29408), done.
+ Delta compression using up to 4 threads
+ Compressing objects: 100% (7977/7977), done.
+ Writing objects: 100% (27679/27679), 10.84 MiB | 3.18 MiB/s, done.
+ Total 27679 (delta 22479), reused 24752 (delta 19595)
+ remote: Resolving deltas: 100% (22479/22479), completed with 1646 local ...
+ remote: 
+ remote: Create a pull request for 'outra-branch' on GitHub by visiting:
+ remote:      https://github.com/clarete/cpython/pull/new/outra-branch
+ remote: 
+ To github.com:clarete/cpython
+  * [new branch]            outra-branch -> outra-branch
+   #+end_src
+
+** Abra um /Pull Request/
+
+   [[./githubweb-open-pullrequest.jpg]]
+
+* 
+
+  #+BEGIN_thanks
+  [[../../media/img/8bitme.svg]]
+
+  * https://clarete.li
+  * https://github.com/clarete
+  * Obrigada!
+  #+END_thanks
