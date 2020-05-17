@@ -1,0 +1,225 @@
+#+TITLE: Parsing, Backtracking & Caching
+#+AUTHOR: Lincoln
+#+OPTIONS: toc:nil num:nil reveal_title_slide:nil
+#+REVEAL_INIT_OPTIONS: hash: true, history: true
+#+REVEAL_ROOT: https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/
+#+REVEAL_EXTRA_CSS: main.css
+#+REVEAL_THEME: simple
+#+REVEAL_TRANS: linear
+
+# M-x load-library<ret>ox-reveal
+# Execute 'C-c C-e R R' to export the presentation
+
+* Modelo mental para o git
+
+  #+BEGIN_titleimg
+  [[./smart-brain-character-vector-9631493.jpg]]
+  #+END_titleimg
+
+* O que é git
+
+  [[./git.jpg]]
+
+* Controle de versão distribuído
+* O que são repositórios
+** Repositório
+
+   É onde o git guarda informações sobre um projeto
+
+   * Criação de um novo projeto
+   * Clone de repositório já existente
+
+** Criação de novo Repositório (Terminal)
+
+   #+begin_src plain
+   $ mkdir projeto
+   $ cd projeto
+   $ git init
+   Initialized empty Git repository in /home/lincoln/projeto/.git/
+   #+end_src
+
+** Criação de novo Repositório (Github Desktop)
+
+   | [[./github-homescreen-create.jpg]] | [[./github-create.jpg]] |
+
+** Clone de projeto já existente (Terminal)
+
+   #+begin_src plain
+   $ git clone git@github.com:python/cpython.git
+   #+end_src
+
+** Clone de projeto já existente (Github Desktop)
+
+   | [[./github-homescreen-clone.jpg]] | [[./github-clone.jpg]] |
+
+* O que são /commits/
+
+  [[./your-own-work.png]]
+
+** Aplicação de modificações
+
+   [[./commit-a-change.png]]
+
+** Visualização de modificações
+
+   #+begin_src diff
+$ git diff
+diff --git a/Programs/python.c b/Programs/python.c
+index 84148f7767..96ce1534cb 100644
+--- a/Programs/python.c
++++ b/Programs/python.c
+@@ -12,6 +12,7 @@ wmain(int argc, wchar_t **argv)
+ int
+ main(int argc, char **argv)
+ {
++    printf("PYTHON IS FUN\n");
+     return Py_BytesMain(argc, argv);
+ }
+ #endif
+   #+end_src
+
+** Visualização do índice antes da adição
+
+   #+begin_src plain
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git checkout -- <file>..." to discard changes in working directory)
+
+        modified:   Programs/python.c
+
+no changes added to commit (use "git add" and/or "git commit -a")
+   #+end_src
+
+** Adição ao índice
+
+   #+begin_src plain
+   $ git add Programs/python.c
+   #+end_src
+
+** Visualização do índice após adição
+
+   #+begin_src plain
+$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD <file>..." to unstage)
+
+        modified:   Programs/python.c
+   #+end_src
+
+** Criação do commit
+
+   #+begin_src plain
+$ git commit -m "Imprime uma frase encorajadora"
+[master 6604f4a491] Imprime uma frase encorajadora
+1 file changed, 1 insertion(+)
+   #+end_src
+
+** Visualização do índice após o commit
+
+   #+begin_src plain
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+   #+end_src
+
+** Índice antes da modificação  (Github Desktop)
+
+  [[./github-status-before.jpg]]
+
+** Aplicação de modificação (Github Desktop)
+
+  [[./github-add-commit-status.jpg]]
+
+** Visualização de commits (Terminal)
+
+   #+begin_src plain
+$ git log
+commit c5c4b75a9ea59ddb64c8f1e3a8339db24406eb01 (HEAD -> master)
+Author: Lincoln de Sousa <lincoln@clarete.li>
+Date:   Sat May 16 19:13:51 2020 -0400
+
+    Imprime uma frase encorajadora
+
+commit 837f9e42e3a1ad03b340661afe85e67d2719334f (origin/master, origin/HEAD)
+Author: Christian Heimes <christian@python.org>
+Date:   Sun May 17 01:05:40 2020 +0200
+
+    bpo-40645: Deprecated internal details of hmac.HMAC (GH-20132)
+   #+end_src
+
+** Visualização de commits (Github Desktop)
+
+  [[./github-log.jpg]]
+
+* O que são /branches/
+
+  [[./your-own-branches-2.png]]
+
+** Criação de nova /branch/
+
+   #+begin_src plain
+ $ git checkout -b outra-branch
+   #+end_src
+
+** Listagem de /branches/
+
+   #+begin_src plain
+ $ git branch
+ * master
+   outra-branch
+   #+end_src
+
+** Alterar a /branch/ atual
+
+   #+begin_src plain
+ $ git checkout outra-branch
+   #+end_src
+** /Branches/ no Github Desktop
+
+   | [[./github-branchlist.jpg]] | [[./github-newbranch.jpg]] |
+
+** Diferença entre /branches/ (Terminal)
+
+   #+begin_src diff
+$ git diff master..HEAD
+diff --git a/Programs/python.c b/Programs/python.c
+index 96ce1534cb..bab46be816 100644
+--- a/Programs/python.c
++++ b/Programs/python.c
+@@ -12,7 +12,7 @@ wmain(int argc, wchar_t **argv)
+ int
+ main(int argc, char **argv)
+ {
+-    printf("PYTHON IS FUN\n");
++    printf("PYTHON IS REALLY FUN\n");
+     return Py_BytesMain(argc, argv);
+ }
+ #endif
+   #+end_src
+** Diferença entre /branches/ (Github Desktop)
+
+   [[./github-branch-diff.jpg]]
+** /Merge/ de duas /branches/ (Terminal)
+
+   #+begin_src shell
+ $ git checkout master
+ $ git merge outra-branch 
+ Updating c5c4b75a9e..0e3ff5def5
+ Fast-forward
+ Programs/python.c | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
+   #+end_src
+
+** /Merge/ de duas /branches/ (Github Desktop)
+
+   [[./github-merge.jpg]]

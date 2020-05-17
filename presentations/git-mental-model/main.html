@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Parsing, Backtracking &amp; Caching</title>
+<meta name="author" content="(Lincoln)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="main.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<link rel="stylesheet" type="text/css" href="/media/css/main.css" />
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+<link rel="icon" type="image/png" href="/media/img/8bitme.png" /><link rel="alternate" type="application/rss+xml" href="blog/rss.xml" />
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+<section id="slide-orgdd9d631">
+<h2 id="orgdd9d631">Modelo mental para o git</h2>
+<div class="titleimg">
+
+<div class="figure">
+<p><img src="./smart-brain-character-vector-9631493.jpg" alt="smart-brain-character-vector-9631493.jpg">
+</p>
+</div>
+
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org265c1a9">
+<h2 id="org265c1a9">O que é git</h2>
+
+<div class="figure">
+<p><img src="./git.jpg" alt="git.jpg">
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgb2a00ff">
+<h2 id="orgb2a00ff">Controle de versão distribuído</h2>
+</section>
+</section>
+<section>
+<section id="slide-orge1ded16">
+<h2 id="orge1ded16">O que são repositórios</h2>
+<div class="outline-text-2" id="text-orge1ded16">
+</div>
+</section>
+<section id="slide-orge67c5cc">
+<h3 id="orge67c5cc">Repositório</h3>
+<p>
+É onde o git guarda informações sobre um projeto
+</p>
+
+<ul>
+<li>Criação de um novo projeto</li>
+<li>Clone de repositório já existente</li>
+
+</ul>
+
+</section>
+<section id="slide-orgdd41cf2">
+<h3 id="orgdd41cf2">Criação de novo Repositório (Terminal)</h3>
+<div class="org-src-container">
+
+<pre  class="src src-plain"><code trim>$ mkdir projeto
+$ cd projeto
+$ git init
+Initialized empty Git repository in /home/lincoln/projeto/.git/
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org68ebdea">
+<h3 id="org68ebdea">Criação de novo Repositório (Github Desktop)</h3>
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><img src="./github-homescreen-create.jpg" alt="github-homescreen-create.jpg"></td>
+<td class="org-left"><img src="./github-create.jpg" alt="github-create.jpg"></td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org3227cec">
+<h3 id="org3227cec">Clone de projeto já existente (Terminal)</h3>
+<div class="org-src-container">
+
+<pre  class="src src-plain"><code trim>$ git clone git@github.com:python/cpython.git
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org7c0fc17">
+<h3 id="org7c0fc17">Clone de projeto já existente (Github Desktop)</h3>
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><img src="./github-homescreen-clone.jpg" alt="github-homescreen-clone.jpg"></td>
+<td class="org-left"><img src="./github-clone.jpg" alt="github-clone.jpg"></td>
+</tr>
+</tbody>
+</table>
+
+</section>
+</section>
+<section>
+<section id="slide-org0a91198">
+<h2 id="org0a91198">O que são <i>commits</i></h2>
+
+<div class="figure">
+<p><img src="./your-own-work.png" alt="your-own-work.png">
+</p>
+</div>
+
+</section>
+<section id="slide-org21fdbf8">
+<h3 id="org21fdbf8">Aplicação de modificações</h3>
+
+<div class="figure">
+<p><img src="./commit-a-change.png" alt="commit-a-change.png">
+</p>
+</div>
+
+</section>
+<section id="slide-org6632a23">
+<h3 id="org6632a23">Visualização de modificações</h3>
+<div class="org-src-container">
+
+<pre  class="src src-diff"><code trim>$ git diff
+<span style="background-color: #737373;">diff --git a/Programs/python.c b/Programs/python.c</span>
+<span style="background-color: #737373;">index 84148f7767..96ce1534cb 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/Programs/python.c</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/Programs/python.c</span>
+<span style="background-color: #737373;">@@ -12,6 +12,7 @@</span><span style="background-color: #737373;"> wmain(int argc, wchar_t **argv)</span>
+ int
+ main(int argc, char **argv)
+ {
+<span style="color: #b8bb26;">+</span><span style="color: #b8bb26;">    printf("PYTHON IS FUN\n");</span>
+     return Py_BytesMain(argc, argv);
+ }
+ #endif
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org121247a">
+<h3 id="org121247a">Visualização do índice antes da adição</h3>
+<div class="org-src-container">
+
+<pre  class="src src-plain"><code trim>$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes not staged for commit:
+  (use "git add &lt;file&gt;..." to update what will be committed)
+  (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+
+        modified:   Programs/python.c
+
+no changes added to commit (use "git add" and/or "git commit -a")
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org3b8d3d7">
+<h3 id="org3b8d3d7">Adição ao índice</h3>
+<div class="org-src-container">
+
+<pre  class="src src-plain"><code trim>$ git add Programs/python.c
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgb153596">
+<h3 id="orgb153596">Visualização do índice após adição</h3>
+<div class="org-src-container">
+
+<pre  class="src src-plain"><code trim>$ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+Changes to be committed:
+  (use "git reset HEAD &lt;file&gt;..." to unstage)
+
+        modified:   Programs/python.c
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgb74c48b">
+<h3 id="orgb74c48b">Criação do commit</h3>
+<div class="org-src-container">
+
+<pre  class="src src-plain"><code trim>$ git commit -m "Imprime uma frase encorajadora"
+[master 6604f4a491] Imprime uma frase encorajadora
+1 file changed, 1 insertion(+)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org3813589">
+<h3 id="org3813589">Visualização do índice após o commit</h3>
+<div class="org-src-container">
+
+<pre  class="src src-plain"><code trim>$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org7a4f3d3">
+<h3 id="org7a4f3d3">Índice antes da modificação  (Github Desktop)</h3>
+
+<div class="figure">
+<p><img src="./github-status-before.jpg" alt="github-status-before.jpg">
+</p>
+</div>
+
+</section>
+<section id="slide-orgad56a37">
+<h3 id="orgad56a37">Aplicação de modificação (Github Desktop)</h3>
+
+<div class="figure">
+<p><img src="./github-add-commit-status.jpg" alt="github-add-commit-status.jpg">
+</p>
+</div>
+
+</section>
+<section id="slide-orgbbbb6d0">
+<h3 id="orgbbbb6d0">Visualização de commits (Terminal)</h3>
+<div class="org-src-container">
+
+<pre  class="src src-plain"><code trim>$ git log
+commit c5c4b75a9ea59ddb64c8f1e3a8339db24406eb01 (HEAD -&gt; master)
+Author: Lincoln de Sousa &lt;lincoln@clarete.li&gt;
+Date:   Sat May 16 19:13:51 2020 -0400
+
+    Imprime uma frase encorajadora
+
+commit 837f9e42e3a1ad03b340661afe85e67d2719334f (origin/master, origin/HEAD)
+Author: Christian Heimes &lt;christian@python.org&gt;
+Date:   Sun May 17 01:05:40 2020 +0200
+
+    bpo-40645: Deprecated internal details of hmac.HMAC (GH-20132)
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org3d46e4f">
+<h3 id="org3d46e4f">Visualização de commits (Github Desktop)</h3>
+
+<div class="figure">
+<p><img src="./github-log.jpg" alt="github-log.jpg">
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org4030d87">
+<h2 id="org4030d87">O que são <i>branches</i></h2>
+
+<div class="figure">
+<p><img src="./your-own-branches-2.png" alt="your-own-branches-2.png">
+</p>
+</div>
+
+</section>
+<section id="slide-org9c7b72a">
+<h3 id="org9c7b72a">Criação de nova <i>branch</i></h3>
+<div class="org-src-container">
+
+<pre  class="src src-plain"><code trim>$ git checkout -b outra-branch
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org091e845">
+<h3 id="org091e845">Listagem de <i>branches</i></h3>
+<div class="org-src-container">
+
+<pre  class="src src-plain"><code trim>$ git branch
+* master
+  outra-branch
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org7403b66">
+<h3 id="org7403b66">Alterar a <i>branch</i> atual</h3>
+<div class="org-src-container">
+
+<pre  class="src src-plain"><code trim>$ git checkout outra-branch
+</code></pre>
+</div>
+</section>
+<section id="slide-org5c378ad">
+<h3 id="org5c378ad"><i>Branches</i> no Github Desktop</h3>
+<table>
+
+
+<colgroup>
+<col  class="org-left">
+
+<col  class="org-left">
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><img src="./github-branchlist.jpg" alt="github-branchlist.jpg"></td>
+<td class="org-left"><img src="./github-newbranch.jpg" alt="github-newbranch.jpg"></td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-orgdbd4460">
+<h3 id="orgdbd4460">Diferença entre <i>branches</i> (Terminal)</h3>
+<div class="org-src-container">
+
+<pre  class="src src-diff"><code trim>$ git diff master..HEAD
+<span style="background-color: #737373;">diff --git a/Programs/python.c b/Programs/python.c</span>
+<span style="background-color: #737373;">index 96ce1534cb..bab46be816 100644</span>
+<span style="background-color: #737373;">--- </span><span style="background-color: #999999; font-weight: bold;">a/Programs/python.c</span>
+<span style="background-color: #737373;">+++ </span><span style="background-color: #999999; font-weight: bold;">b/Programs/python.c</span>
+<span style="background-color: #737373;">@@ -12,7 +12,7 @@</span><span style="background-color: #737373;"> wmain(int argc, wchar_t **argv)</span>
+ int
+ main(int argc, char **argv)
+ {
+<span style="color: #fb4933;">-</span><span style="color: #fb4933;">    printf("PYTHON IS FUN\n");</span>
+<span style="color: #b8bb26;">+</span><span style="color: #b8bb26;">    printf("PYTHON IS </span><span style="color: #b8bb26; background-color: #22aa22;">REALLY</span><span style="color: #b8bb26;"> FUN\n");</span>
+     return Py_BytesMain(argc, argv);
+ }
+ #endif
+</code></pre>
+</div>
+</section>
+<section id="slide-org9e01983">
+<h3 id="org9e01983">Diferença entre <i>branches</i> (Github Desktop)</h3>
+
+<div class="figure">
+<p><img src="./github-branch-diff.jpg" alt="github-branch-diff.jpg">
+</p>
+</div>
+</section>
+<section id="slide-orgf27129b">
+<h3 id="orgf27129b"><i>Merge</i> de duas <i>branches</i> (Terminal)</h3>
+<div class="org-src-container">
+
+<pre  class="src src-shell"><code trim>$ git checkout master
+$ git merge outra-branch 
+Updating c5c4b75a9e..0e3ff5def5
+Fast-forward
+Programs/python.c | 2 +-
+ 1 file changed, 1 insertion<span style="color: #458588;">(</span>+<span style="color: #458588;">)</span>, 1 deletion<span style="color: #458588;">(</span>-<span style="color: #458588;">)</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org0c42179">
+<h3 id="org0c42179"><i>Merge</i> de duas <i>branches</i> (Github Desktop)</h3>
+
+<div class="figure">
+<p><img src="./github-merge.jpg" alt="github-merge.jpg">
+</p>
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+hash: true, history: true,
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>

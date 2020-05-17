@@ -1,0 +1,31 @@
+.slides section {
+    text-align: left;
+}
+
+.reveal .slides section:nth-child(1) {
+    text-align: center;
+}
+
+.reveal section img {
+    border: none;
+    box-shadow: none;
+    padding: 60px;
+}
+
+.reveal section .titleimg img {
+    width: 72%;
+}
+
+
+.org-src-container {
+    background: #333;
+    color: #fff;
+}
+.reveal pre {
+    line-height: 1.3em;
+    font-size: 0.5em;
+    box-shadow: none;
+    margin: 0;
+    padding: 20px;
+    width: 100%;
+}
