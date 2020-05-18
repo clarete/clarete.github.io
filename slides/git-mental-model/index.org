@@ -281,6 +281,12 @@ index 96ce1534cb..bab46be816 100644
 
    [[./githubweb-open-pullrequest.jpg]]
 
+* Recaptulando
+  * **Repositórios**: Onde o git guarda todas as versões de um projeto
+  * **/Commits/**: Como se cria uma nova versão dentro de um projeto
+  * **/Branches/**: Permite criar várias modificações ao mesmo tempo
+  * **/Pull Requests/**: Propor alteração a um repositório de outra pessoa
+* Exemplo ao vivo
 * 
 
   #+BEGIN_thanks
