@@ -45,3 +45,19 @@ code {
     list-style: none;
     padding: none:
 }
+
+.recaptulando {
+    color: #666;
+}
+
+.recaptulando ul {
+    list-style: none;
+}
+
+.recaptulando ul li {
+    padding-bottom: 30px;
+}
+
+.recaptulando b {
+    color: #555;
+}
