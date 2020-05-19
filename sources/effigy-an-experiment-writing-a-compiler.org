@@ -41,7 +41,7 @@ compiler.
   That tree will then be traversed and the /bytecode/ will be emitted.
 
   #+BEGIN_centralized
-  [[./overview.png]]
+  [[./effigy-an-experiment-writing-a-compiler-overview.png]]
   #+END_centralized
 
   I'm not talking about a very important phase between the tree
