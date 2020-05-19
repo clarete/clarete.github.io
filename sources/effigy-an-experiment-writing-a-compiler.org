@@ -105,7 +105,7 @@ compiler.
   #+end_src
 
   In that format, lists are considered lists unless their first item
-  is an object of the type ~PrimFun~. In that case, they're seen as
+  is an object rather than a string. In that case, they're seen as
   functions and the rest of the elements in the list are considered
   parameters. That might resemble Lisp's [[https://en.wikipedia.org/wiki/S-expression][S-Expressions]] for some and
   this format is the simplest I found to make the grammar interpreter
@@ -117,7 +117,7 @@ compiler.
   traversed the primitive functions are executed in a top-down
   fashion.  Which means that the function ~oneOrMore~ will receive a
   [[https://en.wikipedia.org/wiki/Thunk][thunk]] of the call to ~range~ with its parameters and execute it
-  multiple times as it can until it fails.
+  until it fails.
 
   When the starting rule is passed to the interpreter, it will either
   execute a matching function directly or defer it to another rule.
@@ -127,7 +127,7 @@ compiler.
 
   Matching Functions:
   * *Any()* - ~.~: Matches any character but fails on ~EOF~;
-  * *Literal(c)* - ~"c"~: Fail if ~c~ doesn't match the character not
+  * *Literal(c)* - ~"c"~: Fail if ~c~ doesn't match the character
     under the input cursor;
   * *Class(c[])* - ~[abcd]~: Fail if none of the elements of ~c[]~
     match the character under the input cursor;
@@ -137,12 +137,12 @@ compiler.
   Parsing Functions:
   * *ZeroOrMore(fn)* - Star Operator (*): Execute ~fn~ indefinitely
     until it fails.  All collected results are returned. It never
-    fails even if zero on the first call
-  * *OneOrMore(fn)* - Plus Operator (+): Execute ~fn~ once and fails
-    if this first call fails. If the first call succeeds, then
-    prepende this result to the output of ~ZeroOrMore(fn)~
-  * *Option(fn)* - Option Operator (?): Return ~fn()~ or ~null~ if the
-    call to ~fn~ fails.
+    fails even if it fails in the first call;
+  * *OneOrMore(fn)* - Plus Operator (+): Execute ~fn~ once failing if
+    this first call fails. If the first call succeeds, then prepend
+    this result to the output of ~ZeroOrMore(fn)~
+  * *Option(fn)* - Option Operator (?): Return the result of ~fn()~ or
+    ~null~ if the call to ~fn~ fails.
   * *Choice(fn[])* - Ordered Choice Operator (/): Iterate over ~fn[]~,
     and return the result of the first function that succeeds. It can
     be seen as an OR operation.
@@ -155,36 +155,39 @@ compiler.
 ** Scanner Interface
 
    Bootstrapping the PEG implementation took the implementation of a
-   built on top of an abstract scanner that
-   implemented all the matching functions and controll the
-   backtracking.
+   recursive parser for grammars built on top of a scanner that
+   implemented all the matching functions and control backtracking.
 
    This is the interface that the matching functions depend:
    * *Scanner(input)*: Constructor that creates a new instance of the
-     scanner taking the input as a parameter.
-   * *Current()*: Return what's under the scanner's cursor
-   * *EOS()*: Determine if the current element is the end of the input
-   * *Error()*: Generates a parsing error
-   * *Expect(input)*: Return the current element if it matches ~input~
-     or throw an error otherwise. Doesn't move input cursor.
-   * *Match(input)*: Return the current element if it matches ~input~
-     and advance the cursor by the size of ~input~.
-   * *Next()*: Advance the input cursor.
+     scanner taking the input as a parameter;
+   * *Current()*: Return what's under the scanner's cursor;
+   * *EOS()*: Determine if the current element is the end of the input;
+   * *Error()*: Generate a parsing error;
+   * *Expect(e)*: Return the current element under the cursor if it
+     matches ~e~ or throw an error otherwise. Doesn't move input
+     cursor;
+   * *Match(e)*: Return the current element under the cursor if it
+     matches ~e~ and advance the cursor by the size of ~e~;
+   * *Next()*: Advance the input cursor;
 
-   Parsing functions ~Choice~ and ~Not~ are also implemented in the
-   scanner because they need direct control over the input cursor in
-   order to backtrack before a new option is attempted. E.g.:
+   The parsing function ~Choice~ is also implemented in the scanner
+   because it needs direct control over the input cursor in order to
+   backtrack before a new option is attempted. E.g.:
 
    #+begin_src js
-     function choice(...parsers) {
+     function choice(...fns) {
        const saved = cursor; // input cursor
-       for (const parser of parsers) {
-         try { return parser(); }
+       for (const fn of fns) {
+         try { return fn(); }
          catch (e) { cursor = saved; } // backtracking
        }
        throw new Error("None of the options matched");
      }
    #+end_src
+
+   The syntactic predicate ~Not~ is implemented in the scanner as well
+   since it also implements backtracking.
 
    With the this scanner interface available, it was possible to write
    a parser for the PEG grammar.  The separation of the scanner
@@ -194,12 +197,10 @@ compiler.
 
 ** Semantic Actions
 
-   It has already been covered that the PEG implementation can collect
-   results beyond matching the input against the grammar.  But on top
-   of collecting the results of each rule and nesting them following
-   the grammar structure, the PEG library also provides a semantic
-   action mechanism that applies custom functions on the results of
-   each rule execution:
+   After collecting the results the parsing rules and nesting them
+   following the grammar's structure, this PEG library also provides a
+   semantic action mechanism that applies custom functions on the
+   results of each rule execution. E.g.:
 
    #+begin_src js
    const semanticActions = {
@@ -209,17 +210,17 @@ compiler.
    assertTrue(parser('42') === 42);
    #+end_src
 
-   One of the effects of infinite look-ahead and the backtrack
-   specifically, the entire input has to be consumed in order to
-   decide if the current results are correct or not. This was explored
-   in depth in the article [[https://ohmlang.github.io/pubs/dls2016/modular-semantic-actions.pdf][Modular Semantic Actions]] and the general
+   One of the effects of the infinite look-ahead, and the backtrack
+   specifically, is that the entire input has to be consumed before
+   deciding if the results are correct or not. This was explored in
+   depth in the article [[https://ohmlang.github.io/pubs/dls2016/modular-semantic-actions.pdf][Modular Semantic Actions]] and the general
    suggestion this implementation followed is that the semantic action
-   traversal will happen after the parsing results have been gathered.
+   traversal will happen after the parsing finishes successfully.
 
 * The Compiler
 
   Now that we covered how the PEG implementation works, we're ready to
-  tackle the core subject: the compilation process!
+  tackle the compilation process itself!
 
 ** Syntax
 
