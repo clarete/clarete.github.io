@@ -229,43 +229,169 @@ compiler.
    associated with that grammar serve mainly the purpose of overcoming
    two shortcomings of the PEG implementation:
 
-   1. Handling left recursion
-   2. Deciding if a result should be wrapped into the name of the rule
-      or not. This is mostly important to prepare the parse tree to be
-      traversed by the translation grammar.
+   1. Handle left recursion
+   2. Decide if a result should be wrapped into the name of its
+      parsing rule
 
-   I did find a great mental model for handling left recursion on
-   PEGs. It's called **Bounded Left Recursion** and is described in
-   depth in the article [[http://www.inf.puc-rio.br/~roberto/docs/sblp2012.pdf][Left Recursion in Parsing Expression Grammars]],
-   but I didn't get to fully implement it, so I put it aside to focus
-   on getting to a working compiler.
+   There are ways to handling left recursion on PEGs. The nicest one I
+   found was via **Bounded Left Recursion**.  That approach is
+   described in depth in the article [[http://www.inf.puc-rio.br/~roberto/docs/sblp2012.pdf][Left Recursion in Parsing
+   Expression Grammars]], but I didn't get to fully implement it, so I
+   put it aside to focus on getting to a working compiler.
 
-   The second problem of making a decision about wrapping results with
-   the rule name could have been fixed by adding a new operator to the
-   grammar language to allow the user defining the gramar to decide
-   which rules should be marked with the rule name, but I chose to
-   keep the complexity on the PEG side manageable and implement that
-   in the compiler since the code I needed to achieve that was simple
-   although a bit verbose.
+   The second problem of wrapping captured values with the rule name
+   or not could have been fixed by adding a new operator to the PEG
+   implementation and resolved at the grammar level. But I chose to
+   just implement that using the semantic actions since the code
+   needed was simple although a bit verbose.  But everything else
+   worked out pretty smoothly. Let's look at an example.
 
-   If you're curious to know how the syntax looks like, it pretty much
-   is the Python syntax replacing the indentation requirements with
-   brackets! I know it might not be exactly humor Python or JavaScript
-   developers but maybe that was my own inside joke. :)
-
-   Here's what fibonacci looks like
+   The following code:
 
    #+begin_src effigy
-   fn fib(n) {
-     if n < 2 return n
-     a = 1; b = 1; f = 0; count = 0
-     while count < n - 2 {
-       f = a + b; a = b; b = f
-       count = count + 1
-     }
-     return f
-   }
+   fn sum(a, b) a + b
+   print(sum(2, 3))
    #+end_src
+
+   Should generate a parse tree similar to this:
+
+   #+begin_src effigy
+   ['Module',
+     [['Statement',
+       ['Function',
+        ['sum',
+         ['Params', [['Param', 'a'], ['Param', 'b']]],
+         ['Code',
+          ['Statement', ['BinOp', ['Load', 'a'], '+', ['Load', 'b']]]]]]],
+      ['Statement',
+       ['Call',
+        [['Load', 'print'],
+         [['Call',
+           [['Load', 'sum' ],
+            [['Value', ['Number', 2]],
+             ['Value', ['Number', 3]]]]]]]]]]]
+   #+end_src
+
+   Notice that ~fn sum(a, b) { return a + b }~ would have generated
+   the same code as ~fn sum(a, b) a + b~.  The grammar of the
+   language, more specific under the ~Code~ rule, accepts either a
+   single statement or a list of statements within curly brackets
+   (~{}~).
+
+** Scope Rules
+
+   Once the parse tree is generated, a symbol table must be built
+   before the /bytecode/ can be generated.  I bet there might be a way
+   of bundling the symbol table and generating the code in a single
+   pass, but that wasn't the route I took.  From this point on, quite
+   a few decisions I made were inspired by the beautiful write up
+   [[https://codewords.recurse.com/issues/seven/dragon-taming-with-tailbiter-a-bytecode-compiler][Dragon taming with Tailbiter, a bytecode compiler for Python]] and
+   that's the route that Darius Bacon took on his experiment.  I
+   highly recommend reading that post since I won't get into too many
+   details about how Python itself woks.
+
+   There are very few scope rules that have to be mapped out by the
+   symbol table traversal. We need to categorize variables into three
+   different types:
+
+   1. Local variables
+   2. Global variables
+   3. Free variables
+
+   Free variables are variables available in the lexical scope that
+   must be available to their users when the scope that declared these
+   variables isn't around anymore.  Let's look at an example:
+
+   #+begin_src effigy
+   fn plus_n(x) fn(y) x + y
+   plus_five = plus_n(5)
+   print(plus_five(2)) # Equals 7
+   #+end_src
+
+   In the example above, ~x~ is "declared" at the scope created by the
+   ~plus_n~ function and must be available when it's summed to ~y~
+   within the scope of the anonymous function.  The variable ~y~ is a
+   local variable since it gets created and destroyed within the same
+   scope, but ~x~ is a free variable.
+
+   Global variables seem to exist in Python for performance reasons
+   only.  The Python interpreter will skip looking up the local scope
+   for names that are only available in the module scope or within the
+   built-in module.
+
+   This stage of the compiler will produce the symbol table and
+   annotate the grammar with the ids of each scope so the next stage
+   can look them up on the symbol table and generate the appropriate
+   /bytecode/ for each type of variable.
+
+   If we translate the above example to effigy
+
+   #+begin_src effigy
+   fn plus_n(x) fn (y) x + y
+   #+end_src
+
+   The annotated parse tree will look like this:
+
+   #+begin_src effigy
+   ['Module',
+     [['Statement',
+       ['Function',
+        [['ScopeId', 2], 'plus_n',
+         ['Params', [['Param', 'x']]],
+         ['Code',
+          ['Statement',
+           ['Lambda',
+            [['ScopeId', 1],
+             ['Params', [['Param', 'y']]],
+             ['Code', ['Statement', ['BinOp', ['Load', 'x'], '+', ['Load', 'y']]]]]]]]]]]]]
+   #+end_src
+
+   The ~ScopeId~ nodes introduced within each scope are used during
+   the compilation process to look up the nth entry within the current
+   scope of the symbol table.  Each scope within the symbol table
+   contains the following fields:
+
+   #+begin_src effigy
+   [{
+     fast: [],     # Local variables
+     deref: [],    # Variables from enclosing scope
+     globals: [],  # Globals/Built-ins
+     children: [{
+       fast: [], deref: [], globals: [], children: []
+     }]
+   }]
+   #+end_src
+
+   One last thing that might be interesting to mention about scopes is
+   that Python tries to figure out if a variable is a free variable by
+   inspecting where it was assigned.  If it was assigned in the same
+   scope that it's being used, it is a local variable.  If it was
+   assigned in an enclosing scope, it is a free variable.  That
+   assumption makes reassigning a free variable requires the [[https://www.python.org/dev/peps/pep-3104/][nonlocal]]
+   keyword to inform the Python compiler that a given assignment isn't
+   local.
+
+   I chose a slightly different way to allow reassigning free
+   variables from enclosing scopes.  Effigy uses the ~let~ key word to
+   mark the variable as a free variable in the outer scope:
+
+   #+begin_src effigy
+   fn f(input) {
+     let c = 0
+     fn next() {
+       value = input[c]
+       c = c + 1
+       return value
+     }
+     return next
+   }
+   cursor = f("word")
+   print(cursor()) # will print "w"
+   print(cursor()) # will print "o"
+   #+end_src
+
+   I haven't used Effigy enough to know if that was a good choice
+   though :)
 
 ** Translation (Assembly)
 
