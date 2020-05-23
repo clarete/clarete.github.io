@@ -294,6 +294,7 @@ index 96ce1534cb..bab46be816 100644
   #+BEGIN_thanks
   [[../../media/img/8bitme.svg]]
 
+  * lincoln@clarete.li
   * https://clarete.li
   * https://github.com/clarete
   * Obrigada!
