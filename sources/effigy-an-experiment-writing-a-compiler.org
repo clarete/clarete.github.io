@@ -24,7 +24,7 @@ pursue deeper understanding on each step of the compilation process.
 
 Production ready compilers can have a whole lot of different phases
 and components. But today I want to share the design of [[https://github.com/clarete/effigy][Effigy]], a
-little toy compiler I wrote that target the Python Virtual Machine.
+little toy compiler I wrote that targets the Python Virtual Machine.
 
 #+BEGIN_note
 *Note*: Maybe there's some confusion between what are scripting
@@ -222,12 +222,15 @@ compiler.
   Now that we covered how the PEG implementation works, we're ready to
   tackle the compilation process itself!
 
-** Syntax
+** Parsing the program text
 
-   The first stage of the compiler [[https://github.com/clarete/effigy/blob/master/lang.peg][is a PEG grammar]] that generates the
-   parse tree off the syntax I made up.  The semantic actions
-   associated with that grammar serve mainly the purpose of overcoming
-   two shortcomings of the PEG implementation:
+   The first stage of the compiler [[https://github.com/clarete/effigy/blob/master/lang.peg][is a PEG grammar]] that scan and
+   parse the program text and generate an [[https://en.wikipedia.org/wiki/Abstract_syntax_tree][Abstract Syntax Tree]] (or AST
+   for short) off the syntax I made up.  The semantic actions
+   associated with that grammar will join lists of characters into
+   words, convert lists of digits into numbers, make the shape of the
+   AST less verbose and easier to be traversed and lastly help
+   overcoming two shortcomings of the PEG implementation:
 
    1. Handle left recursion
    2. Decide if a result should be wrapped into the name of its
@@ -253,7 +256,7 @@ compiler.
    print(sum(2, 3))
    #+end_src
 
-   Should generate a parse tree similar to this:
+   should generate the following AST:
 
    #+begin_src effigy
    ['Module',
@@ -262,7 +265,8 @@ compiler.
         ['sum',
          ['Params', [['Param', 'a'], ['Param', 'b']]],
          ['Code',
-          ['Statement', ['BinOp', ['Load', 'a'], '+', ['Load', 'b']]]]]]],
+          ['Statement',
+           ['BinOp', ['Load', 'a'], '+', ['Load', 'b']]]]]]],
       ['Statement',
        ['Call',
         [['Load', 'print'],
@@ -272,35 +276,22 @@ compiler.
              ['Value', ['Number', 3]]]]]]]]]]]
    #+end_src
 
-   Notice that ~fn sum(a, b) { return a + b }~ would have generated
-   the same code as ~fn sum(a, b) a + b~.  The grammar of the
-   language, more specific under the ~Code~ rule, accepts either a
-   single statement or a list of statements within curly brackets
-   (~{}~).
+   Notice that ~fn sum(a, b) { return a + b }~ outputs the same tree
+   as ~fn sum(a, b) a + b~.  Code blocks accept either a single
+   statement or a list of statements within curly brackets (~{}~).
 
-** Scope Rules
+** Mapping out scope rules
 
-   Once the parse tree is generated, a symbol table must be built
-   before the /bytecode/ can be generated.  I bet there might be a way
-   of bundling the symbol table and generating the code in a single
-   pass, but that wasn't the route I took.  From this point on, quite
-   a few decisions I made were inspired by the beautiful write up
-   [[https://codewords.recurse.com/issues/seven/dragon-taming-with-tailbiter-a-bytecode-compiler][Dragon taming with Tailbiter, a bytecode compiler for Python]] and
-   that's the route that Darius Bacon took on his experiment.  I
-   highly recommend reading that post since I won't get into too many
-   details about how Python itself woks.
-
-   There are very few scope rules that have to be mapped out by the
-   symbol table traversal. We need to categorize variables into three
-   different types:
+   After generating the AST during the text parsing phase, we need to
+   go through an aditional step before translating the tree into
+   /bytecode/.  The scope of every variable needs to be mapped into
+   three categories:
 
    1. Local variables
    2. Global variables
    3. Free variables
 
-   Free variables are variables available in the lexical scope that
-   must be available to their users when the scope that declared these
-   variables isn't around anymore.  Let's look at an example:
+   Let's look at the following code snippet to talk about it:
 
    #+begin_src effigy
    fn plus_n(x) fn(y) x + y
@@ -308,29 +299,35 @@ compiler.
    print(plus_five(2)) # Equals 7
    #+end_src
 
-   In the example above, ~x~ is "declared" at the scope created by the
+   In the example above, ~x~ is declared at the scope created by the
    ~plus_n~ function and must be available when it's summed to ~y~
    within the scope of the anonymous function.  The variable ~y~ is a
    local variable since it gets created and destroyed within the same
    scope, but ~x~ is a free variable.
 
+   Free variables are variables available in the lexical scope that
+   must be kept around to be used when the scope that declared these
+   variables isn't around anymore.
+
    Global variables seem to exist in Python for performance reasons
    only.  The Python interpreter will skip looking up the local scope
    for names that are only available in the module scope or within the
-   built-in module.
+   built-in module, like the name ~print~ in the example above.
 
-   This stage of the compiler will produce the symbol table and
-   annotate the grammar with the ids of each scope so the next stage
-   can look them up on the symbol table and generate the appropriate
-   /bytecode/ for each type of variable.
+   The process of mapping variables into the aforementioned categories
+   is done by traversing the AST using a [[https://github.com/clarete/effigy/blob/master/lang.tr][second PEG grammar]] for
+   parsing lists instead of characters.  During that process, a symbol
+   table is built and the AST is annotated with information that will
+   allow the translation phase to look up each variable in the symbol
+   table.
 
-   If we translate the above example to effigy
+   The following effigy code snippet
 
    #+begin_src effigy
    fn plus_n(x) fn (y) x + y
    #+end_src
 
-   The annotated parse tree will look like this:
+   will generate an annotated AST that looks like this:
 
    #+begin_src effigy
    ['Module',
@@ -343,13 +340,16 @@ compiler.
            ['Lambda',
             [['ScopeId', 1],
              ['Params', [['Param', 'y']]],
-             ['Code', ['Statement', ['BinOp', ['Load', 'x'], '+', ['Load', 'y']]]]]]]]]]]]]
+             ['Code',
+              ['Statement',
+               ['BinOp',
+                ['Load', 'x'], '+', ['Load', 'y']]]]]]]]]]]]]
    #+end_src
 
    The ~ScopeId~ nodes introduced within each scope are used during
    the compilation process to look up the nth entry within the current
-   scope of the symbol table.  Each scope within the symbol table
-   contains the following fields:
+   scope of the symbol table.  Here's a simplified view of the list of
+   fields a symbol table contains:
 
    #+begin_src effigy
    [{
@@ -364,16 +364,16 @@ compiler.
 
    One last thing that might be interesting to mention about scopes is
    that Python tries to figure out if a variable is a free variable by
-   inspecting where it was assigned.  If it was assigned in the same
-   scope that it's being used, it is a local variable.  If it was
-   assigned in an enclosing scope, it is a free variable.  That
-   assumption makes reassigning a free variable requires the [[https://www.python.org/dev/peps/pep-3104/][nonlocal]]
-   keyword to inform the Python compiler that a given assignment isn't
-   local.
+   comparing where it was assigned and where it was used.  If it was
+   assigned in the same scope that it's being used, it is a local
+   variable.  If it was assigned in an enclosing scope, it is a free
+   variable.  That, if one needs to reassign a free variable, the
+   [[https://www.python.org/dev/peps/pep-3104/][nonlocal]] keyword is required to inform the Python compiler that a
+   it the assignment isn't local.
 
    I chose a slightly different way to allow reassigning free
-   variables from enclosing scopes.  Effigy uses the ~let~ key word to
-   mark the variable as a free variable in the outer scope:
+   variables from enclosing scopes.  Effigy uses the ~let~ keyword to
+   mark variables as free variables at the outer scope:
 
    #+begin_src effigy
    fn f(input) {
