@@ -404,31 +404,89 @@ compiler.
    I haven't used Effigy enough to know if that was a good choice
    though :)
 
-** Translation (Assembly)
+   I bet there might be a way of bundling the symbol table and
+   generating the code in a single pass, but that wasn't the route I
+   took.  From this point on, quite a few decisions I made were
+   inspired by the beautiful write up [[https://codewords.recurse.com/issues/seven/dragon-taming-with-tailbiter-a-bytecode-compiler][Dragon taming with Tailbiter, a
+   bytecode compiler for Python]] and that's the route that Darius Bacon
+   took on his experiment.  I highly recommend reading that post. It's
+   enlightening and might help understanding the rest of this post
+   since I won't get into too many details about how Python itself
+   woks.
 
-   Once the parse tree is left in a good enough shape by the syntax
-   stage, it is ready to be fed into [[https://github.com/clarete/effigy/blob/master/lang.tr][the second PEG grammar]] that will
-   drive the compiler to generate the Python program.  This is where
-   things become less about any compiler and more about how itself
-   Python works.
+** Generation of Python programs
 
-   The translation from the parse tree to /bytecode/ was done in a two
-   step process:
+   Once the AST is annotated by the scope traversal step, it is ready
+   to be fed once again into the [[https://github.com/clarete/effigy/blob/master/lang.tr][second PEG grammar]] to be traversed
+   once more, but now with the intent of driving the assembler to
+   generate the final Python program.  In this step, the functions in
+   Effigy are assembled into [[https://docs.python.org/3.7/library/dis.html#python-bytecode-instructions][/bytecode/ instructions]] and bundled into
+   [[https://docs.python.org/3/c-api/code.html][Code objects]].
 
-   1. Build the symbol table.  Before the compiler can emit any code,
-      it must first determine the scope of each variable. In Python
-      they can be either local (declared within the function), global
-      (defined in the main scope of a module) or bound to the lexical
-      scope (closures).
+   Instances of Code objects store the /bytecode/ with instructions
+   within the ~co_code~ attribute. Besides the code itself, there is a
+   lot of metadata, like the number of arguments a function receives
+   (~co_argcount~, ~co_posonlyargcount~ and ~co_kwonlyargcount~), the
+   number of local variables (~co_nlocals~).  The other very important
+   data Code objects store is tables with values. There's one for
+   constants like integers and literal strings (~co_consts~), one for
+   local variables (~co_varnames~), one for free variables
+   (~co_freevars~) and one for global variables (~co_names~).
 
-   2. Traverse the annotated tree and use the assembler to emit the
-      actual /bytecode/.  This step depends on the annotations left by
-      the syntax stage to determine how to write and read from
-      variables.
+   All these tables are indexed with integers and have one single data
+   type within them: ~PyObject~.  And since functions themselves are
+   instances of classes that inherit from ~PyObject~, Code object is a
+   recursive data type.
 
-   Building the symbol table 
+   This last phase of the compiler is also responsible for inserting
+   data into the values tables.  Most of the information comes from
+   the symbol table built in the previous step.
 
-   The assembler exposes a simple interface
+   When the compiler enters a new scope, a Code object instance is
+   created.  When the compiler leaves that scope, the Code object
+   instance is returned and bundled within the outer scope, up until
+   the module scope which is the top one, and just gets returned to
+   be written as binary data into a file.
+
+** Code Generation
+
+   Generating the assembly code for filling in the ~co_code~
+   attributes of Code objects is certainly the biggest task performed
+   by the compiler.  Let's take a look at how the compiler would
+   generate code for the following expression ~2 + 3 * 4~.
+
+   First the following AST is generated:
+
+   #+begin_src effigy
+   ['Module',
+    ['Statement',
+     ['BinOp',
+      ['Value', ['Number', 2]],
+      '+',
+      ['BinOp',
+       ['Value', ['Number', 3]],
+       '*',
+       ['Value', ['Number', 4]]]]]]
+   #+end_src
+
+   When the translation phase takes the above tree as input, it will
+   need to do generate the following code:
+
+   #+begin_src effigy
+   {
+     constants: [2, 3, 4, null],
+     instructions: [
+       ['load-const', 0],
+       ['load-const', 1],
+       ['load-const', 2],
+       ['binary-multiply'],
+       ['binary-add'],
+       ['pop-top'],
+       ['load-const', 3],
+       ['return-value'],
+     ]
+   }
+   #+end_src
 
   * enter
   * leave
