@@ -353,11 +353,22 @@ compiler.
 
    #+begin_src effigy
    [{
-     fast: [],     # Local variables
-     deref: [],    # Variables from enclosing scope
-     globals: [],  # Globals/Built-ins
+     node: 'module',
+     fast: [],
+     deref: [],
+     globals: [],
      children: [{
-       fast: [], deref: [], globals: [], children: []
+       node: 'function',
+       fast: [],
+       deref: ['x'],
+       globals: [],
+       children: [{
+         node: 'lambda',
+         fast: ['y'],
+         deref: ['x'],
+         globals: [],
+         children: []
+       }]
      }]
    }]
    #+end_src
