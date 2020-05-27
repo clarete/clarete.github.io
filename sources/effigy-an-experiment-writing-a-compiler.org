@@ -416,84 +416,163 @@ Digit <- [0-9]+
    of this post since I won't get into too many details about how
    Python itself woks.
 
-** Generation of Python programs
+** Output format
 
    Once the AST is annotated by the scope traversal step, it is ready
-   to be fed once again into the [[https://github.com/clarete/effigy/blob/master/lang.tr][second PEG grammar]] and to be
-   traversed once more, but now with the intent of driving the
-   assembler to generate the final Python program.  In this step, the
-   functions (and modules) in Effigy are assembled into [[https://docs.python.org/3.7/library/dis.html#python-bytecode-instructions][/bytecode/
-   instructions]] and bundled into [[https://docs.python.org/3/c-api/code.html][Code objects]].
+   to be fed once again into the [[https://github.com/clarete/effigy/blob/master/lang.tr][second PEG grammar]] to be traversed
+   once more, but now with the intent of driving the assembler to
+   generate code.  In this step, the functions (and modules) in Effigy
+   are assembled into [[https://docs.python.org/3.7/library/dis.html#python-bytecode-instructions][/bytecode/ instructions]] and bundled into [[https://docs.python.org/3/c-api/code.html][Code
+   objects]].
 
-   Instances of Code objects store the /bytecode/ within the ~co_code~
-   attribute and metadata, like the number of arguments a function
-   receives (~co_argcount~) and the number of local variables
-   (~co_nlocals~).  The other very important data Code objects store
-   is tables with values.  There's one for literal values
-   (~co_consts~), one for local variables (~co_varnames~), one for
-   free variables (~co_freevars~) and one for global variables
-   (~co_names~).
+   Instances of Code objects store /bytecode/ within the ~co_code~
+   attribute.  They also store metadata, like the number of arguments
+   a function receives (~co_argcount~) or the number of local
+   variables (~co_nlocals~) for example.  The other very important
+   data Code objects store is tables with values.  There's one table
+   for literal values (~co_consts~), one for local variables
+   (~co_varnames~), one for free variables (~co_freevars~) and one for
+   global variables (~co_names~).
 
    All these tables are indexed with integers and carry ~PyObject~
    instances within them.  And since functions themselves are inherit
    from ~PyObject~, Code object is a recursive data type.
 
-   This last traversal of the compiler is also responsible for
-   inserting data into the values tables.  Most of the information
-   comes from the symbol table built in the previous step.
-
    When the compiler enters a new scope, a Code object instance is
-   created.  When the compiler leaves that scope, the Code object
-   instance is returned and bundled within the outer Code object, up
-   until the module scope, which is the top one. When that happens, it
-   is written as binary data into a file.
+   created, code is generated and tables are filled with data. When
+   the compiler leaves that scope, the Code object instance is
+   returned and bundled within the outer Code object, up until the
+   module scope, which is the top one. When that happens, it is
+   written as binary data into a ~.pyc~.
+
+   The actual code is prefixed with a header that contains the
+   following 32 bit fields:
+
+   * magic number
+   * [[https://www.python.org/dev/peps/pep-0552/][PEP-552]] field (Allows deterministic builds of ~pyc~ files)
+   * Modified Date
+   * File Size
 
 ** Code Generation
 
    Generating the assembly code for filling in the ~co_code~
    attributes of Code objects is certainly the biggest task performed
    by the compiler.  Let's take a look at how the compiler would
-   generate code for the following expression ~2 + 3 * 4~.
+   generate code for the following expression ~result = 2 + 3 * 4~.
 
    First the following AST is generated:
 
    #+begin_src effigy
    ['Module',
-    ['Statement',
-     ['BinOp',
-      ['Value', ['Number', 2]],
-      '+',
-      ['BinOp',
-       ['Value', ['Number', 3]],
-       '*',
-       ['Value', ['Number', 4]]]]]]
+     ['Statement',
+      ['Assignment',
+       [['BinOp',
+         ['Value', ['Number', 2]],
+         '+',
+         ['BinOp',
+          ['Value', ['Number', 3]],
+          '*',
+          ['Value', ['Number', 4]]]],
+        ['Store', 'result']]]]]
    #+end_src
 
    When the translation phase takes the above tree as input, it will
-   need to do generate the following code:
+   need to do generate the following Code object:
 
    #+begin_src effigy
    {
      constants: [2, 3, 4, null],
+     names: ['result'],
      instructions: [
        ['load-const', 0],
        ['load-const', 1],
        ['load-const', 2],
        ['binary-multiply'],
        ['binary-add'],
-       ['pop-top'],
+       ['store-name', 0],
        ['load-const', 3],
-       ['return-value'],
-     ]
+       ['return-value']
+     ],
    }
    #+end_src
 
-  * enter
-  * leave
-  * emit
-  * attr
-  * ref
-  * pos
-  * fix
+   Notice that the ~load-const~ instructions have an index of the
+   ~constants~ table as their parameter.  That's how the Python
+   Virtual Machine figures out which constant is being referred and
+   what value to push to the stack.  The ~binary-multiply~ and
+   ~binary-add~ will pop data from the stack, perform their respective
+   operations, and then push the result back to the stack.  Then,
+   ~store-name~ will pop the value left by ~binary-add~ off the stack
+   and save it into the variable referenced in the ~names~ table.  The
+   last ~load-const~ is there because all Code objects must return.
+   And when a return statement isn't explicitly provided, ~null~
+   (which represents Python's ~None~) is returned.
+
+   #+BEGIN_note
+   If you want to check out all the other cases that effigy can
+   handle, [[https://github.com/clarete/effigy/blob/master/spec/lang.spec.js][check out the specs]] I wrote while I was putting the
+   compiler together.
+   #+END_note
+
+   It's interesting to mention that the semantic actions for values
+   that interact with the values tables in the Code object have two
+   jobs.  They have to either save or load values from the tables and
+   also emit instructions.  The semantic action for the ~Number~ nodes
+   is a good example to shown how it's done:
+
+   #+begin_src js
+   {
+     Number: ({ visit }) => {
+       // Visit the actual value to join the digits and convert to a
+       // JavaScript integer
+       const value = visit()[1];
+       // Push the value to the constants table
+       constants.push(value);
+       // Emit the instruction with the index of the constant as the
+       // parameter to the instruction
+       emit('load-const', constants.length);
+     }
+   }
+   #+end_src
+
+** Assemble binary data
+
+   Besides emitting instructions, the assembler had to support
+   back-patching of values that were not known ahead of time.  Three
+   little functions on the assembler's interface allowed that to
+   happen:
+
+   * ~pos()~: Return the index of the current instruction;
+   * ~ref()~: Push the index of the current instruction to a list of
+     labels and return the index of the label;
+   * ~fix(label, value)~: Replace the instruction within ~label~ with
+     ~value~.
+
+   For the sake of completion, here are the other functions that
+   comprise the assembler's interface (already mentioned on previous
+   sections):
+
+   * ~enter()~: Enter a new scope, creating a new Code object
+     instance;
+   * ~leave()~: Return the Code object built for the current scope and
+     set the enclosing scope as the current one;
+   * ~emit(opcode, argument)~: Append
+   * ~attr(name, value=undefined)~: Helper function for reading or
+     writing a value to one of the values tables of the current scope;
+
+   To not have to deal with binary code the whole time I worked on
+   this toy, I defined a very simple interface for an assembler and
+   used a dummy implementation used for debug purposes that contained
+   actual JavaScript lists, strings and numbers instead of binary
+   data.
+
+   After validating that the code generation produced what I intended,
+   I just swapped assemblers and used the one that actually knew how
+   to marshal JavaScript objects into the format that the Python
+   Virtual Machine could understand.
+
+   The part of the assembler that really matters is mostly a ripoff of
+   the code under [[https://github.com/python/cpython/blob/3.7/Python/marshal.c][Python/marshal.c]], I basically just translated it to
+   JavaScript.
 
 * Final Thoughts
