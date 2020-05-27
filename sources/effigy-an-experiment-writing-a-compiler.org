@@ -157,6 +157,12 @@ Number <- [0-9]+
     succeeds;
   * *And(fn)* - ~&~: The opposite of *Not* or ~Not(Not(fn))~;
 
+  List Parsing Function:
+
+  * *Open()* - ~{~: Return true if the element under the cursor is a
+    list;
+  * *Close()* - ~}~: Return true if the currently open list has ended
+
 ** Scanner Interface
 
    The parser that implements the PEG interface listed above is built
