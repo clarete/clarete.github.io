@@ -161,13 +161,18 @@ Digit <- [0-9]+
    backtrack before a new option is attempted. E.g.:
 
    #+begin_src js
-   // JavaScript
+   // Part of the JavaScript API that implements the scanner
    function choice(...fns) {
      const saved = cursor; // input cursor
      for (const fn of fns) {
+       // Once an alternative succeeds, all the other ones are
+       // discarded.
        try { return fn(); }
-       catch (e) { cursor = saved; } // backtracking
+       // If an alternative fails, the cursor is backtracked to
+       // where it was in the beginning of the choice operation.
+       catch (e) { cursor = saved; }
      }
+     // If no alternatives succeed, the choice operation fails.
      throw new Error("None of the options matched");
    }
    #+end_src
@@ -191,12 +196,21 @@ Digit <- [0-9]+
    execution. E.g.:
 
    #+begin_src js
-   // JavaScript
-   const semanticActions = {
-     D: ({ visit }) => parseInt(visit().join(''), 10),
-   };
-   const parser = peg.pegc('D <- [0-9]+').bind(semanticActions);
-   assertTrue(parser('42') === 42);
+   // JavaScript API for compiling a grammar and binding semantic actions
+   // to the generated parser
+   const parser = peg.pegc('Digit <- [0-9]+').bind({
+     // The name of the action must correspond to the name of the rule
+     // present in the grammar string.  The function `visit` gives the
+     // control over when the child nodes will be visited.  That allows
+     // executing code before and after visiting happens.  This is very
+     // useful during the code generation step on the compiler.
+     Digit: ({ visit }) => parseInt(visit().join(''), 10),
+   });
+
+   // The parser that is generated from compiling the grammar applies the
+   // semantic actions after matching the results successfully
+   const parsed = parser('42')
+   assertTrue(parsed === 42);
    #+end_src
 
    One of the effects of the infinite look-ahead, and the backtrack
