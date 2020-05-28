@@ -40,7 +40,7 @@
 
 (defun local-blog-preamble (_plist)
   "Header (or preamble) for the blog."
-  (read-file-contents (relative-to-script "layout/header.html")))
+  (read-file-contents (relative-to-script "layout/navbar.html")))
 
 (defun local-blog-postamble (_plist)
   "Footer (or postamble) for the blog."
