@@ -80,7 +80,7 @@ Virtual Machine.  Without further ado, let's see how it works!
   grammar:
 
   #+begin_src peg
-Decimal <- [0-9]+
+  Decimal <- [0-9]+
   #+end_src
 
   yields the following grammar tree:
@@ -102,9 +102,9 @@ Decimal <- [0-9]+
   well.
 
   In the example above, the grammar interpreter starts from the first
-  rule of the grammar, ~Digit~, that triggers the function ~oneOrMore~
-  with a [[https://en.wikipedia.org/wiki/Thunk][thunk]] of ~range~ with its parameters and execute it until it
-  fails.
+  rule of the grammar, ~Decimal~, that triggers the function
+  ~oneOrMore~ with a [[https://en.wikipedia.org/wiki/Thunk][thunk]] of ~range~ with its parameters and execute
+  it until it fails.
 
   The grammar interpreter keeps the cursor of the input as an internal
   field that increments when the character under the cursor matches
@@ -119,8 +119,8 @@ Decimal <- [0-9]+
   syntax:
 
   #+begin_src peg
-Start  <- Number !.
-Number <- [0-9]+
+  Start  <- Number !.
+  Number <- [0-9]+
   #+end_src
 
   The expression ~!.~ (or Not Any) only succeeds if ~EOF~ has been
