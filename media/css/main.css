@@ -2,16 +2,30 @@ body {
     padding: 0px;
     margin: 0px;
     font-family: Helvetica, Arial, sans-serif;
-    font-size: 14pt;
+    font-size: 16pt;
     line-height: 32px;
 }
 
 h1, h2, h3, h4, h5 {
     padding: 0;
-    margin-top: 50px;
+    margin-top: 60px;
     color: #000;
 }
 
+h1 {
+    font-size: 55px;
+    line-height: 1.1em;
+}
+
+h2 {
+    font-size: 40px;
+    line-height: 1.1em;
+}
+
+h3 {
+    font-size: 30px;
+    line-height: 1.1em;
+}
 
 .container {
     width: calc(60% - 100px);
@@ -94,7 +108,7 @@ h1, h2, h3, h4, h5 {
 
 .post {
     font-family: 'Quicksand', sans-serif;
-    font-size: 14pt;
+    font-size: 16pt;
     display: block;
     min-height: 70vh;
 }
@@ -105,8 +119,12 @@ h1, h2, h3, h4, h5 {
 }
 
 ul.posts {
-    list-style: none;
-    padding: 0px;
+    color: #d14;
+    padding-left: 20px;
+}
+
+ul.posts li {
+    padding-bottom: 20px;
 }
 
 ul.posts a {
@@ -120,6 +138,11 @@ ul.posts a:hover {
 ul.posts span.date {
     text-align: right;
     padding-right: 5px;
+}
+
+ul.posts .comment {
+    padding-top: 10px;
+    color: #666;
 }
 
 .footer {
@@ -144,7 +167,7 @@ ul.posts span.date {
     padding: 10px 150px;
     margin: auto auto;
     font-family: 'Quicksand', sans-serif;
-    font-size: 14pt;
+    font-size: 16pt;
     color: #333;
 }
 #content h1 span.subtitle {
@@ -168,9 +191,11 @@ code {
 .org-src-container {
     background-color: #282828;
     color: #fff;
-    overflow-x: scroll;
+    overflow-x: auto;
     padding: 0 20px;
     border-radius: 10px;
+    margin: 20px 0;
+    line-height: 1.3;
 }
 
 /* Mobile stuff */
@@ -178,15 +203,38 @@ code {
     h1 {
         margin-top: 20px;
     }
-    .container {
-        width: 100%;
-        padding: 10px;
-    }
     .social .badges {
         padding: 0 20px 0 0;
     }
+    .container,
     #content, .container {
         width: 90%;
         padding: 10px;
     }
+}
+
+@media (min-width: 480px) and (max-width: 1000px) {
+    #content, .container,
+    .container {
+        width: 80%;
+        padding: 10px;
+    }
+}
+
+/* Blocks */
+
+.note {
+    background-color: #efe;
+    padding: 5px 25px;
+    border-radius: 10px;
+}
+
+.centralized img {
+    margin: 50px 0;
+    display: block;
+}
+
+.email_link {
+    text-align: center;
+    font-size: 35px;
 }
