@@ -146,8 +146,18 @@ ul.posts .comment {
 }
 
 .footer {
-    background: #fc0;
     margin: 0;
+}
+
+.footer .email-link {
+    text-align: center;
+    font-size: 30px;
+    color: #666;
+    padding: 40px 0;
+}
+
+.footer .bg {
+    background: #fc0;
     padding: 40px 0;
 }
 
@@ -232,9 +242,4 @@ code {
 .centralized img {
     margin: 50px 0;
     display: block;
-}
-
-.email_link {
-    text-align: center;
-    font-size: 35px;
 }
