@@ -1,4 +1,5 @@
 #+TITLE: Starting a blog
+#+DATE: <2020-04-26>
 
 I've tried blogging before. All the attempts ended up following a very
 similar pattern: Took me a veeeery long time to write a single post
