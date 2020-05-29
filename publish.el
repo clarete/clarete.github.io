@@ -46,7 +46,7 @@
   "Footer (or postamble) for the blog."
   (read-file-contents (relative-to-script "layout/footer.html")))
 
-(defun local-blog-sitemap-format-entry (entry style project)
+(defun lc/blog/rss/sitemap-format-entry (entry style project)
   "Format ENTRY for the RSS feed.
 ENTRY is a file name.  STYLE is either 'list' or 'tree'.
 PROJECT is the current project."
@@ -59,6 +59,7 @@ PROJECT is the current project."
              (insert (format "* %s\n" title))
              (org-set-property "TITLE" title)
              (org-set-property "RSS_PERMALINK" link)
+             (org-set-property "DATE" date)
              (org-set-property "PUBDATE" date)
              (insert-file-contents file)
              (buffer-string))))
@@ -67,14 +68,14 @@ PROJECT is the current project."
          (file-name-nondirectory (directory-file-name entry)))
         (t entry)))
 
-(defun local-blog-sitemap-function (title list)
+(defun lc/blog/rss/sitemap-function (title list)
   "Generate RSS feed, as a string.
 
 TITLE is the title of the RSS feed.  LIST is an internal
 representation for the files to include, as returned by
 `org-list-to-lisp'.  PROJECT is the current project."
-  (message "FILES : %s" (length list))
-  (concat "#+TITLE: " title "\n\n" (org-list-to-subtree list nil '(:icount "" :istart ""))))
+  (concat "#+TITLE: " title "\n\n"
+          (org-list-to-subtree list nil '(:icount "" :istart ""))))
 
 (defun local-blog-rss-publish-to-rss (plist filename pub-dir)
   "Publish RSS with PLIST, only when FILENAME is 'rss.org'.
@@ -125,23 +126,44 @@ PUB-DIR the output directory."
          "<link rel=\"icon\" type=\"image/png\" href=\"/media/img/8bitme.png\" />"
          "<link rel=\"alternate\" type=\"application/rss+xml\" href=\"blog/rss.xml\" />")
 
+        ;; Control where the cache is kept, it can be kept in sync
+        ;; with .gitignore
         org-publish-timestamp-directory ".cache/"
+
+        ;; List of stuff to be published
         org-publish-project-alist
         `(("blog" :components ("blog-posts" "blog-static" "blog-rss"))
           ("blog-posts"
+           ;; I want to style the whole thing myself. Years working
+           ;; with CSS MUST pay off at some point!
            :html-head-include-default-style nil
-           :base-directory ,base-dir
-           :publishing-directory ,pub-dir
-           :section-numbers nil
-           :table-of-contents nil
-           :recursive t
-           :publishing-function local-blog-publish
-           :auto-preamble t
+           ; :auto-preamble t
+           ;; Functions to insert the partial layout pieces I have
            :html-preamble local-blog-preamble
            :html-postamble local-blog-postamble
+           ;; Override the default function to tweak the HTML it
+           ;; generates
+           :publishing-function local-blog-publish
+           ;; The `sources` directory
+           :base-directory ,base-dir
+           ;; The `blog` directory
+           :publishing-directory ,pub-dir
+           ;; Configure output options
+           :section-numbers nil
+           :table-of-contents nil
            :headline-levels 4
-           )
+           ;; Although all the posts are in the same directory, I
+           ;; might have subdirectories with assets
+           :recursive t
+           :exclude "rss.org"
+           :auto-sitemap t
+           :sitemap-filename "index.org"
+           :sitemap-title "Hi! I'm Lincoln"
+           :sitemap-sort-files anti-chronologically
+           :sitemap-file-entry-format "%d - %t"
+           :with-date t)
 
+          ;; Static asset collection and publishing
           ("blog-static"
            :base-directory ,base-dir
            :publishing-directory ,pub-dir
@@ -152,6 +174,8 @@ PUB-DIR the output directory."
 
           ("blog-rss"
            :base-directory ,base-dir
+           :exclude ,(regexp-opt '("rss.org" "index.org" "404.org"))
+           :recursive nil
            :base-extension "org"
            :rss-extension "xml"
            :rss-feed-url: "https://clarete.li/blog/rss.xml"
@@ -163,14 +187,12 @@ PUB-DIR the output directory."
            :sitemap-title "Lincoln Clarete"
            :sitemap-style list
            :sitemap-sort-files anti-chronologically
-           :sitemap-format-entry local-blog-sitemap-format-entry
-           :sitemap-function local-blog-sitemap-function
+           :sitemap-format-entry lc/blog/rss/sitemap-format-entry
+           :sitemap-function lc/blog/rss/sitemap-function
            :publishing-function local-blog-rss-publish-to-rss
            :publishing-directory ,pub-dir
-           :include ("rss.org")
            :section-numbers nil
-           :table-of-contents nil)
-          )))
+           :table-of-contents nil))))
 
 ;(org-publish-project "blog")
 
