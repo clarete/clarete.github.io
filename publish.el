@@ -159,6 +159,24 @@ to the post file."
       (plist-put project :subtitle (lc/blog/post/date-subtitle file project))
       (org-html-publish-to-html project file (lc/blog/post/output-path file project pub-dir)))))
 
+(defun lc/blog/link-img-follow (path)
+  "Retrieve image at PATH from the media directory."
+  (expand-file-name path (lc/blog/file-path "media/blogimg")))
+
+(defun lc/blog/link-img-export (path desc backend)
+  "Custom image export.
+
+Export image at PATH and generate link with DESC only when it
+matches BACKEND."
+  (cond
+   ((eq backend 'html)
+    (format "<img src=\"/media/blogimg/%s\" alt=\"%s\"/>" path (or desc path)))))
+
+(org-link-set-parameters
+ "blogimg"
+ :follow 'lc/blog/link-img-follow
+ :export 'lc/blog/link-img-export)
+
 ;; This is where we set all the variables and link to all the
 ;; functions we created so far and finally call `org-publish-project'
 ;; in the end.
@@ -189,7 +207,7 @@ to the post file."
 
         ;; List of stuff to be published
         org-publish-project-alist
-        `(("blog" :components ("blog-posts" "blog-static" "blog-rss"))
+        `(("blog" :components ("blog-posts" "blog-rss"))
           ("blog-posts"
            ;; I want to style the whole thing myself. Years working
            ;; with CSS MUST pay off at some point!
@@ -220,14 +238,6 @@ to the post file."
            :sitemap-format-entry lc/blog/post/sitemap-format-entry
            :sitemap-function lc/blog/post/sitemap-default
            :with-date t)
-
-          ;; Static asset collection and publishing
-          ("blog-static"
-           :base-directory ,media-dir
-           :publishing-directory ,media-dir
-           :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf"
-           :recursive t
-           :publishing-function org-publish-attachment)
 
           ;; Generate RSS feed
           ("blog-rss"
