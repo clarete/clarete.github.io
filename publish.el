@@ -123,6 +123,7 @@ posts."
   (concat "#+TITLE: " title "\n\n"
           (lc/blog/file-contents "layout/index.txt")
           "\n\n"
+          "@@html:<hr>@@\n\n"
           "** Writing\n\n"
           (org-list-to-org list)))
 
