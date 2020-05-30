@@ -1,4 +1,5 @@
 #+TITLE: Effigy: build a toy compiler from scratch
+#+DATE: <2020-05-30>
 
 I've always been fascinated with programming languages.  It's
 incredible to me that some programs take the text representation of
@@ -32,7 +33,7 @@ Virtual Machine.  Without further ado, let's see how it works!
   That tree is traversed and the /bytecode/ is emitted.
 
   #+BEGIN_centralized
-  [[./effigy-an-experiment-writing-a-compiler-overview.png]]
+  [[blogimg:effigy-an-experiment-writing-a-compiler-overview.png][Highlevel Overview]]
   #+END_centralized
 
   Because of its simplicity, Effigy doesn't really apply any
