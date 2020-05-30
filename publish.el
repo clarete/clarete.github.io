@@ -33,28 +33,33 @@
     (insert-file-contents path)
     (buffer-string)))
 
-(defun relative-to-script (path)
+(defun lc/blog/file-path (path)
   "Return the relative path file at `PATH'."
   (let ((name (or load-file-name "~/src/github.com/clarete/clarete.github.io/")))
     (concat (file-name-directory name) path)))
 
+(defun lc/blog/file-contents (relative-path)
+  "Return the contents of file at RELATIVE-PATH."
+  (read-file-contents (lc/blog/file-path relative-path)))
+
 (defun local-blog-preamble (_plist)
   "Header (or preamble) for the blog."
-  (read-file-contents (relative-to-script "layout/navbar.html")))
+  (lc/blog/file-contents "layout/navbar.html"))
 
 (defun local-blog-postamble (_plist)
   "Footer (or postamble) for the blog."
-  (read-file-contents (relative-to-script "layout/footer.html")))
+  (lc/blog/file-contents "layout/footer.html"))
 
-(defun lc/blog/rss/sitemap-format-entry (entry style project)
-  "Format ENTRY for the RSS feed.
-ENTRY is a file name.  STYLE is either 'list' or 'tree'.
-PROJECT is the current project."
-  (cond ((not (directory-name-p entry))
-         (let* ((file (org-publish--expand-file-name entry project))
-                (title (org-publish-find-title entry project))
-                (date (format-time-string "%Y-%m-%d" (org-publish-find-date entry project)))
-                (link (concat "blog/" (file-name-sans-extension entry) ".html")))
+(defun lc/blog/rss/sitemap-format-entry (file style project)
+  "Format a FILE entry of the RSS feed.
+
+PROJECT is the list of properties of the project FILE is part of.
+STYLE is either 'list' or 'tree'."
+  (cond ((not (directory-name-p file))
+         (let* ((file (org-publish--expand-file-name file project))
+                (title (org-publish-find-title file project))
+                (date (format-time-string "%Y-%m-%d" (org-publish-find-date file project)))
+                (link (lc/blog/post/relative-link file project)))
            (with-temp-buffer
              (insert (format "* %s\n" title))
              (org-set-property "TITLE" title)
@@ -65,8 +70,8 @@ PROJECT is the current project."
              (buffer-string))))
         ((eq style 'tree)
          ;; Return only last subdir.
-         (file-name-nondirectory (directory-file-name entry)))
-        (t entry)))
+         (file-name-nondirectory (directory-file-name file)))
+        (t file)))
 
 (defun lc/blog/rss/sitemap-function (title list)
   "Generate RSS feed, as a string.
@@ -77,32 +82,90 @@ representation for the files to include, as returned by
   (concat "#+TITLE: " title "\n\n"
           (org-list-to-subtree list nil '(:icount "" :istart ""))))
 
-(defun local-blog-rss-publish-to-rss (plist filename pub-dir)
-  "Publish RSS with PLIST, only when FILENAME is 'rss.org'.
-PUB-DIR is when the output will be placed."
-  (if (equal "rss.org" (file-name-nondirectory filename))
-      (org-rss-publish-to-rss plist filename pub-dir)))
+(defun lc/blog/rss/publish (plist file pub-dir)
+  "Publish RSS with PLIST, only when FILE is 'rss.org'.
 
-(defun local-blog-date-subtitle (file project)
+PUB-DIR is when the output will be placed."
+  (if (lc/blog/is-file file "rss.org")
+      (org-rss-publish-to-rss plist file pub-dir)))
+
+(defun lc/blog/is-file (file basename)
+  "Return t if FILE match BASENAME file and nil otherwise."
+  (string= (file-name-nondirectory file) basename))
+
+(defun lc/blog/post/date-subtitle (file project)
   "Format the date found in FILE of PROJECT."
   (format-time-string "%B %d %Y" (org-publish-find-date file project)))
 
-(defun local-blog-publish (plist filename pub-dir)
-  "Wrapper function to publish an file to html.
+(defun lc/blog/post/date-ydm (file project)
+  "Retrieve date of the post at FILE formatted as '%Y-%m-%d'.
 
-PLIST contains the properties, FILENAME the source file and
-PUB-DIR the output directory."
-  (let ((project plist))
-    (plist-put plist :subtitle
-               (local-blog-date-subtitle filename project))
-    (org-html-publish-to-html plist filename pub-dir)))
+PROJECT is a plist with all the properties of the project that
+FILE is part of."
+  (format-time-string "%Y-%m-%d" (org-publish-find-date file project)))
+
+(defun lc/blog/post/relative-link (file project)
+  "Generate relative link for FILE within PROJECT."
+  (concat
+   (lc/blog/post/date-ydm file project)
+   "/"
+   (concat (file-name-sans-extension (file-name-nondirectory file)) ".html")))
+
+(defun lc/blog/post/output-path (file project pub-dir)
+  "Final post path assembled from FILE, PROJECT and PUB-DIR."
+  (expand-file-name (lc/blog/post/date-ydm file project) pub-dir))
+
+(defun lc/blog/post/sitemap-default (title list)
+  "Generate index page.
+
+TITLE is the title of the blog and LIST is the list of blog
+posts."
+  (concat "#+TITLE: " title "\n\n"
+          (lc/blog/file-contents "layout/index.txt")
+          "\n\n"
+          "** Writing\n\n"
+          (org-list-to-org list)))
+
+(defun lc/blog/post/sitemap-format-entry (file style project)
+  "FILE STYLE PROJECT."
+  (cond ((not (directory-name-p file))
+	 (format "[[file:%s][%s — %s]]"
+		 (lc/blog/post/relative-link file project)
+                 (lc/blog/post/date-ydm file project)
+		 (org-publish-find-title file project)))
+	((eq style 'tree)
+	 ;; Return only last subdir.
+	 (file-name-nondirectory (directory-file-name file)))
+	(t file)))
+
+(defun lc/blog/publish (project file pub-dir)
+  "Wrapper function to publish an org file to html.
+
+PROJECT contains the project properties, FILE contains the source
+file path and PUB-DIR the output directory.
+
+For the 'index.org' file, this function is a no-op.  For the
+posts, The path where it's going to be saved is prepended with
+the post date and the formatted date is also added as a subtitle
+to the post file."
+  (if (lc/blog/is-file file "index.org")
+      ;; The index file goes to the root directory
+      (progn
+        (plist-put project :subtitle nil)
+        (org-html-publish-to-html project file pub-dir))
+    ;; All the other files go to a date subdirectory.  They also get
+    ;; a subtitle with the post date.
+    (progn
+      (plist-put project :subtitle (lc/blog/post/date-subtitle file project))
+      (org-html-publish-to-html project file (lc/blog/post/output-path file project pub-dir)))))
 
 ;; This is where we set all the variables and link to all the
 ;; functions we created so far and finally call `org-publish-project'
 ;; in the end.
 
-(let ((base-dir (relative-to-script "sources"))
-      (pub-dir (relative-to-script "blog")))
+(let ((source-dir (lc/blog/file-path "sources"))
+      (media-dir (lc/blog/file-path "media"))
+      (pub-dir (lc/blog/file-path "")))
 
   (setq org-export-with-toc nil
         org-export-with-author t
@@ -118,13 +181,7 @@ PUB-DIR the output directory."
         '((preamble  "header" "top")
           (content   "main"   "content")
           (postamble "footer" "postamble"))
-        org-html-head
-        (concat
-         "<link rel=\"stylesheet\" type=\"text/css\" href=\"/media/css/main.css\" />\n"
-         "<link href=\"https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap\" rel=\"stylesheet\">\n"
-         "<link rel=\"stylesheet\" type=\"text/css\" href=\"https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css\">\n"
-         "<link rel=\"icon\" type=\"image/png\" href=\"/media/img/8bitme.png\" />"
-         "<link rel=\"alternate\" type=\"application/rss+xml\" href=\"blog/rss.xml\" />")
+        org-html-head (lc/blog/file-contents "layout/header.html")
 
         ;; Control where the cache is kept, it can be kept in sync
         ;; with .gitignore
@@ -143,9 +200,9 @@ PUB-DIR the output directory."
            :html-postamble local-blog-postamble
            ;; Override the default function to tweak the HTML it
            ;; generates
-           :publishing-function local-blog-publish
+           :publishing-function lc/blog/publish
            ;; The `sources` directory
-           :base-directory ,base-dir
+           :base-directory ,source-dir
            ;; The `blog` directory
            :publishing-directory ,pub-dir
            ;; Configure output options
@@ -160,20 +217,21 @@ PUB-DIR the output directory."
            :sitemap-filename "index.org"
            :sitemap-title "Hi! I'm Lincoln"
            :sitemap-sort-files anti-chronologically
-           :sitemap-file-entry-format "%d - %t"
+           :sitemap-format-entry lc/blog/post/sitemap-format-entry
+           :sitemap-function lc/blog/post/sitemap-default
            :with-date t)
 
           ;; Static asset collection and publishing
           ("blog-static"
-           :base-directory ,base-dir
-           :publishing-directory ,pub-dir
+           :base-directory ,media-dir
+           :publishing-directory ,media-dir
            :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf"
            :recursive t
-           :publishing-function org-publish-attachment
-           )
+           :publishing-function org-publish-attachment)
 
+          ;; Generate RSS feed
           ("blog-rss"
-           :base-directory ,base-dir
+           :base-directory ,source-dir
            :exclude ,(regexp-opt '("rss.org" "index.org" "404.org"))
            :recursive nil
            :base-extension "org"
@@ -189,11 +247,13 @@ PUB-DIR the output directory."
            :sitemap-sort-files anti-chronologically
            :sitemap-format-entry lc/blog/rss/sitemap-format-entry
            :sitemap-function lc/blog/rss/sitemap-function
-           :publishing-function local-blog-rss-publish-to-rss
+           :publishing-function lc/blog/rss/publish
            :publishing-directory ,pub-dir
            :section-numbers nil
            :table-of-contents nil))))
 
-;(org-publish-project "blog")
+;(org-publish-project "blog" t)
+;(org-publish-project "blog-posts" t)
+;(org-publish-project "blog-rss" t)
 
 ;;; publish ends here
