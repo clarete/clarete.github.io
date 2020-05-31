@@ -187,6 +187,31 @@ matches BACKEND."
 (defvar lc/blog/pub-dir (lc/blog/file-path "")
   "Path that all documents are exported.")
 
+;; Functions that could not leverage org-publish that much because
+;; I don't know what I'm doing
+
+(defun lc/blog/post/filetags (file)
+  "Extract the `#+filetags:` from FILE as list of strings."
+  (let ((case-fold-search t))
+    (with-temp-buffer
+      (insert-file-contents file)
+      (goto-char (point-min))
+      (if (search-forward-regexp "^\\#\\+filetags:[ ]*:\\(.*\\):$" nil t)
+          (split-string (match-string 1) ":")
+	(if (search-forward-regexp "^\\#\\+filetags:[ ]*\\(.+\\)$" nil t)
+            (split-string (match-string 1)))))))
+
+(defun lc/blog/is-draft (file)
+  "Return t if FILE is a draft and nil otherwise."
+  (member "noexport" (lc/blog/post/filetags file)))
+
+(defun lc/blog/add-drafts-to-exclude-list (initial-exclude-list)
+  "Add all draft posts to INITIAL-EXCLUDE-LIST."
+  (append initial-exclude-list
+          (mapcar
+           'file-name-nondirectory
+           (seq-filter 'lc/blog/is-draft (directory-files lc/blog/source-dir t ".org")))))
+
 ;; This is where we set all the variables and link to all the
 ;; functions we created so far and finally call `org-publish-project'
 ;; in the end.
@@ -236,7 +261,7 @@ matches BACKEND."
          ;; Although all the posts are in the same directory, I might
          ;; have subdirectories with assets
          :recursive t
-         :exclude "rss.org"
+         :exclude ,(regexp-opt (lc/blog/add-drafts-to-exclude-list '("rss.org")))
          :auto-sitemap t
          :sitemap-filename "index.org"
          :sitemap-title "Hi! I'm Lincoln"
@@ -248,7 +273,7 @@ matches BACKEND."
         ;; Generate RSS feed
         ("blog-rss"
          :base-directory ,lc/blog/source-dir
-         :exclude ,(regexp-opt '("rss.org" "index.org" "404.org"))
+         :exclude ,(regexp-opt (lc/blog/add-drafts-to-exclude-list '("rss.org" "index.org" "404.org")))
          :recursive nil
          :base-extension "org"
          :rss-extension "xml"
