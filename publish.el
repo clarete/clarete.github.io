@@ -293,7 +293,42 @@ matches BACKEND."
          :section-numbers nil
          :table-of-contents nil)))
 
+
+(defun lc/index ()
+  "Generate index.html."
+  (concat
+   "<!DOCTYPE html>
+<html lang=\"en-us\">
+  <head>
+    <title>Hi! I&#39;m Lincoln</title>
+    <meta charset=\"utf-8\" />
+    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">
+    <meta name=\"author\" content=\"Lincoln Clarete\" />\n"
+    (lc/blog/file-contents "layout/header.html")
+    "
+  </head>
+  <body>\n"
+    (lc/blog/file-contents "layout/navbar.html")
+    (lc/blog/file-contents "layout/index.html")
+    (lc/blog/file-contents "layout/footer.html")
+    "
+  </body>
+</html>\n"))
+
+(defun lc/create-index ()
+  "Write index.html to disk."
+  (write-region (lc/index) nil (lc/blog/file-path "index.html")))
+
+;; Generate the index of the website:
+;
+; (lc/create-index)
+
+;; Generate the blog posts & RSS
+;
+;; All at once
 ;(org-publish-project "blog" t)
+
+;; Each project separately
 ;(org-publish-project "blog-posts" t)
 ;(org-publish-project "blog-rss" t)
 

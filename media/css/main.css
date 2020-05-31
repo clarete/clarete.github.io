@@ -27,6 +27,15 @@ h3 {
     line-height: 1.1em;
 }
 
+a {
+    color: #d14;
+    text-decoration: none;
+}
+a:hover {
+    color: #fff;
+    background: #d14;
+}
+
 .container {
     width: calc(60% - 100px);
     padding: 10px 150px;
@@ -127,14 +136,6 @@ ul.posts li {
     padding-bottom: 20px;
 }
 
-ul.posts a {
-    color: #d14;
-    text-decoration: none;
-}
-ul.posts a:hover {
-    border-bottom: solid 1px;
-}
-
 ul.posts span.date {
     text-align: right;
     padding-right: 5px;
@@ -167,6 +168,7 @@ ul.posts .comment {
 }
 .footer a:hover {
     text-decoration: underline;
+    background: transparent;
 }
 
 #org-div-home-and-up {
@@ -180,17 +182,8 @@ ul.posts .comment {
     font-size: 16pt;
     color: #333;
 }
-#content h1 span.subtitle {
+.subtitle {
     color: #aaa;
-    font-size: 12pt;
-}
-#content a {
-    color: #d14;
-    text-decoration: none;
-}
-#content a:hover {
-    color: #fff;
-    background: #d14;
 }
 code {
     background: #eee;
