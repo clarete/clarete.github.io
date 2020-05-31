@@ -1,6 +1,6 @@
-#+TITLE: Effigy: build a toy compiler from scratch
-#+DATE: <2020-05-30>
-#+FILETAGS: :noexport:peg:plt:
+#+TITLE: A toy compiler from scratch
+#+DATE: <2020-05-31>
+#+FILETAGS: :peg:plt:
 
 I've always been fascinated with programming languages.  It's
 incredible to me that some programs take the text representation of
