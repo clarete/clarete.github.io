@@ -89,38 +89,31 @@ PUB-DIR is when the output will be placed."
   "Return t if FILE match BASENAME file and nil otherwise."
   (string= (file-name-nondirectory file) basename))
 
-(defun lc/blog/post/date-subtitle (file project)
+(defun lc/blog/post/subtitle (file project)
   "Format the date found in FILE of PROJECT."
-  (format-time-string "%B %d %Y" (org-publish-find-date file project)))
+  (lc/blog/post/date "%B %d, %Y" file project))
 
-(defun lc/blog/post/date-ydm (file project)
-  "Retrieve date of the post at FILE formatted as '%Y-%m-%d'.
+(defun lc/blog/post/date (fmt file project)
+  "Retrieve date of the post at FILE formatted as FMT.
 
 PROJECT is a plist with all the properties of the project that
 FILE is part of."
-  (format-time-string "%Y-%m-%d" (org-publish-find-date file project)))
+  (format-time-string fmt (org-publish-find-date file project)))
 
 (defun lc/blog/post/relative-link (file project)
   "Generate relative link for FILE within PROJECT."
-  (concat
-   (lc/blog/post/date-ydm file project)
-   "/"
-   (concat (file-name-sans-extension (file-name-nondirectory file)) ".html")))
+  (concat (file-name-sans-extension (file-name-nondirectory file)) ".html"))
 
 (defun lc/blog/post/output-path (file project pub-dir)
   "Final post path assembled from FILE, PROJECT and PUB-DIR."
-  (expand-file-name (lc/blog/post/date-ydm file project) pub-dir))
+  pub-dir)
 
 (defun lc/blog/post/sitemap (title list)
   "Generate index page.
 
 TITLE is the title of the blog and LIST is the list of blog
 posts."
-  (concat "#+TITLE: " title "\n\n"
-          (lc/blog/file-contents "layout/index.txt")
-          "\n\n"
-          "@@html:<hr>@@\n\n"
-          "** Writing\n\n"
+  (concat "#+TITLE: What's on my mind\n\n"
           (org-list-to-org list)))
 
 (defun lc/blog/post/sitemap-entry (file style project)
@@ -130,9 +123,8 @@ FILE is the entry's path within PROJECT.  The list of properties
 of all files bundled together is contained in PROJECT and STYLE
 is either `list' or `tree'."
   (cond ((not (directory-name-p file))
-	 (format "[[file:%s][%s — %s]]"
+	 (format "[[file:%s][%s]]"
 		 (lc/blog/post/relative-link file project)
-                 (lc/blog/post/date-ydm file project)
 		 (org-publish-find-title file project)))
 	((eq style 'tree)
 	 ;; Return only last subdir.
@@ -147,8 +139,7 @@ file path and PUB-DIR the output directory.
 
 For the 'index.org' file, this function is a no-op.  For the
 posts, The path where it's going to be saved is prepended with
-the post date and the formatted date is also added as a subtitle
-to the post file."
+the post date and a subtitle to the post file."
   (if (lc/blog/is-file file "index.org")
       ;; The index file goes to the root directory
       (progn
@@ -157,7 +148,7 @@ to the post file."
     ;; All the other files go to a date subdirectory.  They also get
     ;; a subtitle with the post date.
     (progn
-      (plist-put project :subtitle (lc/blog/post/date-subtitle file project))
+      (plist-put project :subtitle (lc/blog/post/subtitle file project))
       (org-html-publish-to-html project file (lc/blog/post/output-path file project pub-dir)))))
 
 (defun lc/blog/link-img-follow (path)
@@ -184,7 +175,7 @@ matches BACKEND."
 (defvar lc/blog/media-dir (lc/blog/file-path "media")
   "Path to the media files.")
 
-(defvar lc/blog/pub-dir (lc/blog/file-path "")
+(defvar lc/blog/pub-dir (lc/blog/file-path "blog")
   "Path that all documents are exported.")
 
 ;; Functions that could not leverage org-publish that much because
