@@ -82,14 +82,14 @@ Virtual Machine.  Without further ado, let's see how it works!
   grammar:
 
   #+begin_src peg
-  Decimal <- [0-9]+
+  Number <- [0-9]+
   #+end_src
 
   yields the following grammar tree:
 
   #+begin_src effigy
   {
-    Decimal: [[
+    Number: [[
       [{ name: 'oneOrMore' },
         [{ name: 'range' }, '0', '9']]
     ]]
@@ -104,7 +104,7 @@ Virtual Machine.  Without further ado, let's see how it works!
   well.
 
   In the example above, the grammar interpreter starts from the first
-  rule of the grammar, ~Decimal~, that triggers the function
+  rule of the grammar, ~Number~, that triggers the function
   ~oneOrMore~ with a [[https://en.wikipedia.org/wiki/Thunk][thunk]] of ~range~ with its parameters and execute
   it until it fails.
 
@@ -268,8 +268,8 @@ Virtual Machine.  Without further ado, let's see how it works!
    const grammar = `
      Additive  <- Multitive '+' Additive / Multitive
      Multitive <- Primary '*' Multitive / Primary
-     Primary   <- '(' Additive ')' / Decimal
-     Decimal   <- [0-9]+
+     Primary   <- '(' Additive ')' / Number
+     Number    <- [0-9]+
    `;
    const parser = peg.pegc(grammar).bind({
      // The name of the action must correspond to the name
@@ -294,7 +294,7 @@ Virtual Machine.  Without further ado, let's see how it works!
        // Remove '(' and ')'
        return Array.isArray(v) ? v[1] : v;
      },
-     Decimal: ({ visit }) => {
+     Number: ({ visit }) => {
        const v = visit();
        const n = Array.isArray(v) ? v.join('') : v;
        return parseInt(n, 10);

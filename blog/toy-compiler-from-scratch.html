@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- 2020-05-31 Sun 09:12 -->
+<!-- 2020-05-31 Sun 09:50 -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>A toy compiler from scratch</title>
@@ -215,7 +215,7 @@ grammar:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-peg"><span style="color: #fabd2f;">Decimal</span> <span style="color: #d3869b;">&lt;-</span> <span style="color: #b8bb26;">[0-9]</span><span style="color: #fe8019;">+</span>
+<pre class="src src-peg"><span style="color: #fabd2f;">Number</span> <span style="color: #d3869b;">&lt;-</span> <span style="color: #b8bb26;">[0-9]</span><span style="color: #fe8019;">+</span>
 </pre>
 </div>
 
@@ -225,7 +225,7 @@ yields the following grammar tree:
 
 <div class="org-src-container">
 <pre class="src src-effigy"><span style="color: #458588;">{</span>
-  Decimal: <span style="color: #b16286;">[</span><span style="color: #8ec07c;">[</span>
+  Number: <span style="color: #b16286;">[</span><span style="color: #8ec07c;">[</span>
     <span style="color: #d65d0e;">[</span><span style="color: #458588;">{</span> name: <span style="color: #b8bb26;">'oneOrMore'</span> <span style="color: #458588;">}</span>,
       <span style="color: #458588;">[</span><span style="color: #b16286;">{</span> name: <span style="color: #b8bb26;">'range'</span> <span style="color: #b16286;">}</span>, <span style="color: #b8bb26;">'0'</span>, <span style="color: #b8bb26;">'9'</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">]</span>
   <span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span>
@@ -244,7 +244,7 @@ well.
 
 <p>
 In the example above, the grammar interpreter starts from the first
-rule of the grammar, <code>Decimal</code>, that triggers the function
+rule of the grammar, <code>Number</code>, that triggers the function
 <code>oneOrMore</code> with a <a href="https://en.wikipedia.org/wiki/Thunk">thunk</a> of <code>range</code> with its parameters and execute
 it until it fails.
 </p>
@@ -472,8 +472,8 @@ execution. E.g.:
 <span style="color: #fb4933;">const</span> <span style="color: #83a598;">grammar</span> = <span style="color: #b8bb26;">`</span>
 <span style="color: #b8bb26;">  Additive  &lt;- Multitive '+' Additive / Multitive</span>
 <span style="color: #b8bb26;">  Multitive &lt;- Primary '*' Multitive / Primary</span>
-<span style="color: #b8bb26;">  Primary   &lt;- '(' Additive ')' / Decimal</span>
-<span style="color: #b8bb26;">  Decimal   &lt;- [0-9]+</span>
+<span style="color: #b8bb26;">  Primary   &lt;- '(' Additive ')' / Number</span>
+<span style="color: #b8bb26;">  Number    &lt;- [0-9]+</span>
 <span style="color: #b8bb26;">`</span>;
 <span style="color: #fb4933;">const</span> <span style="color: #83a598;">parser</span> = peg.pegc<span style="color: #458588;">(</span>grammar<span style="color: #458588;">)</span>.bind<span style="color: #458588;">(</span><span style="color: #b16286;">{</span>
   <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">The name of the action must correspond to the name</span>
@@ -498,7 +498,7 @@ execution. E.g.:
     <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">Remove '(' and ')'</span>
     <span style="color: #fb4933;">return</span> Array.isArray<span style="color: #d65d0e;">(</span>v<span style="color: #d65d0e;">)</span> ? v<span style="color: #d65d0e;">[</span>1<span style="color: #d65d0e;">]</span> : v;
   <span style="color: #8ec07c;">}</span>,
-  Decimal: <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> visit <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">{</span>
+  Number: <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> visit <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">{</span>
     <span style="color: #fb4933;">const</span> <span style="color: #83a598;">v</span> = visit<span style="color: #d65d0e;">()</span>;
     <span style="color: #fb4933;">const</span> <span style="color: #83a598;">n</span> = Array.isArray<span style="color: #d65d0e;">(</span>v<span style="color: #d65d0e;">)</span> ? v.join<span style="color: #d65d0e;">(</span><span style="color: #b8bb26;">''</span><span style="color: #d65d0e;">)</span> : v;
     <span style="color: #fb4933;">return</span> parseInt<span style="color: #d65d0e;">(</span>n, 10<span style="color: #d65d0e;">)</span>;
