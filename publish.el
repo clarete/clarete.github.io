@@ -27,12 +27,6 @@
 (require 'ox-html)
 (require 'ox-rss)
 
-(defun read-file-contents (path)
-  "Return contents of `PATH' file as a string."
-  (with-temp-buffer
-    (insert-file-contents path)
-    (buffer-string)))
-
 (defun lc/blog/file-path (path)
   "Return the relative path file at `PATH'."
   (let ((name (or load-file-name "~/src/github.com/clarete/clarete.github.io/")))
@@ -40,17 +34,19 @@
 
 (defun lc/blog/file-contents (relative-path)
   "Return the contents of file at RELATIVE-PATH."
-  (read-file-contents (lc/blog/file-path relative-path)))
+  (with-temp-buffer
+    (insert-file-contents (lc/blog/file-path relative-path))
+    (buffer-string)))
 
-(defun local-blog-preamble (_plist)
+(defun lc/blog/preamble (_plist)
   "Header (or preamble) for the blog."
   (lc/blog/file-contents "layout/navbar.html"))
 
-(defun local-blog-postamble (_plist)
+(defun lc/blog/postamble (_plist)
   "Footer (or postamble) for the blog."
   (lc/blog/file-contents "layout/footer.html"))
 
-(defun lc/blog/rss/sitemap-format-entry (file style project)
+(defun lc/blog/rss/sitemap-entry (file style project)
   "Format a FILE entry of the RSS feed.
 
 PROJECT is the list of properties of the project FILE is part of.
@@ -73,7 +69,7 @@ STYLE is either 'list' or 'tree'."
          (file-name-nondirectory (directory-file-name file)))
         (t file)))
 
-(defun lc/blog/rss/sitemap-function (title list)
+(defun lc/blog/rss/sitemap (title list)
   "Generate RSS feed, as a string.
 
 TITLE is the title of the RSS feed.  LIST is an internal
@@ -115,7 +111,7 @@ FILE is part of."
   "Final post path assembled from FILE, PROJECT and PUB-DIR."
   (expand-file-name (lc/blog/post/date-ydm file project) pub-dir))
 
-(defun lc/blog/post/sitemap-default (title list)
+(defun lc/blog/post/sitemap (title list)
   "Generate index page.
 
 TITLE is the title of the blog and LIST is the list of blog
@@ -127,8 +123,12 @@ posts."
           "** Writing\n\n"
           (org-list-to-org list)))
 
-(defun lc/blog/post/sitemap-format-entry (file style project)
-  "FILE STYLE PROJECT."
+(defun lc/blog/post/sitemap-entry (file style project)
+  "Format each entry of sitemap.
+
+FILE is the entry's path within PROJECT.  The list of properties
+of all files bundled together is contained in PROJECT and STYLE
+is either `list' or `tree'."
   (cond ((not (directory-name-p file))
 	 (format "[[file:%s][%s — %s]]"
 		 (lc/blog/post/relative-link file project)
@@ -178,90 +178,95 @@ matches BACKEND."
  :follow 'lc/blog/link-img-follow
  :export 'lc/blog/link-img-export)
 
+(defvar lc/blog/source-dir (lc/blog/file-path "sources")
+  "Path to the Org files.")
+
+(defvar lc/blog/media-dir (lc/blog/file-path "media")
+  "Path to the media files.")
+
+(defvar lc/blog/pub-dir (lc/blog/file-path "")
+  "Path that all documents are exported.")
+
 ;; This is where we set all the variables and link to all the
 ;; functions we created so far and finally call `org-publish-project'
 ;; in the end.
 
-(let ((source-dir (lc/blog/file-path "sources"))
-      (media-dir (lc/blog/file-path "media"))
-      (pub-dir (lc/blog/file-path "")))
+(setq org-export-with-toc nil
+      org-export-with-author t
+      org-export-with-email nil
+      org-export-with-creator nil
+      org-export-with-section-numbers nil
 
-  (setq org-export-with-toc nil
-        org-export-with-author t
-        org-export-with-email nil
-        org-export-with-creator nil
-        org-export-with-section-numbers nil
+      org-html-doctype "html5"
+      org-html-html5-fancy t
+      org-html-link-home "/"
+      org-html-link-up "/"
+      org-html-postamble 'auto
+      org-html-divs
+      '((preamble  "header" "top")
+        (content   "main"   "content")
+        (postamble "footer" "postamble"))
+      org-html-head (lc/blog/file-contents "layout/header.html")
 
-        org-html-doctype "html5"
-        org-html-link-home "blog/"
-        org-html-link-up "/"
-        org-html-postamble 'auto
-        org-html-divs
-        '((preamble  "header" "top")
-          (content   "main"   "content")
-          (postamble "footer" "postamble"))
-        org-html-head (lc/blog/file-contents "layout/header.html")
+      ;; Control where the cache is kept, it can be kept in sync with
+      ;; .gitignore
+      org-publish-timestamp-directory ".cache/"
 
-        ;; Control where the cache is kept, it can be kept in sync
-        ;; with .gitignore
-        org-publish-timestamp-directory ".cache/"
+      ;; List of stuff to be published
+      org-publish-project-alist
+      `(("blog" :components ("blog-posts" "blog-rss"))
+        ("blog-posts"
+         ;; I want to style the whole thing myself. Years working with
+         ;; CSS MUST pay off at some point!
+         :html-head-include-default-style nil
+         ;; Functions to insert the partial layout pieces I have
+         :html-preamble lc/blog/preamble
+         :html-postamble lc/blog/postamble
+         ;; Override the default function to tweak the HTML it
+         ;; generates
+         :publishing-function lc/blog/publish
+         ;; The `sources` directory
+         :base-directory ,lc/blog/source-dir
+         ;; The `blog` directory
+         :publishing-directory ,lc/blog/pub-dir
+         ;; Configure output options
+         :section-numbers nil
+         :table-of-contents nil
+         :headline-levels 4
+         ;; Although all the posts are in the same directory, I might
+         ;; have subdirectories with assets
+         :recursive t
+         :exclude "rss.org"
+         :auto-sitemap t
+         :sitemap-filename "index.org"
+         :sitemap-title "Hi! I'm Lincoln"
+         :sitemap-sort-files anti-chronologically
+         :sitemap-format-entry lc/blog/post/sitemap-entry
+         :sitemap-function lc/blog/post/sitemap
+         :with-date t)
 
-        ;; List of stuff to be published
-        org-publish-project-alist
-        `(("blog" :components ("blog-posts" "blog-rss"))
-          ("blog-posts"
-           ;; I want to style the whole thing myself. Years working
-           ;; with CSS MUST pay off at some point!
-           :html-head-include-default-style nil
-           ; :auto-preamble t
-           ;; Functions to insert the partial layout pieces I have
-           :html-preamble local-blog-preamble
-           :html-postamble local-blog-postamble
-           ;; Override the default function to tweak the HTML it
-           ;; generates
-           :publishing-function lc/blog/publish
-           ;; The `sources` directory
-           :base-directory ,source-dir
-           ;; The `blog` directory
-           :publishing-directory ,pub-dir
-           ;; Configure output options
-           :section-numbers nil
-           :table-of-contents nil
-           :headline-levels 4
-           ;; Although all the posts are in the same directory, I
-           ;; might have subdirectories with assets
-           :recursive t
-           :exclude "rss.org"
-           :auto-sitemap t
-           :sitemap-filename "index.org"
-           :sitemap-title "Hi! I'm Lincoln"
-           :sitemap-sort-files anti-chronologically
-           :sitemap-format-entry lc/blog/post/sitemap-format-entry
-           :sitemap-function lc/blog/post/sitemap-default
-           :with-date t)
-
-          ;; Generate RSS feed
-          ("blog-rss"
-           :base-directory ,source-dir
-           :exclude ,(regexp-opt '("rss.org" "index.org" "404.org"))
-           :recursive nil
-           :base-extension "org"
-           :rss-extension "xml"
-           :rss-feed-url: "https://clarete.li/blog/rss.xml"
-           :html-link-home "https://clarete.li/"
-           :html-link-use-abs-url t
-           :html-link-org-files-as-html t
-           :auto-sitemap t
-           :sitemap-filename "rss.org"
-           :sitemap-title "Lincoln Clarete"
-           :sitemap-style list
-           :sitemap-sort-files anti-chronologically
-           :sitemap-format-entry lc/blog/rss/sitemap-format-entry
-           :sitemap-function lc/blog/rss/sitemap-function
-           :publishing-function lc/blog/rss/publish
-           :publishing-directory ,pub-dir
-           :section-numbers nil
-           :table-of-contents nil))))
+        ;; Generate RSS feed
+        ("blog-rss"
+         :base-directory ,lc/blog/source-dir
+         :exclude ,(regexp-opt '("rss.org" "index.org" "404.org"))
+         :recursive nil
+         :base-extension "org"
+         :rss-extension "xml"
+         :rss-feed-url: "https://clarete.li/blog/rss.xml"
+         :html-link-home "https://clarete.li/"
+         :html-link-use-abs-url t
+         :html-link-org-files-as-html t
+         :auto-sitemap t
+         :sitemap-filename "rss.org"
+         :sitemap-title "Lincoln Clarete"
+         :sitemap-style list
+         :sitemap-sort-files anti-chronologically
+         :sitemap-format-entry lc/blog/rss/sitemap-entry
+         :sitemap-function lc/blog/rss/sitemap
+         :publishing-function lc/blog/rss/publish
+         :publishing-directory ,lc/blog/pub-dir
+         :section-numbers nil
+         :table-of-contents nil)))
 
 ;(org-publish-project "blog" t)
 ;(org-publish-project "blog-posts" t)
