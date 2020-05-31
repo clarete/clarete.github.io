@@ -1,38 +1,107 @@
-<?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"
-	xmlns:content="http://purl.org/rss/1.0/modules/content/"
-	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
-	xmlns:dc="http://purl.org/dc/elements/1.1/"
-	xmlns:atom="http://www.w3.org/2005/Atom"
-	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
-	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
-	xmlns:georss="http://www.georss.org/georss"
-        xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
-        xmlns:media="http://search.yahoo.com/mrss/"><channel>
-<title>Lincoln Clarete</title>
-<atom:link href="https://clarete.li/rss.xml" rel="self" type="application/rss+xml" />
-<link>https://clarete.li/</link>
-<description><![CDATA[]]></description>
-<language>en</language>
-<pubDate>Sun, 31 May 2020 09:08:08 -0400</pubDate>
-<lastBuildDate>Sun, 31 May 2020 09:08:08 -0400</lastBuildDate>
-<generator>Emacs 28.0 Org-mode 9.3</generator>
-<webMaster>lincoln@clarete.li (Lincoln Clarete)</webMaster>
-<image>
-<url>https://orgmode.org/img/org-mode-unicorn-logo.png</url>
-<title>Lincoln Clarete</title>
-<link>https://clarete.li/</link>
-</image>
-
-
-<item>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- 2020-05-31 Sun 09:12 -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title>A toy compiler from scratch</title>
-<link>https://clarete.li/toy-compiler-from-scratch.html</link>
-<author>lincoln@clarete.li (Lincoln Clarete)</author>
-<guid isPermaLink="false">https://clarete.li/toy-compiler-from-scratch.html</guid>
-<pubDate>Sun, 31 May 2020 00:00:00 -0400</pubDate>
+<meta name="generator" content="Org mode">
+<meta name="author" content="Lincoln Clarete">
+<link rel="stylesheet" type="text/css" href="/media/css/main.css" />
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+<link rel="icon" type="image/png" href="/media/img/8bitme.png" />
+<link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" />
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
 
-<description><![CDATA[<p>
+Copyright (C) 2012-2020 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="org-div-home-and-up">
+ <a accesskey="h" href="/"> UP </a>
+ |
+ <a accesskey="H" href="/"> HOME </a>
+</div><header id="top" class="status">
+<div class="social">
+  <div class="container">
+
+    <ul class="badges">
+      <li>
+        <a href="mailto:lincoln@clarete.li" alt="Email">
+          <span class="fa fa-envelope-o"></span>EMail
+        </a>
+      </li>
+      <li>
+        <a href="https://github.com/clarete" target="_blank" alt="Github">
+          <span class="fa fa-github-alt"></span>Github
+        </a>
+      </li>
+      <li>
+        <a href="/blog/rss.xml" alt="RSS">
+          <span class="fa fa-rss"></span>RSS
+        </a>
+      </li>
+    </ul>
+
+    <a href="/">
+      <img class="avatar" type="image/svg+xml" src="/media/img/8bitme.svg" alt="Me in 8bit" />
+    </a>
+
+    <div class="balloon">
+      Happy Hacking!
+    </div>
+
+  </div>
+</div>
+</header>
+<main id="content">
+<header>
+<h1 class="title">A toy compiler from scratch</h1>
+<p class="subtitle">May 31, 2020</p>
+</header><p>
 I've always been fascinated with programming languages.  It's
 incredible to me that some programs take the text representation of
 our ideas and turn them into code that can be executed by the
@@ -68,10 +137,9 @@ Effigy takes a syntax that I made up and generates <i>bytecode</i> for that
 Virtual Machine.  Without further ado, let's see how it works!
 </p>
 
-<p>
-A 38k feet view of the process
-</p>
-
+<div id="outline-container-org765f044" class="outline-2">
+<h2 id="org765f044">A 38k feet view of the process</h2>
+<div class="outline-text-2" id="text-org765f044">
 <p>
 The text representation of the program is parsed into a tree
 structure that contains the meaning described in the text program.
@@ -109,9 +177,13 @@ the assembler as a PEG traversal too, but I never got to it.
 Although it's not a requirement to understand this post, I highly
 recommend reading the articles above as they were essential for me
 to really understand how PEGs could be so flexible and powerful.
-The PEG library
 </p>
+</div>
+</div>
 
+<div id="outline-container-orgfcbb9ab" class="outline-2">
+<h2 id="orgfcbb9ab">The PEG library</h2>
+<div class="outline-text-2" id="text-orgfcbb9ab">
 <p>
 Two out of the three of the main components of Effigy are built on
 top of the PEG implementation.  That makes the PEG implementation
@@ -126,14 +198,14 @@ user-defined grammar and to capture the results when parsing
 succeeds.  That happens in roughly three steps:
 </p>
 
-<p>
-The user-defined grammar is parsed into a grammar tree;
-The grammar tree and the input are fed to the grammar interpreter
+<ol class="org-ol">
+<li>The user-defined grammar is parsed into a grammar tree;</li>
+<li>The grammar tree and the input are fed to the grammar interpreter
 that traverses the grammar tree and try to match the input.  If
 matching is successful, it generates a parse tree with the
-captured results;
-The parse tree is traversed and semantic actions are applied;
-</p>
+captured results;</li>
+<li>The parse tree is traversed and semantic actions are applied;</li>
+</ol>
 
 <p>
 The first step is a <a href="https://en.wikipedia.org/wiki/Recursive_descent_parser">recursive descent parser</a> that is able to
@@ -210,50 +282,57 @@ paper, and here they are:
 
 <p>
 Matching Functions:
-<b>Any()</b> - <code>.</code>: Matches any character but fails on <code>EOF</code>;
-<b>Literal(c)</b> - <code>"c"</code>: Fails if <code>c</code> doesn't match the character
-under the input cursor;
-<b>Class(c[])</b> - <code>[abcd]</code>: Fail if none of the elements of <code>c[]</code>
-match the character under the input cursor;
-<b>Range(ca, cb)</b> <code>[a-z]</code>: Fail if the current character under the
-input cursor isn't between the characteres <code>ca</code> and <code>cb</code>;
 </p>
+<ul class="org-ul">
+<li><b>Any()</b> - <code>.</code>: Matches any character but fails on <code>EOF</code>;</li>
+<li><b>Literal(c)</b> - <code>"c"</code>: Fails if <code>c</code> doesn't match the character
+under the input cursor;</li>
+<li><b>Class(c[])</b> - <code>[abcd]</code>: Fail if none of the elements of <code>c[]</code>
+match the character under the input cursor;</li>
+<li><b>Range(ca, cb)</b> <code>[a-z]</code>: Fail if the current character under the
+input cursor isn't between the characteres <code>ca</code> and <code>cb</code>;</li>
+</ul>
 
 <p>
 Parsing Functions:
-<b>ZeroOrMore(fn)</b> - Star Operator (*): Execute <code>fn</code> indefinitely
-until it fails.  All collected results are returned. It never
-fails even if it fails in the first call;
-<b>OneOrMore(fn)</b> - Plus Operator (+): Execute <code>fn</code> once failing if
-this first call fails. If the first call succeeds, then prepend
-this result to the output of <code>ZeroOrMore(fn)</code>
-<b>Option(fn)</b> - Option Operator (?): Return the result of <code>fn()</code> or
-<code>null</code> if the call to <code>fn</code> fails.
-<b>Choice(fn[])</b> - Ordered Choice Operator (/): Iterate over <code>fn[]</code>,
-and return the result of the first function that succeeds. It can
-be seen as an OR operation.
 </p>
+<ul class="org-ul">
+<li><b>ZeroOrMore(fn)</b> - Star Operator (*): Execute <code>fn</code> indefinitely
+until it fails.  All collected results are returned. It never
+fails even if it fails in the first call;</li>
+<li><b>OneOrMore(fn)</b> - Plus Operator (+): Execute <code>fn</code> once failing if
+this first call fails. If the first call succeeds, then prepend
+this result to the output of <code>ZeroOrMore(fn)</code></li>
+<li><b>Option(fn)</b> - Option Operator (?): Return the result of <code>fn()</code> or
+<code>null</code> if the call to <code>fn</code> fails.</li>
+<li><b>Choice(fn[])</b> - Ordered Choice Operator (/): Iterate over <code>fn[]</code>,
+and return the result of the first function that succeeds. It can
+be seen as an OR operation.</li>
+</ul>
 
 <p>
 Syntactic Predicate Functions:
-<b>Not(fn)</b> - <code>!</code>: Return true if <code>fn</code> fails and false if <code>fn</code>
-succeeds;
-<b>And(fn)</b> - <code>&amp;</code>: The opposite of <b>Not</b> or <code>Not(Not(fn))</code>;
 </p>
+<ul class="org-ul">
+<li><b>Not(fn)</b> - <code>!</code>: Return true if <code>fn</code> fails and false if <code>fn</code>
+succeeds;</li>
+<li><b>And(fn)</b> - <code>&amp;</code>: The opposite of <b>Not</b> or <code>Not(Not(fn))</code>;</li>
+</ul>
 
 <p>
 List Parsing Function:
 </p>
 
-<p>
-<b>Open()</b> - <code>{</code>: Return true if the element under the cursor is a
-list;
-<b>Close()</b> - <code>}</code>: Return true if the currently open list has ended
-</p>
+<ul class="org-ul">
+<li><b>Open()</b> - <code>{</code>: Return true if the element under the cursor is a
+list;</li>
+<li><b>Close()</b> - <code>}</code>: Return true if the currently open list has ended</li>
+</ul>
+</div>
 
-<div id="outline-container-org19b3d25" class="outline-3">
-<h3 id="org19b3d25">Scanner Interface</h3>
-<div class="outline-text-3" id="text-org19b3d25">
+<div id="outline-container-org33b74e5" class="outline-3">
+<h3 id="org33b74e5">Scanner Interface</h3>
+<div class="outline-text-3" id="text-org33b74e5">
 <p>
 The parser that implements the PEG interface listed above is built
 on top of a scanner that provides all the matching functions and
@@ -262,18 +341,20 @@ the ones that backtracks the input cursor.
 
 <p>
 This is the interface that the matching functions depend:
-<b>Scanner(input)</b>: Constructor that creates a new instance of the
-scanner taking the input as a parameter;
-<b>Current()</b>: Return what's under the scanner's cursor;
-<b>EOS()</b>: Determine if the current element is the end of the input;
-<b>Error()</b>: Generate a parsing error;
-<b>Expect(e)</b>: Return the current element under the cursor if it
-matches <code>e</code> or throw an error otherwise. Doesn't move input
-cursor;
-<b>Match(e)</b>: Return the current element under the cursor if it
-matches <code>e</code> and advance the cursor by the size of <code>e</code>;
-<b>Next()</b>: Advance the input cursor;
 </p>
+<ul class="org-ul">
+<li><b>Scanner(input)</b>: Constructor that creates a new instance of the
+scanner taking the input as a parameter;</li>
+<li><b>Current()</b>: Return what's under the scanner's cursor;</li>
+<li><b>EOS()</b>: Determine if the current element is the end of the input;</li>
+<li><b>Error()</b>: Generate a parsing error;</li>
+<li><b>Expect(e)</b>: Return the current element under the cursor if it
+matches <code>e</code> or throw an error otherwise. Doesn't move input
+cursor;</li>
+<li><b>Match(e)</b>: Return the current element under the cursor if it
+matches <code>e</code> and advance the cursor by the size of <code>e</code>;</li>
+<li><b>Next()</b>: Advance the input cursor;</li>
+</ul>
 
 <p>
 The parsing function <code>Choice</code> is also implemented in the scanner
@@ -322,9 +403,9 @@ scanner in action:
 </p>
 </div>
 
-<div id="outline-container-org1c1c683" class="outline-4">
-<h4 id="org1c1c683">Text Scanner</h4>
-<div class="outline-text-4" id="text-org1c1c683">
+<div id="outline-container-org637d950" class="outline-4">
+<h4 id="org637d950">Text Scanner</h4>
+<div class="outline-text-4" id="text-org637d950">
 <p>
 The <code>match</code> function takes a string as its input:
 </p>
@@ -344,9 +425,9 @@ which generates:
 </div>
 </div>
 
-<div id="outline-container-orgb36f909" class="outline-4">
-<h4 id="orgb36f909">List Scanner</h4>
-<div class="outline-text-4" id="text-orgb36f909">
+<div id="outline-container-org8a585f1" class="outline-4">
+<h4 id="org8a585f1">List Scanner</h4>
+<div class="outline-text-4" id="text-org8a585f1">
 <p>
 The <code>matchl</code> function takes a list as its input:
 </p>
@@ -375,9 +456,9 @@ which generates:
 </div>
 </div>
 
-<div id="outline-container-org7cb5641" class="outline-3">
-<h3 id="org7cb5641">Semantic Actions</h3>
-<div class="outline-text-3" id="text-org7cb5641">
+<div id="outline-container-orga466810" class="outline-3">
+<h3 id="orga466810">Semantic Actions</h3>
+<div class="outline-text-3" id="text-orga466810">
 <p>
 After collecting the results from the matching operations and
 nesting them following the grammar's structure, the PEG library can
@@ -444,21 +525,22 @@ and the general suggestion this implementation follows is that the
 semantic action application only happens after parsing finishes
 successfully.
 </p>
+</div>
+</div>
+</div>
 
-<p>
-The Compiler
-</p>
-
+<div id="outline-container-org41105a9" class="outline-2">
+<h2 id="org41105a9">The Compiler</h2>
+<div class="outline-text-2" id="text-org41105a9">
 <p>
 Now that we covered the PEG implementation, we're ready to tackle
 the compilation process itself!
 </p>
 </div>
-</div>
 
-<div id="outline-container-org39a1a75" class="outline-3">
-<h3 id="org39a1a75">Parsing the program text</h3>
-<div class="outline-text-3" id="text-org39a1a75">
+<div id="outline-container-org07f714b" class="outline-3">
+<h3 id="org07f714b">Parsing the program text</h3>
+<div class="outline-text-3" id="text-org07f714b">
 <p>
 The first stage of the compiler <a href="https://github.com/clarete/effigy/blob/master/lang.peg">is a PEG grammar</a> that scan and
 parse the program text and generate an <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree</a> (or AST
@@ -469,11 +551,11 @@ make it less verbose and easier to be traversed and lastly help
 overcoming two shortcomings of the PEG implementation:
 </p>
 
-<p>
-Handle left recursion
-Decide if a result should be wrapped into the name of its
-parsing rule
-</p>
+<ol class="org-ol">
+<li>Handle left recursion</li>
+<li>Decide if a result should be wrapped into the name of its
+parsing rule</li>
+</ol>
 
 <p>
 There are a few documented ways to handling left recursion on
@@ -530,9 +612,9 @@ statement or a list of statements within curly brackets (<code>{}</code>).
 </div>
 </div>
 
-<div id="outline-container-org1fa8d91" class="outline-3">
-<h3 id="org1fa8d91">Mapping out scope rules</h3>
-<div class="outline-text-3" id="text-org1fa8d91">
+<div id="outline-container-orge4c980c" class="outline-3">
+<h3 id="orge4c980c">Mapping out scope rules</h3>
+<div class="outline-text-3" id="text-orge4c980c">
 <p>
 After generating the AST during the text parsing phase, we need to
 go through an additional step before translating the AST into
@@ -540,11 +622,11 @@ go through an additional step before translating the AST into
 one of the three categories:
 </p>
 
-<p>
-Local variables
-Global variables
-Free variables
-</p>
+<ol class="org-ol">
+<li>Local variables</li>
+<li>Global variables</li>
+<li>Free variables</li>
+</ol>
 
 <p>
 Let's look at the following code snippet to talk about it:
@@ -700,9 +782,9 @@ Python itself woks.
 </div>
 </div>
 
-<div id="outline-container-org6b3b69d" class="outline-3">
-<h3 id="org6b3b69d">Output format</h3>
-<div class="outline-text-3" id="text-org6b3b69d">
+<div id="outline-container-orgee74ad8" class="outline-3">
+<h3 id="orgee74ad8">Output format</h3>
+<div class="outline-text-3" id="text-orgee74ad8">
 <p>
 Once the AST is annotated by the scope traversal step, it is ready
 to be fed once again into the <a href="https://github.com/clarete/effigy/blob/master/lang.tr">second PEG grammar</a> to be traversed
@@ -742,12 +824,12 @@ When code generation is done, the Code object is written into a
 buffer and a header with the following four 32 bit fields is built:
 </p>
 
-<p>
-magic number
-<a href="https://www.python.org/dev/peps/pep-0552/">PEP-552</a> field (Allows deterministic builds of <code>.pyc</code> files)
-Modified Date
-Size of the code buffer
-</p>
+<ul class="org-ul">
+<li>magic number</li>
+<li><a href="https://www.python.org/dev/peps/pep-0552/">PEP-552</a> field (Allows deterministic builds of <code>.pyc</code> files)</li>
+<li>Modified Date</li>
+<li>Size of the code buffer</li>
+</ul>
 
 <p>
 The last step is to write the header and the code buffer into a
@@ -756,9 +838,9 @@ The last step is to write the header and the code buffer into a
 </div>
 </div>
 
-<div id="outline-container-orgc7781a9" class="outline-3">
-<h3 id="orgc7781a9">Code Generation</h3>
-<div class="outline-text-3" id="text-orgc7781a9">
+<div id="outline-container-org064db4c" class="outline-3">
+<h3 id="org064db4c">Code Generation</h3>
+<div class="outline-text-3" id="text-org064db4c">
 <p>
 Generating the assembly code for filling in the <code>co_code</code>
 attributes of Code objects is certainly the biggest task performed
@@ -859,9 +941,9 @@ is a good example to shown how it's done:
 </div>
 </div>
 
-<div id="outline-container-orgf2bae02" class="outline-3">
-<h3 id="orgf2bae02">Assemble binary data</h3>
-<div class="outline-text-3" id="text-orgf2bae02">
+<div id="outline-container-orgb6daf3c" class="outline-3">
+<h3 id="orgb6daf3c">Assemble binary data</h3>
+<div class="outline-text-3" id="text-orgb6daf3c">
 <p>
 Besides emitting instructions, the assembler has to support
 back-patching of values that were not known ahead of time.  Three
@@ -869,13 +951,13 @@ little functions on the assembler's interface allowed that to
 happen:
 </p>
 
-<p>
-<code>pos()</code>: Return the index of the current instruction;
-<code>ref()</code>: Push the index of the current instruction to a list of
-labels and return the index of the label;
-<code>fix(label, value)</code>: Replace the instruction within <code>label</code> with
-<code>value</code>.
-</p>
+<ul class="org-ul">
+<li><code>pos()</code>: Return the index of the current instruction;</li>
+<li><code>ref()</code>: Push the index of the current instruction to a list of
+labels and return the index of the label;</li>
+<li><code>fix(label, value)</code>: Replace the instruction within <code>label</code> with
+<code>value</code>.</li>
+</ul>
 
 <p>
 For the sake of completion, here are the other functions that
@@ -883,15 +965,15 @@ comprise the assembler's interface (already mentioned on previous
 sections):
 </p>
 
-<p>
-<code>enter()</code>: Enter a new scope, creating a new Code object
-instance;
-<code>leave()</code>: Return the Code object built for the current scope and
-set the enclosing scope as the current one;
-<code>emit(opcode, argument)</code>: Append
-<code>attr(name, value=undefined)</code>: Helper function for reading or
-writing a value to one of the values tables of the current scope;
-</p>
+<ul class="org-ul">
+<li><code>enter()</code>: Enter a new scope, creating a new Code object
+instance;</li>
+<li><code>leave()</code>: Return the Code object built for the current scope and
+set the enclosing scope as the current one;</li>
+<li><code>emit(opcode, argument)</code>: Append</li>
+<li><code>attr(name, value=undefined)</code>: Helper function for reading or
+writing a value to one of the values tables of the current scope;</li>
+</ul>
 
 <p>
 To not have to deal with binary code the whole time I worked on
@@ -911,11 +993,13 @@ The part of the assembler that marshals JavaScript objects into the
 binary format that the Python Virtual Machine can read is mostly a
 translation of the code under <a href="https://github.com/python/cpython/blob/3.7/Python/marshal.c">Python/marshal.c</a> to JavaScript.
 </p>
+</div>
+</div>
+</div>
 
-<p>
-Final Thoughts
-</p>
-
+<div id="outline-container-orgf6c34ec" class="outline-2">
+<h2 id="orgf6c34ec">Final Thoughts</h2>
+<div class="outline-text-2" id="text-orgf6c34ec">
 <p>
 As you must have noticed, there's way more information about the
 architecture of the compiler and the PEG implementation than about
@@ -934,23 +1018,25 @@ by Python, there's a whole lot missing that I didn't even intend to
 cover. Here are a few:
 </p>
 
-<p>
-The Effigy compiler has the worst error reporting you can
+<ol class="org-ol">
+<li>The Effigy compiler has the worst error reporting you can
 possibly imagine.  If an input has a syntax error, it will only
 give you the index of the character that it can't recognize.  If
 the error is on the translation after the syntax tree has been
 built, you're going to have to print out the AST and figure it
-out yourself.
-The Effigy language doesn't support lots of very useful features
+out yourself.</li>
+
+<li>The Effigy language doesn't support lots of very useful features
 provided by Python and required for a minimally comfortable
 programming experience, like declaring classes, importing other
 modules, creating dictionaries with literals (you can still call
-the <code>dict()</code> function though :D).
-As I mentioned before, the code generated isn't optimized in any
+the <code>dict()</code> function though :D).</li>
+
+<li>As I mentioned before, the code generated isn't optimized in any
 way, so it will most likely be way slower than code generated by
 the Python compiler. It's still something I want to do in another
-exercise, but I bet Effigy won't ever see that improvement.
-</p>
+exercise, but I bet Effigy won't ever see that improvement.</li>
+</ol>
 
 <p>
 Although this was just a simple exercise completely focused in
@@ -962,223 +1048,16 @@ find me on the <a href="https://freenode.net/">freenode</a> IRC network (I'm usu
 </p>
 </div>
 </div>
-]]></description>
-</item>
-<item>
-<title>Starting a blog</title>
-<link>https://clarete.li/starting-a-blog.html</link>
-<author>lincoln@clarete.li (Lincoln Clarete)</author>
-<guid isPermaLink="false">https://clarete.li/starting-a-blog.html</guid>
-<pubDate>Sun, 26 Apr 2020 00:00:00 -0400</pubDate>
-
-<description><![CDATA[<p>
-I've tried blogging before. All the attempts ended up following a very
-similar pattern: Took me a veeeery long time to write a single post
-and after that I never looked back at it again.
-</p>
-
-<p>
-This time I'm trying things differently. I'm not going to start from
-the perfect blog post. I'll start just documenting how I turned this
-GitHub Pages repository in a blog and see what comes next.
-</p>
-
-<p>
-First things first
-</p>
-
-<p>
-I already have a GitHub pages website setup. It's as simple as
-creating a repository called <code>YOURGITHUBUSER.github.io</code> (you can see
-mine <a href="https://github.com/clarete/clarete.github.io/">here</a>). After that, you can push static HTML content and it will
-be available under <code>https://YOURGITHUBUSER.github.io</code>.
-</p>
-
-<p>
-I also configured my DNS provider to point my domain <code>clarete.li</code> to
-GitHub and created a <code>CNAME</code> file containing the domain name.
-</p>
-
-<p>
-If you've never done that before, I highly recommend visiting the
-GitHub Pages documentation. Specifically the articles for <a href="https://help.github.com/en/github/working-with-github-pages">creating a
-new website</a> and <a href="https://help.github.com/en/github/working-with-github-pages/configuring-a-custom-domain-for-your-github-pages-site">configuring a custom domain</a> for your new website.
-The home page
-</p>
-
-<p>
-My lil website is as simple as it can get. My amazing <a href="https://www.instagram.com/pinkandsalt/">fiance</a> got me
-the logo you see on the top bar and I took care of putting it on a
-proper pink background for the internet enjoyment.
-</p>
-
-<p>
-The index file is just HTML and CSS, nothing else. Even the list of
-recent posts is done manually.
-The Posts
-</p>
-
-<p>
-This very post is written as an Org-Mode file. For those who haven't
-heard of Org-Mode before, checkout <a href="https://orgmode.org/">their website</a>.  Long story short,
-Org-Mode is a text-based document format.  From that perspective, it
-could be compared with <code>Markdown</code>. The difference is the ginormous
-feature set that Org-Mode supports compared.  Including, but not
-limited to, many output formats and an incredible interactive
-experience. 
-</p>
-
-<p>
-HTML is one of the output formats that Org-Mode supports. Each post
-written in an <code>.org</code> file will be translated into an HTML page.
-This feature is built into Org-Mode. It just takes a bit of
-configuration.
-Org-Mode Publishing
-</p>
-
-<p>
-Being completely honest, the HTML publishing feature doesn't seem
-exactly designed for the blogging use case. It took quite a bit of
-tweaking of the configuration to get it to do all the things that I
-wanted.
-</p>
-
-<p>
-You can read the entirety of my configuration in the file that I
-submitted to git as part of this website: <a href="https://github.com/clarete/clarete.github.io/blob/master/publish">publish</a>. But there is one
-little part that I consider worth mentioning: Setting the variable
-<code>org-publish-project-alist</code>.
-</p>
-
-<p>
-Although a single document can be exported to HTML, in order to
-apply the same configuration to various files, I was required to
-create a project with a source directory and an output directory.
-</p>
-
-<p>
-The cool thing about this project thing was that I could have
-different groups of settings and aggregate them all under a single
-project.  The commented snippet bellow will shad some light in the
-most essential parts of the configuration:
-</p>
-
-<div class="org-src-container">
-<pre class="src src-emacs-lisp"><span style="color: #458588;">(</span><span style="color: #fb4933;">setq</span> org-publish-project-alist
-  <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">Here's the project definition with other 3 components</span>
-  `<span style="color: #b16286;">(</span><span style="color: #8ec07c;">(</span><span style="color: #b8bb26;">"blog"</span> <span style="color: #fe8019;">:components</span> <span style="color: #d65d0e;">(</span><span style="color: #b8bb26;">"blog-posts"</span> <span style="color: #b8bb26;">"blog-static"</span> <span style="color: #b8bb26;">"blog-rss"</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">)</span>
-    <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">This is the component that translates the .org files into</span>
-    <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">the .html ones. There are lots of things happening here</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #b8bb26;">"blog-posts"</span>
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">Where your org files are coming from</span>
-     <span style="color: #fe8019;">:base-directory</span> ,base-dir
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">Where your HTML files will be generated</span>
-     <span style="color: #fe8019;">:publishing-directory</span> ,pub-dir
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">Customize the Org file tree before it's translated into</span>
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">HTML. I needed to override this function to hook up</span>
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">inserting the date of the post into the subtitle.</span>
-     <span style="color: #fe8019;">:publishing-function</span> local-blog-publish
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">Some configuration of what is going to be auto-generated</span>
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">and what won't</span>
-     <span style="color: #fe8019;">:auto-sitemap</span> t
-     <span style="color: #fe8019;">:auto-preamble</span> t
-     <span style="color: #fe8019;">:section-numbers</span> nil
-     <span style="color: #fe8019;">:table-of-contents</span> nil
-     <span style="color: #fe8019;">:html-head-include-default-style</span> nil
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">These allowed me to inject my own HTML for the header and</span>
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">the footer. I'm in fact reading these two snippets from</span>
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">separate files</span>
-     <span style="color: #fe8019;">:html-preamble</span> local-blog-preamble
-     <span style="color: #fe8019;">:html-postamble</span> local-blog-postamble<span style="color: #8ec07c;">)</span>
-    <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">Tis is actually straight forward. It will take care of the</span>
-    <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">asset files included in the blog posts</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #b8bb26;">"blog-static"</span>
-     <span style="color: #fe8019;">:base-directory</span> ,base-dir
-     <span style="color: #fe8019;">:publishing-directory</span> ,pub-dir
-     <span style="color: #fe8019;">:base-extension</span> <span style="color: #b8bb26;">"css</span><span style="color: #b8bb26; font-weight: bold;">\\</span><span style="color: #b8bb26; font-weight: bold;">|</span><span style="color: #b8bb26;">js</span><span style="color: #b8bb26; font-weight: bold;">\\</span><span style="color: #b8bb26; font-weight: bold;">|</span><span style="color: #b8bb26;">png</span><span style="color: #b8bb26; font-weight: bold;">\\</span><span style="color: #b8bb26; font-weight: bold;">|</span><span style="color: #b8bb26;">jpg</span><span style="color: #b8bb26; font-weight: bold;">\\</span><span style="color: #b8bb26; font-weight: bold;">|</span><span style="color: #b8bb26;">gif</span><span style="color: #b8bb26; font-weight: bold;">\\</span><span style="color: #b8bb26; font-weight: bold;">|</span><span style="color: #b8bb26;">pdf"</span>
-     <span style="color: #fe8019;">:recursive</span> t
-     <span style="color: #fe8019;">:publishing-function</span> org-publish-attachment<span style="color: #8ec07c;">)</span>
-    <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">Also straightforward, but needed to install an extension</span>
-    <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">`</span><span style="color: #d3869b;">ox-rss</span><span style="color: #7c6f64;">' that wasn't available via package manager. This little</span>
-    <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">snippet will be responsible for generating the `</span><span style="color: #d3869b;">rss.xml</span><span style="color: #7c6f64;">'</span>
-    <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">file.</span>
-    <span style="color: #8ec07c;">(</span><span style="color: #b8bb26;">"blog-rss"</span>
-     <span style="color: #fe8019;">:base-directory</span> ,base-dir
-     <span style="color: #fe8019;">:publishing-directory</span> ,pub-dir
-     <span style="color: #fe8019;">:publishing-function</span> <span style="color: #d65d0e;">(</span>org-rss-publish-to-rss<span style="color: #d65d0e;">)</span>
-     <span style="color: #fe8019;">:base-extension</span> <span style="color: #b8bb26;">"org"</span>
-     <span style="color: #fe8019;">:rss-extension</span> <span style="color: #b8bb26;">"xml"</span>
-     <span style="color: #fe8019;">:html-link-home</span> <span style="color: #b8bb26;">"https://clarete.li/"</span>
-     <span style="color: #fe8019;">:html-link-use-abs-url</span> t
-     <span style="color: #fe8019;">:include</span> <span style="color: #d65d0e;">(</span><span style="color: #b8bb26;">"rss.org"</span><span style="color: #d65d0e;">)</span>
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">This is what generates the file `</span><span style="color: #d3869b;">rss.org</span><span style="color: #7c6f64;">', which in turn is</span>
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">what's used to generate `</span><span style="color: #d3869b;">rss.xml</span><span style="color: #7c6f64;">'. The trickiest part for sure</span>
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">was stitching together the custom functions starting with</span>
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">`</span><span style="color: #d3869b;">local-blog-</span><span style="color: #7c6f64;">'. The references I linked in the last paragraph</span>
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">can be of great help if my `</span><span style="color: #d3869b;">publish</span><span style="color: #7c6f64;">' file isn't enough for</span>
-     <span style="color: #7c6f64;">;; </span><span style="color: #7c6f64;">you.</span>
-     <span style="color: #fe8019;">:auto-sitemap</span> t
-     <span style="color: #fe8019;">:sitemap-filename</span> <span style="color: #b8bb26;">"rss.org"</span>
-     <span style="color: #fe8019;">:sitemap-title</span> <span style="color: #b8bb26;">"Lincoln Clarete"</span>
-     <span style="color: #fe8019;">:sitemap-style</span> list
-     <span style="color: #fe8019;">:sitemap-sort-files</span> anti-chronologically
-     <span style="color: #fe8019;">:sitemap-format-entry</span> local-blog-sitemap-format-entry
-     <span style="color: #fe8019;">:sitemap-function</span> local-blog-sitemap-function
-     <span style="color: #fe8019;">:publishing-function</span> local-blog-rss-publish-to-rss<span style="color: #8ec07c;">)</span><span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
-</pre>
+</main>
+<footer id="postamble" class="status">
+<div class="footer">
+  <div class="bg">
+    <div class="container">
+      © Lincoln Clarete &mdash; All written content on this website
+      reflects my personal opinion and it's available under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a>
+    </div>
+  </div>
 </div>
-<p>
-Operating the blog
-</p>
-
-<p>
-From now one, I just have to execute the command <code>C-c C-e P p</code> to
-ask Org Publishing to generate the HTML file of all the org files that
-have been updated since I last executed it. It feels quite
-convenient, I have to say.
-</p>
-
-<p>
-After changing stuff and regenerating the HTML, the last step in my
-publication journey is to add the changes to Git and push the
-changes to GitHub. Then it just takes a minute or two for GitHub
-Pages to pick up the changes and display it properly.
-Open issues
-</p>
-
-<p>
-I'm very happy with the current setup and there really aren't that
-many issues so far. But there are two that I want to tackle:
-</p>
-
-<p>
-I haven't added the unfurling links as suggested by <a href="https://writepermission.com/org-blogging-unfurling-links.html">rw-r-r</a>;
-Still need to decide if I'll use Google Analytics or another less
-intrusive alternative;
-Source code snippets don't get syntax highlight if I the script
-<code>publish</code> directly from the terminal. It errors out with the
-following message: <code>Cannot fontify source block (htmlize.el &gt;=
-       1.34 required)</code>. Which is quite weird because I have <code>htmlize
-       1.57</code> installed.  I'm OK not fixing it for now because I can just
-do it from within emacs and that's actually more convenient.
-Final thoughts
-</p>
-
-<p>
-The fine grained customizations were certaingly the hardest to get
-to work and I wouldn't have been able to figure it out in the amount
-of time I had to dedicate to this task without the amazing reference
-other Emacs users put together. Here's what I consulted in no
-particular order:
-</p>
-
-<p>
-<a href="https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html">https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html</a>
-<a href="https://www.brautaset.org/articles/2017/blogging-with-org-mode.html">https://www.brautaset.org/articles/2017/blogging-with-org-mode.html</a>
-<a href="https://vicarie.in/posts/blogging-with-org.html">https://vicarie.in/posts/blogging-with-org.html</a>
-<a href="https://writepermission.com/org-blogging-rss-feed.html">https://writepermission.com/org-blogging-rss-feed.html</a>
-</p>
-]]></description>
-</item>
-</channel>
-</rss>
+</footer>
+</body>
+</html>
