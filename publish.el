@@ -14,11 +14,6 @@
 ;;  * https://www.brautaset.org/articles/2017/blogging-with-org-mode.html
 ;;; Code:
 
-;; This is where I downloaded ox-rss
-(add-to-list 'load-path (expand-file-name "site-lisp" user-emacs-directory))
-(require 'package)
-(package-initialize)
-
 (require 'org)
 (require 'org-element)
 
@@ -26,6 +21,13 @@
 (require 'ox-publish)
 (require 'ox-html)
 (require 'ox-rss)
+
+;; Where effigy-mode & peg-mode for syntax highlight
+;;
+;; (add-to-list 'load-path "~/src/github.com/clarete/effigy/extras")
+;; (add-to-list 'load-path "~/src/github.com/clarete/langlang/extra")
+;; (require 'peg-mode)
+;; (require 'effigy-mode)
 
 (defun lc/blog/file-path (path)
   "Return the relative path file at `PATH'."
@@ -178,6 +180,9 @@ matches BACKEND."
 (defvar lc/blog/pub-dir (lc/blog/file-path "blog")
   "Path that all documents are exported.")
 
+(defvar lc/blog/posts-by-tag (make-hash-table :test 'equal)
+  "Keys are tags, values are lists.")
+
 ;; Functions that could not leverage org-publish that much because
 ;; I don't know what I'm doing
 
@@ -191,6 +196,14 @@ matches BACKEND."
           (split-string (match-string 1) ":")
 	(if (search-forward-regexp "^\\#\\+filetags:[ ]*\\(.+\\)$" nil t)
             (split-string (match-string 1)))))))
+
+(defun lc/blog/all-source-files ()
+  "All source files."
+  (directory-files lc/blog/source-dir t ".org"))
+
+(defun lc/blog/source-files ()
+  "Source files minus the auto-generated ones."
+  (seq-filter 'lc/blog/is-auto-generated (lc/blog/all-source-files)))
 
 (defun lc/blog/is-draft (file)
   "Return t if FILE is a draft and nil otherwise."
@@ -269,7 +282,7 @@ matches BACKEND."
          :base-extension "org"
          :rss-extension "xml"
          :rss-feed-url: "https://clarete.li/blog/rss.xml"
-         :html-link-home "https://clarete.li/"
+         :html-link-home "https://clarete.li/blog"
          :html-link-use-abs-url t
          :html-link-org-files-as-html t
          :auto-sitemap t

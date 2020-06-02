@@ -10,26 +10,26 @@
         xmlns:geo="http://www.w3.org/2003/01/geo/wgs84_pos#"
         xmlns:media="http://search.yahoo.com/mrss/"><channel>
 <title>Lincoln Clarete</title>
-<atom:link href="https://clarete.li/rss.xml" rel="self" type="application/rss+xml" />
-<link>https://clarete.li/</link>
+<atom:link href="https://clarete.li/blog/rss.xml" rel="self" type="application/rss+xml" />
+<link>https://clarete.li/blog</link>
 <description><![CDATA[]]></description>
 <language>en</language>
-<pubDate>Sun, 31 May 2020 09:50:23 -0400</pubDate>
-<lastBuildDate>Sun, 31 May 2020 09:50:23 -0400</lastBuildDate>
+<pubDate>Tue, 02 Jun 2020 19:09:39 -0400</pubDate>
+<lastBuildDate>Tue, 02 Jun 2020 19:09:39 -0400</lastBuildDate>
 <generator>Emacs 28.0 Org-mode 9.3</generator>
 <webMaster>lincoln@clarete.li (Lincoln Clarete)</webMaster>
 <image>
 <url>https://orgmode.org/img/org-mode-unicorn-logo.png</url>
 <title>Lincoln Clarete</title>
-<link>https://clarete.li/</link>
+<link>https://clarete.li/blog</link>
 </image>
 
 
 <item>
 <title>A toy compiler from scratch</title>
-<link>https://clarete.li/toy-compiler-from-scratch.html</link>
+<link>https://clarete.li/blog/toy-compiler-from-scratch.html</link>
 <author>lincoln@clarete.li (Lincoln Clarete)</author>
-<guid isPermaLink="false">https://clarete.li/toy-compiler-from-scratch.html</guid>
+<guid isPermaLink="false">https://clarete.li/blog/toy-compiler-from-scratch.html</guid>
 <pubDate>Sun, 31 May 2020 00:00:00 -0400</pubDate>
 
 <description><![CDATA[<p>
@@ -251,9 +251,9 @@ list;
 <b>Close()</b> - <code>}</code>: Return true if the currently open list has ended
 </p>
 
-<div id="outline-container-org9460a14" class="outline-3">
-<h3 id="org9460a14">Scanner Interface</h3>
-<div class="outline-text-3" id="text-org9460a14">
+<div id="outline-container-org17bcdd8" class="outline-3">
+<h3 id="org17bcdd8">Scanner Interface</h3>
+<div class="outline-text-3" id="text-org17bcdd8">
 <p>
 The parser that implements the PEG interface listed above is built
 on top of a scanner that provides all the matching functions and
@@ -322,9 +322,9 @@ scanner in action:
 </p>
 </div>
 
-<div id="outline-container-org656fbc0" class="outline-4">
-<h4 id="org656fbc0">Text Scanner</h4>
-<div class="outline-text-4" id="text-org656fbc0">
+<div id="outline-container-orgfae8332" class="outline-4">
+<h4 id="orgfae8332">Text Scanner</h4>
+<div class="outline-text-4" id="text-orgfae8332">
 <p>
 The <code>match</code> function takes a string as its input:
 </p>
@@ -344,9 +344,9 @@ which generates:
 </div>
 </div>
 
-<div id="outline-container-org1f094f7" class="outline-4">
-<h4 id="org1f094f7">List Scanner</h4>
-<div class="outline-text-4" id="text-org1f094f7">
+<div id="outline-container-org3c1f9da" class="outline-4">
+<h4 id="org3c1f9da">List Scanner</h4>
+<div class="outline-text-4" id="text-org3c1f9da">
 <p>
 The <code>matchl</code> function takes a list as its input:
 </p>
@@ -375,9 +375,9 @@ which generates:
 </div>
 </div>
 
-<div id="outline-container-org41300cd" class="outline-3">
-<h3 id="org41300cd">Semantic Actions</h3>
-<div class="outline-text-3" id="text-org41300cd">
+<div id="outline-container-org2b65ae4" class="outline-3">
+<h3 id="org2b65ae4">Semantic Actions</h3>
+<div class="outline-text-3" id="text-org2b65ae4">
 <p>
 After collecting the results from the matching operations and
 nesting them following the grammar's structure, the PEG library can
@@ -456,9 +456,9 @@ the compilation process itself!
 </div>
 </div>
 
-<div id="outline-container-orgb457f49" class="outline-3">
-<h3 id="orgb457f49">Parsing the program text</h3>
-<div class="outline-text-3" id="text-orgb457f49">
+<div id="outline-container-org0876092" class="outline-3">
+<h3 id="org0876092">Parsing the program text</h3>
+<div class="outline-text-3" id="text-org0876092">
 <p>
 The first stage of the compiler <a href="https://github.com/clarete/effigy/blob/master/lang.peg">is a PEG grammar</a> that scan and
 parse the program text and generate an <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree</a> (or AST
@@ -530,9 +530,9 @@ statement or a list of statements within curly brackets (<code>{}</code>).
 </div>
 </div>
 
-<div id="outline-container-org3339c03" class="outline-3">
-<h3 id="org3339c03">Mapping out scope rules</h3>
-<div class="outline-text-3" id="text-org3339c03">
+<div id="outline-container-org44a345b" class="outline-3">
+<h3 id="org44a345b">Mapping out scope rules</h3>
+<div class="outline-text-3" id="text-org44a345b">
 <p>
 After generating the AST during the text parsing phase, we need to
 go through an additional step before translating the AST into
@@ -700,9 +700,9 @@ Python itself woks.
 </div>
 </div>
 
-<div id="outline-container-org44c4808" class="outline-3">
-<h3 id="org44c4808">Output format</h3>
-<div class="outline-text-3" id="text-org44c4808">
+<div id="outline-container-orgb3fc942" class="outline-3">
+<h3 id="orgb3fc942">Output format</h3>
+<div class="outline-text-3" id="text-orgb3fc942">
 <p>
 Once the AST is annotated by the scope traversal step, it is ready
 to be fed once again into the <a href="https://github.com/clarete/effigy/blob/master/lang.tr">second PEG grammar</a> to be traversed
@@ -756,9 +756,9 @@ The last step is to write the header and the code buffer into a
 </div>
 </div>
 
-<div id="outline-container-org74365b0" class="outline-3">
-<h3 id="org74365b0">Code Generation</h3>
-<div class="outline-text-3" id="text-org74365b0">
+<div id="outline-container-orgd7783bf" class="outline-3">
+<h3 id="orgd7783bf">Code Generation</h3>
+<div class="outline-text-3" id="text-orgd7783bf">
 <p>
 Generating the assembly code for filling in the <code>co_code</code>
 attributes of Code objects is certainly the biggest task performed
@@ -859,9 +859,9 @@ is a good example to shown how it's done:
 </div>
 </div>
 
-<div id="outline-container-orgbc0f45b" class="outline-3">
-<h3 id="orgbc0f45b">Assemble binary data</h3>
-<div class="outline-text-3" id="text-orgbc0f45b">
+<div id="outline-container-org40b3032" class="outline-3">
+<h3 id="org40b3032">Assemble binary data</h3>
+<div class="outline-text-3" id="text-org40b3032">
 <p>
 Besides emitting instructions, the assembler has to support
 back-patching of values that were not known ahead of time.  Three
@@ -966,9 +966,9 @@ find me on the <a href="https://freenode.net/">freenode</a> IRC network (I'm usu
 </item>
 <item>
 <title>Starting a blog</title>
-<link>https://clarete.li/starting-a-blog.html</link>
+<link>https://clarete.li/blog/starting-a-blog.html</link>
 <author>lincoln@clarete.li (Lincoln Clarete)</author>
-<guid isPermaLink="false">https://clarete.li/starting-a-blog.html</guid>
+<guid isPermaLink="false">https://clarete.li/blog/starting-a-blog.html</guid>
 <pubDate>Sun, 26 Apr 2020 00:00:00 -0400</pubDate>
 
 <description><![CDATA[<p>
