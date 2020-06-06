@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Build a toy compiler from scratch</title>
+<meta name="author" content="(Lincoln)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="./index.css"/>
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+<section id="slide-org45e73e4">
+<h2 id="org45e73e4">Build a toy compiler from scratch</h2>
+<div class="outline-text-2" id="text-org45e73e4">
+</div>
+</section>
+<section id="slide-org523ba8c">
+<h3 id="org523ba8c">Goal of this experiment</h3>
+<p>
+To compile a program to the Python Virtual Machine using a
+home brewed compiler
+</p>
+
+</section>
+<section id="slide-org8898096">
+<h3 id="org8898096">How does this little language look like</h3>
+<div class="org-src-container">
+
+<pre  class="src src-effigy"><code trim><span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">fib</span><span style="color: #458588;">(</span>n<span style="color: #458588;">)</span>
+  <span style="color: #fb4933;">if</span> <span style="color: #83a598;">n</span> == 0 <span style="color: #fb4933;">or</span> <span style="color: #83a598;">n</span> == 1
+    <span style="color: #fb4933;">return</span> n
+  <span style="color: #fb4933;">else</span> <span style="color: #458588;">{</span>
+    <span style="color: #83a598;">previous</span> = 1
+    <span style="color: #83a598;">current</span> = 1
+    <span style="color: #fb4933;">for</span> i <span style="color: #fb4933;">in</span> range<span style="color: #b16286;">(</span>2, n<span style="color: #b16286;">)</span> <span style="color: #b16286;">{</span>
+      <span style="color: #83a598;">tmp</span> = current + previous
+      <span style="color: #83a598;">previous</span> = current
+      <span style="color: #83a598;">current</span> = tmp
+    <span style="color: #b16286;">}</span>
+    <span style="color: #fb4933;">return</span> current
+  <span style="color: #458588;">}</span>
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org0bb8f73">
+<h2 id="org0bb8f73">A look from above</h2>
+
+<div class="figure">
+<p><img src="../../media/blogimg/effigy-an-experiment-writing-a-compiler-overview.png" alt="effigy-an-experiment-writing-a-compiler-overview.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgad19d59">
+<h2 id="orgad19d59">Text parsing</h2>
+<div class="outline-text-2" id="text-orgad19d59">
+</div>
+</section>
+<section id="slide-org47c7cc0">
+<h3 id="org47c7cc0">Take a stream of characters and produce a tree structure</h3>
+
+</section>
+<section id="slide-org05143d0">
+<h3 id="org05143d0">Parsing Expression Grammars</h3>
+<div class="outline-text-3" id="text-org05143d0">
+</div>
+</section>
+<section id="slide-org1bc8f3b">
+<h4 id="org1bc8f3b">Semantics</h4>
+<ol>
+<li>Language to describe recursive top-down parsers</li>
+<li>Borrow productions from Context Free Grammars</li>
+<li>Expression operators borrowed from <i>regexes</i></li>
+<li>Infinite look-ahead via semantic predicates</li>
+<li>Lexing &amp; Parsing can happen together</li>
+<li>Unsuitable for handling ambiguity, but can describe all
+deterministic context-free languages</li>
+
+</ol>
+
+</section>
+<section id="slide-org3bddbcc">
+<h4 id="org3bddbcc">Expressions</h4>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>sequence</b></td>
+<td class="org-left"><code>e1 e2</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>ordered choice</b></td>
+<td class="org-left"><code>e1 / e2</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>not predicate</b></td>
+<td class="org-left"><code>!e</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>and predicate</b></td>
+<td class="org-left"><code>&amp;e</code></td>
+<td class="org-left">(sugar for <code>!!e</code>)</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>zero or more</b></td>
+<td class="org-left"><code>e*</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>one or more</b></td>
+<td class="org-left"><code>e+</code></td>
+<td class="org-left">(sugar for <code>ee*</code>)</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>optional</b></td>
+<td class="org-left"><code>e?</code></td>
+<td class="org-left">(sugar for <code>&amp;ee / !e</code>)</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-orgb89a6bb">
+<h4 id="orgb89a6bb">A tiny example</h4>
+<p>
+<table width="100%"><tr><th>Grammar</th><th>Input</th></tr>
+</p>
+
+<p>
+<tr><td width="50%">
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-peg"><code trim><span style="color: #fabd2f;">File</span>  <span style="color: #d3869b;">&lt;-</span> Line<span style="color: #fe8019;">*</span>
+<span style="color: #fabd2f;">Line</span>  <span style="color: #d3869b;">&lt;-</span> Value <span style="color: #458588;">(</span><span style="color: #b8bb26;">','</span> Value<span style="color: #458588;">)</span><span style="color: #fe8019;">*</span> <span style="color: #b8bb26;">'\n'</span>
+<span style="color: #fabd2f;">Value</span> <span style="color: #d3869b;">&lt;-</span> <span style="color: #458588;">(</span><span style="color: #fe8019;">!</span><span style="color: #b8bb26;">[,\n]</span> .<span style="color: #458588;">)</span><span style="color: #fe8019;">*</span>
+
+</code></pre>
+</div>
+
+<p>
+</td><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>id,name
+01,Moe
+02,Larry
+03,Curly
+</code></pre>
+</div>
+
+<p>
+</td></tr></table>
+</p>
+
+<p>
+<b>Output</b>
+</p>
+
+<div class="paddedex">
+<div class="org-src-container">
+
+<pre  class="src src-js"><code trim><span style="color: #458588;">[</span><span style="color: #b8bb26;">'File'</span>,
+ <span style="color: #b16286;">[</span><span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Line'</span>, <span style="color: #d65d0e;">[</span><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #b8bb26;">'id'</span><span style="color: #458588;">]</span>, <span style="color: #458588;">[</span><span style="color: #b8bb26;">','</span>, <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #b8bb26;">'name'</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>, <span style="color: #b8bb26;">'\n'</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span>,
+  <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Line'</span>, <span style="color: #d65d0e;">[</span><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #b8bb26;">'01'</span><span style="color: #458588;">]</span>, <span style="color: #458588;">[</span><span style="color: #b8bb26;">','</span>, <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #b8bb26;">'Moe'</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>, <span style="color: #b8bb26;">'\n'</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span>,
+  <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Line'</span>, <span style="color: #d65d0e;">[</span><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #b8bb26;">'02'</span><span style="color: #458588;">]</span>, <span style="color: #458588;">[</span><span style="color: #b8bb26;">','</span>, <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #b8bb26;">'Larry'</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>, <span style="color: #b8bb26;">'\n'</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span>,
+  <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Line'</span>, <span style="color: #d65d0e;">[</span><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #b8bb26;">'03'</span><span style="color: #458588;">]</span>, <span style="color: #458588;">[</span><span style="color: #b8bb26;">','</span>, <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #b8bb26;">'Curly'</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>, <span style="color: #b8bb26;">'\n'</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>
+</code></pre>
+</div>
+
+</div>
+
+</section>
+<section id="slide-org81c7f09">
+<h4 id="org81c7f09">Semantic Actions</h4>
+<p>
+Traverse the parse tree and apply user-defined functions to each
+node
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-js"><code trim><span style="color: #fb4933;">const</span> <span style="color: #83a598;">parser</span> = peg
+ .pegc<span style="color: #458588;">(</span><span style="color: #b8bb26;">'./csv.peg'</span><span style="color: #458588;">)</span>
+ .bind<span style="color: #458588;">(</span><span style="color: #b16286;">{</span>
+   File:  <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> visit, action <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">[</span>action, visit<span style="color: #d65d0e;">()</span><span style="color: #8ec07c;">]</span>,
+   Line:  <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> visit, action <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">[</span>action, visit<span style="color: #d65d0e;">()</span><span style="color: #8ec07c;">]</span>,
+   Value: <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> visit, action <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">[</span>action, visit<span style="color: #d65d0e;">()</span>.join<span style="color: #d65d0e;">(</span><span style="color: #b8bb26;">''</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">]</span>,
+ <span style="color: #b16286;">}</span><span style="color: #458588;">)</span>;
+parser<span style="color: #458588;">(</span>input<span style="color: #458588;">)</span>;
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgb82f0c6">
+<h3 id="orgb82f0c6">Language Grammar</h3>
+<p>
+With a PEG implementation at hand, the next step is to get the
+language grammar ready to take input text and generate an Abstract
+Syntax Tree (or <code>AST</code> for short). <a href="https://github.com/clarete/effigy/blob/master/lang.peg">LIL DEMO!!!</a>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf315587">
+<h2 id="orgf315587">Scope rules</h2>
+<div class="outline-text-2" id="text-orgf315587">
+</div>
+</section>
+<section id="slide-orge5c10a9">
+<h3 id="orge5c10a9">Traverse the AST and apply lexical scope rules</h3>
+
+</section>
+<section id="slide-org649a60f">
+<h3 id="org649a60f">Example</h3>
+<div class="org-src-container">
+
+<pre  class="src src-effigy"><code trim><span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">plus_n</span><span style="color: #458588;">(</span>x<span style="color: #458588;">)</span> <span style="color: #fb4933;">fn</span><span style="color: #458588;">(</span>y<span style="color: #458588;">)</span> x + y
+plus_two = plus_n<span style="color: #458588;">(</span>2<span style="color: #458588;">)</span>
+plus_five = plus_n<span style="color: #458588;">(</span>5<span style="color: #458588;">)</span>
+print<span style="color: #458588;">(</span>plus_two<span style="color: #b16286;">(</span>2<span style="color: #b16286;">)</span><span style="color: #458588;">)</span> <span style="color: #7c6f64;"># Equals 4</span>
+print<span style="color: #458588;">(</span>plus_five<span style="color: #b16286;">(</span>2<span style="color: #b16286;">)</span><span style="color: #458588;">)</span> <span style="color: #7c6f64;"># Equals 7</span>
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orged64f1f">
+<h2 id="orged64f1f">Code generation</h2>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+hash: true, history: true,
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>

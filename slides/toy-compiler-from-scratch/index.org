@@ -1,0 +1,141 @@
+#+TITLE: Build a toy compiler from scratch
+#+AUTHOR: Lincoln
+#+OPTIONS: toc:nil num:nil reveal_title_slide:nil
+#+REVEAL_INIT_OPTIONS: hash: true, history: true
+#+REVEAL_ROOT: https://cdnjs.cloudflare.com/ajax/libs/reveal.js/3.8.0/
+#+REVEAL_EXTRA_CSS: ./index.css
+#+REVEAL_THEME: simple
+#+REVEAL_TRANS: linear
+
+# M-x load-library<ret>ox-reveal
+# Execute 'C-c C-e R R' to export the presentation
+
+* Build a toy compiler from scratch
+
+** Goal of this experiment
+
+   To compile a program to the Python Virtual Machine using a
+   home brewed compiler
+
+** How does this little language look like
+
+   #+BEGIN_SRC effigy
+   fn fib(n)
+     if n == 0 or n == 1
+       return n
+     else {
+       previous = 1
+       current = 1
+       for i in range(2, n) {
+         tmp = current + previous
+         previous = current
+         current = tmp
+       }
+       return current
+     }
+   #+END_SRC
+
+* A look from above
+
+  [[../../media/blogimg/effigy-an-experiment-writing-a-compiler-overview.png]]
+
+* Text parsing
+
+** Take a stream of characters and produce a tree structure
+
+** Parsing Expression Grammars
+
+*** Semantics
+
+    1. Language to describe recursive top-down parsers
+    2. Borrow productions from Context Free Grammars
+    3. Expression operators borrowed from /regexes/
+    4. Infinite look-ahead via semantic predicates
+    6. Lexing & Parsing can happen together
+    5. Unsuitable for handling ambiguity, but can describe all
+       deterministic context-free languages
+
+*** Expressions
+
+    |------------------+-----------+------------------------|
+    | *sequence*       | =e1 e2=   |                        |
+    | *ordered choice* | =e1 / e2= |                        |
+    | *not predicate*  | =!e=      |                        |
+    | *and predicate*  | =&e=      | (sugar for =!!e=)      |
+    | *zero or more*   | =e*=      |                        |
+    | *one or more*    | =e+=      | (sugar for =ee*=)      |
+    | *optional*       | =e?=      | (sugar for =&ee / !e=) |
+
+*** A tiny example
+
+    @@html:<table width="100%"><tr><th>Grammar</th><th>Input</th></tr>@@
+
+    @@html:<tr><td width="50%">@@
+
+    #+begin_src peg
+    File  <- Line*
+    Line  <- Value (',' Value)* '\n'
+    Value <- (![,\n] .)*
+
+    #+end_src
+
+    @@html:</td><td>@@
+
+    #+begin_src text
+    id,name
+    01,Moe
+    02,Larry
+    03,Curly
+    #+end_src
+
+    @@html:</td></tr></table>@@
+
+    *Output*
+
+    #+BEGIN_paddedex
+    #+begin_src js
+    ['File',
+     [['Line', [['Value', 'id'], [',', ['Value', 'name']], '\n']],
+      ['Line', [['Value', '01'], [',', ['Value', 'Moe']], '\n']],
+      ['Line', [['Value', '02'], [',', ['Value', 'Larry']], '\n']],
+      ['Line', [['Value', '03'], [',', ['Value', 'Curly']], '\n']]]]
+    #+end_src
+    #+END_paddedex
+
+*** Semantic Actions
+
+    Traverse the parse tree and apply user-defined functions to each
+    node
+
+    #+begin_src js
+    const parser = peg
+     .pegc('./csv.peg')
+     .bind({
+       File:  ({ visit, action }) => [action, visit()],
+       Line:  ({ visit, action }) => [action, visit()],
+       Value: ({ visit, action }) => [action, visit().join('')],
+     });
+    parser(input);
+    #+end_src
+
+** Language Grammar
+
+   With a PEG implementation at hand, the next step is to get the
+   language grammar ready to take input text and generate an Abstract
+   Syntax Tree (or ~AST~ for short). [[https://github.com/clarete/effigy/blob/master/lang.peg][LIL DEMO!!!]]
+
+* Scope rules
+
+** Traverse the AST and apply lexical scope rules
+
+** Example
+
+   #+BEGIN_SRC effigy
+   fn plus_n(x) fn(y) x + y
+   plus_two = plus_n(2)
+   plus_five = plus_n(5)
+   print(plus_two(2)) # Equals 4
+   print(plus_five(2)) # Equals 7
+   #+END_SRC
+
+* Code generation

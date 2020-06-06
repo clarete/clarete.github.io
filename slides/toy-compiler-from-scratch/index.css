@@ -1,0 +1,111 @@
+body {
+    background-color: #522d5b;
+    color: #ffffff;
+}
+
+.reveal a, .reveal a:visited {
+    font-weight: bold;
+    color: #ffd800;
+}
+
+.reveal a:hover {
+    background-color: #ffd800;
+    color: #522d5b;
+}
+
+.reveal .progress span {
+    background-color: #ffd800;
+}
+.controls-arrow {
+    color: #ffd800;
+}
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5 {
+    padding: 0;
+    color: #ffd800;
+    font-weight: 600;
+}
+
+.reveal h1 {
+    font-size: 5em;
+    line-height: 1.1em;
+}
+
+.reveal h2 {
+    font-size: 2.5em;
+    line-height: 1.1em;
+}
+
+.reveal h3 {
+    font-size: 2em;
+    line-height: 1.1em;
+}
+
+.reveal h4 {
+    font-size: 1.5em;
+    line-height: 1.1em;
+}
+
+
+.reveal table, table {
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+
+
+.slides section {
+    color: #fff;
+    text-align: left;
+}
+
+.slides ol li {
+    margin-bottom: 20px;
+}
+
+.reveal .slides section:nth-child(1) {
+
+}
+
+.reveal section img {
+    border: none;
+    box-shadow: none;
+    padding: 60px;
+}
+
+.reveal section .titleimg img {
+    width: 50%;
+}
+
+code {
+    background: none;
+}
+
+.org-src-container {
+    background: #333;
+    color: #fff;
+}
+
+.reveal pre {
+    line-height: 1.3em;
+    font-size: 0.5em;
+    box-shadow: none;
+    margin: 0;
+    padding: 20px;
+    width: 100%;
+}
+
+.thanks object {
+    width: 250px;
+    display: block;
+    float: left;
+    margin-right: -100px;
+}
+
+.thanks ul {
+    list-style: none;
+    padding: none:
+}
+
+.paddedex {
+    padding: 0 20px 20px 20px;
+}
