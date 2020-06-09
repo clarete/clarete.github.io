@@ -46,19 +46,18 @@ body {
     line-height: 1.1em;
 }
 
-
 .reveal table, table {
     border-top-color: transparent;
     border-bottom-color: transparent;
 }
-
 
 .slides section {
     color: #fff;
     text-align: left;
 }
 
-.slides ol li {
+.slides ol li,
+.slides ul li {
     margin-bottom: 20px;
 }
 
@@ -77,7 +76,16 @@ body {
 }
 
 code {
+    background: #5c2a9d;
+    border-radius: 5px;
+    padding: 0 4px;
+}
+
+.org-src-container code {
     background: none;
+    color: #ffffff;
+    border-radius: 0;
+    padding: 0;
 }
 
 .org-src-container {
@@ -104,8 +112,4 @@ code {
 .thanks ul {
     list-style: none;
     padding: none:
-}
-
-.paddedex {
-    padding: 0 20px 20px 20px;
 }

@@ -39,9 +39,53 @@
 
   [[../../media/blogimg/effigy-an-experiment-writing-a-compiler-overview.png]]
 
+** How does Python do it
+   From https://devguide.python.org/compiler
+
+   1. Parse source code into a parse tree (Parser/pgen)
+   2. Transform the parse tree into an AST (Python/ast.c)
+   3. Transform AST into a Control Flow Graph (Python/compile.c)
+   4. Emit bytecode based on the Control Flow Graph (Python/compile.c)
+
+** How are we going to do it
+
+   1. Parse source code into parse tree with a PEG grammar
+   2. Semantic actions transform parse tree into AST
+   3. Traverse AST with a second PEG grammar and use its semantic
+      actions to emit code
+
 * Text parsing
 
 ** Take a stream of characters and produce a tree structure
+
+** Example
+
+   @@html:<table width="100%">@@
+
+   @@html:<tr><th>Input</th><td width="80%">@@
+   #+BEGIN_SRC effigy
+   print((fn (x) x + 2)(40))
+   #+END_SRC
+   @@html:</td></tr>@@
+
+   @@html:<tr><th>Output</th><td>@@
+   #+BEGIN_SRC effigy
+   ['Module',
+    ['Statement',
+     ['Call',
+      [['Load', 'print'],
+       [['Call',
+         [['Lambda',
+           [['Params', [['Param', 'x']]],
+            ['Code',
+             ['Statement',
+              ['BinOp',
+               ['Load', 'x'],
+               '+',
+               ['Value', ['Number', 2]]]]]]],
+          [['Value', ['Number', 40]]]]]]]]]]
+   #+END_SRC
+   @@html:</td></tr></table>@@
 
 ** Parsing Expression Grammars
 
@@ -90,9 +134,8 @@
 
     @@html:</td></tr></table>@@
 
-    *Output*
+    @@html:<table width="100%"><tr><th>Output</th></tr><tr><td>@@
 
-    #+BEGIN_paddedex
     #+begin_src js
     ['File',
      [['Line', [['Value', 'id'], [',', ['Value', 'name']], '\n']],
@@ -100,12 +143,13 @@
       ['Line', [['Value', '02'], [',', ['Value', 'Larry']], '\n']],
       ['Line', [['Value', '03'], [',', ['Value', 'Curly']], '\n']]]]
     #+end_src
-    #+END_paddedex
+
+    @@html:</td></tr></table>@@
 
 *** Semantic Actions
 
     Traverse the parse tree and apply user-defined functions to each
-    node
+    node *after parsing has finished successfully*
 
     #+begin_src js
     const parser = peg
@@ -118,6 +162,16 @@
     parser(input);
     #+end_src
 
+*** A little detour #1
+
+    What happens if semantic actions are applied before parsing is
+    finished
+
+*** A little detour #2
+
+    A trade-off of having support for semantic actions embedded within
+    the PEG text
+
 ** Language Grammar
 
    With a PEG implementation at hand, the next step is to get the
@@ -126,16 +180,104 @@
 
 * Scope rules
 
-** Traverse the AST and apply lexical scope rules
+** Traverse the AST and map out scope rules
 
-** Example
+*** What problem are we solving
+
+    Where do we store ~x~ in the example below when ~plus_n~ is
+    finished executing
+
+    #+BEGIN_SRC effigy
+    fn plus_n(x) fn(y) x + y
+    plus_two = plus_n(2)
+    plus_five = plus_n(5)
+    print(plus_two(2)) # Equals 4
+    print(plus_five(2)) # Equals 7
+    #+END_SRC
+
+*** Types of variables in Python
+
+    * *Global:* Module scope & built-ins
+    * *Local:* Created and destroyed within a function
+    * *Free:* Created outside the scope it's used. Has to be kept
+      around after scope that it was declared is gone
+
+*** Symbol table
+
+    Data structure for bookkeeping information about variables. The
+    Python compiler has one, so does the Effigy compiler.
+
+*** Example
+
+    @@html:<table width="100%"><tr><td>@@
+    #+BEGIN_SRC effigy
+    fn plus_n(x) fn(y) x + y
+    #+END_SRC
+
+    @@html:</td></tr></table>@@
+    @@html:<table width="100%">@@
+    @@html:<tr><th>Symbol Table</th><th>Annotated AST</th></tr><tr><td>@@
+
+    #+begin_src effigy
+    [{
+      node: 'module',
+      children: [{
+        node: 'function',
+        deref: ['x'],
+        children: [{
+          node: 'lambda',
+          fast: ['y'],
+          deref: ['x'],
+        }]
+      }]
+    }]
+    #+end_src
+    @@html:</td><td>@@
+    #+begin_src effigy
+    ['Module',
+     [['Statement',
+       ['Function',
+        [['ScopeId', 2], 'plus_n',
+         ['Params', [['Param', 'x']]],
+         ['Code',
+          ['Statement',
+           ['Lambda',
+            [['ScopeId', 1],
+             ['Params', [['Param', 'y']]],
+             ['Code', ['Statement',
+               ['BinOp', ['Load', 'x'], '+', ...
+    #+end_src
+    @@html:</td></tr></table>@@
+
+** Declaration and assignment
+
+   @@html:<table width="100%"><tr><th>Python</th><th>Effigy</th></tr>@@
+
+   @@html:<tr><td width="50%">@@
+   #+BEGIN_SRC python
+   def parse(source):
+       cursor = 0
+       def current():
+           return source[cursor]
+       def nextc():
+           nonlocal cursor
+           cursor += 1
+       # ...
+   #+END_SRC
+
+   @@html:</td><td>@@
 
    #+BEGIN_SRC effigy
-   fn plus_n(x) fn(y) x + y
-   plus_two = plus_n(2)
-   plus_five = plus_n(5)
-   print(plus_two(2)) # Equals 4
-   print(plus_five(2)) # Equals 7
+   fn parse(source) {
+     let cursor = 0
+     fn current() source[cursor]
+     fn nextc() cursor = cursor + 1
+     # ...
+   }
+
+
    #+END_SRC
+
+   @@html:</td></tr></table>@@
 
 * Code generation

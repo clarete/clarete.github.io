@@ -29,21 +29,21 @@
 <div class="slides">
 
 <section>
-<section id="slide-org45e73e4">
-<h2 id="org45e73e4">Build a toy compiler from scratch</h2>
-<div class="outline-text-2" id="text-org45e73e4">
+<section id="slide-org9754172">
+<h2 id="org9754172">Build a toy compiler from scratch</h2>
+<div class="outline-text-2" id="text-org9754172">
 </div>
 </section>
-<section id="slide-org523ba8c">
-<h3 id="org523ba8c">Goal of this experiment</h3>
+<section id="slide-org0f7f256">
+<h3 id="org0f7f256">Goal of this experiment</h3>
 <p>
 To compile a program to the Python Virtual Machine using a
 home brewed compiler
 </p>
 
 </section>
-<section id="slide-org8898096">
-<h3 id="org8898096">How does this little language look like</h3>
+<section id="slide-org5fbe50e">
+<h3 id="org5fbe50e">How does this little language look like</h3>
 <div class="org-src-container">
 
 <pre  class="src src-effigy"><code trim><span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">fib</span><span style="color: #458588;">(</span>n<span style="color: #458588;">)</span>
@@ -65,8 +65,8 @@ home brewed compiler
 </section>
 </section>
 <section>
-<section id="slide-org0bb8f73">
-<h2 id="org0bb8f73">A look from above</h2>
+<section id="slide-org3141010">
+<h2 id="org3141010">A look from above</h2>
 
 <div class="figure">
 <p><img src="../../media/blogimg/effigy-an-experiment-writing-a-compiler-overview.png" alt="effigy-an-experiment-writing-a-compiler-overview.png" />
@@ -74,24 +74,94 @@ home brewed compiler
 </div>
 
 </section>
-</section>
-<section>
-<section id="slide-orgad19d59">
-<h2 id="orgad19d59">Text parsing</h2>
-<div class="outline-text-2" id="text-orgad19d59">
-</div>
-</section>
-<section id="slide-org47c7cc0">
-<h3 id="org47c7cc0">Take a stream of characters and produce a tree structure</h3>
+<section id="slide-orgcd97cbd">
+<h3 id="orgcd97cbd">How does Python do it</h3>
+<p>
+From <a href="https://devguide.python.org/compiler">https://devguide.python.org/compiler</a>
+</p>
+
+<ol>
+<li>Parse source code into a parse tree (Parser/pgen)</li>
+<li>Transform the parse tree into an AST (Python/ast.c)</li>
+<li>Transform AST into a Control Flow Graph (Python/compile.c)</li>
+<li>Emit bytecode based on the Control Flow Graph (Python/compile.c)</li>
+
+</ol>
 
 </section>
-<section id="slide-org05143d0">
-<h3 id="org05143d0">Parsing Expression Grammars</h3>
-<div class="outline-text-3" id="text-org05143d0">
+<section id="slide-org79e2a0f">
+<h3 id="org79e2a0f">How are we going to do it</h3>
+<ol>
+<li>Parse source code into parse tree with a PEG grammar</li>
+<li>Semantic actions transform parse tree into AST</li>
+<li>Traverse AST with a second PEG grammar and use its semantic
+actions to emit code</li>
+
+</ol>
+
+</section>
+</section>
+<section>
+<section id="slide-orgd41742e">
+<h2 id="orgd41742e">Text parsing</h2>
+<div class="outline-text-2" id="text-orgd41742e">
 </div>
 </section>
-<section id="slide-org1bc8f3b">
-<h4 id="org1bc8f3b">Semantics</h4>
+<section id="slide-org615734a">
+<h3 id="org615734a">Take a stream of characters and produce a tree structure</h3>
+
+</section>
+<section id="slide-orgb3c8180">
+<h3 id="orgb3c8180">Example</h3>
+<p>
+<table width="100%">
+</p>
+
+<p>
+<tr><th>Input</th><td width="80%">
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-effigy"><code trim>print<span style="color: #458588;">(</span><span style="color: #b16286;">(</span><span style="color: #fb4933;">fn</span> <span style="color: #8ec07c;">(</span>x<span style="color: #8ec07c;">)</span> x + 2<span style="color: #b16286;">)(</span>40<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+</code></pre>
+</div>
+<p>
+</td></tr>
+</p>
+
+<p>
+<tr><th>Output</th><td>
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-effigy"><code trim><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Module'</span>,
+ <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Statement'</span>,
+  <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Call'</span>,
+   <span style="color: #d65d0e;">[</span><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Load'</span>, <span style="color: #b8bb26;">'print'</span><span style="color: #458588;">]</span>,
+    <span style="color: #458588;">[</span><span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Call'</span>,
+      <span style="color: #8ec07c;">[</span><span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Lambda'</span>,
+        <span style="color: #458588;">[</span><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Params'</span>, <span style="color: #b16286;">[</span><span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Param'</span>, <span style="color: #b8bb26;">'x'</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>,
+         <span style="color: #458588;">[</span><span style="color: #b8bb26;">'Code'</span>,
+          <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Statement'</span>,
+           <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'BinOp'</span>,
+            <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Load'</span>, <span style="color: #b8bb26;">'x'</span><span style="color: #d65d0e;">]</span>,
+            <span style="color: #b8bb26;">'+'</span>,
+            <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #458588;">[</span><span style="color: #b8bb26;">'Number'</span>, 2<span style="color: #458588;">]</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">]</span>,
+       <span style="color: #d65d0e;">[</span><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #458588;">[</span><span style="color: #b8bb26;">'Number'</span>, 40<span style="color: #458588;">]</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>
+</code></pre>
+</div>
+<p>
+</td></tr></table>
+</p>
+
+</section>
+<section id="slide-orgbfd6de5">
+<h3 id="orgbfd6de5">Parsing Expression Grammars</h3>
+<div class="outline-text-3" id="text-orgbfd6de5">
+</div>
+</section>
+<section id="slide-org88a2fad">
+<h4 id="org88a2fad">Semantics</h4>
 <ol>
 <li>Language to describe recursive top-down parsers</li>
 <li>Borrow productions from Context Free Grammars</li>
@@ -104,8 +174,8 @@ deterministic context-free languages</li>
 </ol>
 
 </section>
-<section id="slide-org3bddbcc">
-<h4 id="org3bddbcc">Expressions</h4>
+<section id="slide-org5bbf812">
+<h4 id="org5bbf812">Expressions</h4>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -162,8 +232,8 @@ deterministic context-free languages</li>
 </table>
 
 </section>
-<section id="slide-orgb89a6bb">
-<h4 id="orgb89a6bb">A tiny example</h4>
+<section id="slide-orgf55a2b6">
+<h4 id="orgf55a2b6">A tiny example</h4>
 <p>
 <table width="100%"><tr><th>Grammar</th><th>Input</th></tr>
 </p>
@@ -199,10 +269,9 @@ deterministic context-free languages</li>
 </p>
 
 <p>
-<b>Output</b>
+<table width="100%"><tr><th>Output</th></tr><tr><td>
 </p>
 
-<div class="paddedex">
 <div class="org-src-container">
 
 <pre  class="src src-js"><code trim><span style="color: #458588;">[</span><span style="color: #b8bb26;">'File'</span>,
@@ -213,14 +282,16 @@ deterministic context-free languages</li>
 </code></pre>
 </div>
 
-</div>
+<p>
+</td></tr></table>
+</p>
 
 </section>
-<section id="slide-org81c7f09">
-<h4 id="org81c7f09">Semantic Actions</h4>
+<section id="slide-org73b6394">
+<h4 id="org73b6394">Semantic Actions</h4>
 <p>
 Traverse the parse tree and apply user-defined functions to each
-node
+node <b>after parsing has finished successfully</b>
 </p>
 
 <div class="org-src-container">
@@ -237,8 +308,24 @@ parser<span style="color: #458588;">(</span>input<span style="color: #458588;">)
 </div>
 
 </section>
-<section id="slide-orgb82f0c6">
-<h3 id="orgb82f0c6">Language Grammar</h3>
+<section id="slide-orgb305504">
+<h4 id="orgb305504">A little detour #1</h4>
+<p>
+What happens if semantic actions are applied before parsing is
+finished
+</p>
+
+</section>
+<section id="slide-orgf342680">
+<h4 id="orgf342680">A little detour #2</h4>
+<p>
+A trade-off of having support for semantic actions embedded within
+the PEG text
+</p>
+
+</section>
+<section id="slide-org3b0a73f">
+<h3 id="org3b0a73f">Language Grammar</h3>
 <p>
 With a PEG implementation at hand, the next step is to get the
 language grammar ready to take input text and generate an Abstract
@@ -248,17 +335,23 @@ Syntax Tree (or <code>AST</code> for short). <a href="https://github.com/clarete
 </section>
 </section>
 <section>
-<section id="slide-orgf315587">
-<h2 id="orgf315587">Scope rules</h2>
-<div class="outline-text-2" id="text-orgf315587">
+<section id="slide-orgd689d06">
+<h2 id="orgd689d06">Scope rules</h2>
+<div class="outline-text-2" id="text-orgd689d06">
 </div>
 </section>
-<section id="slide-orge5c10a9">
-<h3 id="orge5c10a9">Traverse the AST and apply lexical scope rules</h3>
-
+<section id="slide-org48f393a">
+<h3 id="org48f393a">Traverse the AST and map out scope rules</h3>
+<div class="outline-text-3" id="text-org48f393a">
+</div>
 </section>
-<section id="slide-org649a60f">
-<h3 id="org649a60f">Example</h3>
+<section id="slide-org068cb74">
+<h4 id="org068cb74">What problem are we solving</h4>
+<p>
+Where do we store <code>x</code> in the example below when <code>plus_n</code> is
+finished executing
+</p>
+
 <div class="org-src-container">
 
 <pre  class="src src-effigy"><code trim><span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">plus_n</span><span style="color: #458588;">(</span>x<span style="color: #458588;">)</span> <span style="color: #fb4933;">fn</span><span style="color: #458588;">(</span>y<span style="color: #458588;">)</span> x + y
@@ -270,10 +363,130 @@ print<span style="color: #458588;">(</span>plus_five<span style="color: #b16286;
 </div>
 
 </section>
+<section id="slide-org648adc2">
+<h4 id="org648adc2">Types of variables in Python</h4>
+<ul>
+<li><b>Global:</b> Module scope &amp; built-ins</li>
+<li><b>Local:</b> Created and destroyed within a function</li>
+<li><b>Free:</b> Created outside the scope it's used. Has to be kept
+around after scope that it was declared is gone</li>
+
+</ul>
+
+</section>
+<section id="slide-org0e54781">
+<h4 id="org0e54781">Symbol table</h4>
+<p>
+Data structure for bookkeeping information about variables. The
+Python compiler has one, so does the Effigy compiler.
+</p>
+
+</section>
+<section id="slide-org896e001">
+<h4 id="org896e001">Example</h4>
+<p>
+<table width="100%"><tr><td>
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-effigy"><code trim><span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">plus_n</span><span style="color: #458588;">(</span>x<span style="color: #458588;">)</span> <span style="color: #fb4933;">fn</span><span style="color: #458588;">(</span>y<span style="color: #458588;">)</span> x + y
+</code></pre>
+</div>
+
+<p>
+</td></tr></table>
+<table width="100%">
+<tr><th>Symbol Table</th><th>Annotated AST</th></tr><tr><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-effigy"><code trim><span style="color: #458588;">[</span><span style="color: #b16286;">{</span>
+  node: <span style="color: #b8bb26;">'module'</span>,
+  children: <span style="color: #8ec07c;">[</span><span style="color: #d65d0e;">{</span>
+    node: <span style="color: #b8bb26;">'function'</span>,
+    deref: <span style="color: #458588;">[</span><span style="color: #b8bb26;">'x'</span><span style="color: #458588;">]</span>,
+    children: <span style="color: #458588;">[</span><span style="color: #b16286;">{</span>
+      node: <span style="color: #b8bb26;">'lambda'</span>,
+      fast: <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'y'</span><span style="color: #8ec07c;">]</span>,
+      deref: <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'x'</span><span style="color: #8ec07c;">]</span>,
+    <span style="color: #b16286;">}</span><span style="color: #458588;">]</span>
+  <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">]</span>
+<span style="color: #b16286;">}</span><span style="color: #458588;">]</span>
+</code></pre>
+</div>
+<p>
+</td><td>
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-effigy"><code trim><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Module'</span>,
+ <span style="color: #b16286;">[</span><span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Statement'</span>,
+   <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Function'</span>,
+    <span style="color: #458588;">[</span><span style="color: #b16286;">[</span><span style="color: #b8bb26;">'ScopeId'</span>, 2<span style="color: #b16286;">]</span>, <span style="color: #b8bb26;">'plus_n'</span>,
+     <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Params'</span>, <span style="color: #8ec07c;">[</span><span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Param'</span>, <span style="color: #b8bb26;">'x'</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span>,
+     <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Code'</span>,
+      <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Statement'</span>,
+       <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Lambda'</span>,
+        <span style="color: #458588;">[</span><span style="color: #458588;">[</span><span style="color: #b8bb26;">'ScopeId'</span>, 1<span style="color: #458588;">]</span>,
+         <span style="color: #458588;">[</span><span style="color: #b8bb26;">'Params'</span>, <span style="color: #b16286;">[</span><span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Param'</span>, <span style="color: #b8bb26;">'y'</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>,
+         <span style="color: #458588;">[</span><span style="color: #b8bb26;">'Code'</span>, <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Statement'</span>,
+           <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'BinOp'</span>, <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Load'</span>, <span style="color: #b8bb26;">'x'</span><span style="color: #d65d0e;">]</span>, <span style="color: #b8bb26;">'+'</span>, ...
+</code></pre>
+</div>
+<p>
+</td></tr></table>
+</p>
+
+</section>
+<section id="slide-org9f19d08">
+<h3 id="org9f19d08">Declaration and assignment</h3>
+<p>
+<table width="100%"><tr><th>Python</th><th>Effigy</th></tr>
+</p>
+
+<p>
+<tr><td width="50%">
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-python"><code trim><span style="color: #fb4933;">def</span> <span style="color: #fabd2f;">parse</span><span style="color: #458588;">(</span>source<span style="color: #458588;">)</span>:
+    <span style="color: #83a598;">cursor</span> = 0
+    <span style="color: #fb4933;">def</span> <span style="color: #fabd2f;">current</span><span style="color: #458588;">()</span>:
+        <span style="color: #fb4933;">return</span> source<span style="color: #458588;">[</span>cursor<span style="color: #458588;">]</span>
+    <span style="color: #fb4933;">def</span> <span style="color: #fabd2f;">nextc</span><span style="color: #458588;">()</span>:
+        <span style="color: #fb4933;">nonlocal</span> cursor
+        <span style="color: #83a598;">cursor</span> += 1
+    <span style="color: #7c6f64;"># </span><span style="color: #7c6f64;">...</span>
+</code></pre>
+</div>
+
+<p>
+</td><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-effigy"><code trim><span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">parse</span><span style="color: #458588;">(</span>source<span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
+  <span style="color: #fb4933;">let</span> <span style="color: #83a598;">cursor</span> = 0
+  <span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">current</span><span style="color: #b16286;">()</span> source<span style="color: #b16286;">[</span>cursor<span style="color: #b16286;">]</span>
+  <span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">nextc</span><span style="color: #b16286;">()</span> <span style="color: #83a598;">cursor</span> = cursor + 1
+  <span style="color: #7c6f64;"># ...</span>
+<span style="color: #458588;">}</span>
+
+
+</code></pre>
+</div>
+
+<p>
+</td></tr></table>
+</p>
+
+</section>
 </section>
 <section>
-<section id="slide-orged64f1f">
-<h2 id="orged64f1f">Code generation</h2>
+<section id="slide-org4b34ccf">
+<h2 id="org4b34ccf">Code generation</h2>
 </section>
 </section>
 </div>
