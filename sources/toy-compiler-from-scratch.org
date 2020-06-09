@@ -709,7 +709,7 @@ Virtual Machine.  Without further ado, let's see how it works!
      exercise, but I bet Effigy won't ever see that improvement.
 
   Although this was just a simple exercise completely focused in
-  learning about more about programming languages and having fun, I am
+  learning more about programming languages and having fun, I am
   curious to hear what you think. If this article or Effigy sparkled
   your curiosity, don't hesitate in reaching out!  Send me an email or
   find me on the [[https://freenode.net/][freenode]] IRC network (I'm usually hanging out on the
