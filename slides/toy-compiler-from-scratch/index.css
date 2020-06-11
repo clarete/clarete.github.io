@@ -51,6 +51,10 @@ body {
     border-bottom-color: transparent;
 }
 
+.reveal table td, table td {
+    vertical-align: top;
+}
+
 .slides section {
     color: #fff;
     text-align: left;
@@ -103,13 +107,14 @@ code {
 }
 
 .thanks object {
-    width: 250px;
+    width: 20%;
     display: block;
     float: left;
-    margin-right: -100px;
+    margin: 10% -50px 0 0;
 }
 
 .thanks ul {
+    margin-top: 10%;
     list-style: none;
     padding: none:
 }

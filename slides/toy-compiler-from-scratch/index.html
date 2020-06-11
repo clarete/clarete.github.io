@@ -29,21 +29,21 @@
 <div class="slides">
 
 <section>
-<section id="slide-org9754172">
-<h2 id="org9754172">Build a toy compiler from scratch</h2>
-<div class="outline-text-2" id="text-org9754172">
+<section id="slide-org8c7cd23">
+<h2 id="org8c7cd23">Build a toy compiler from scratch</h2>
+<div class="outline-text-2" id="text-org8c7cd23">
 </div>
 </section>
-<section id="slide-org0f7f256">
-<h3 id="org0f7f256">Goal of this experiment</h3>
+<section id="slide-orgb1699f6">
+<h3 id="orgb1699f6">Goal of this experiment</h3>
 <p>
 To compile a program to the Python Virtual Machine using a
 home brewed compiler
 </p>
 
 </section>
-<section id="slide-org5fbe50e">
-<h3 id="org5fbe50e">How does this little language look like</h3>
+<section id="slide-orgcc68766">
+<h3 id="orgcc68766">How does this little language look like</h3>
 <div class="org-src-container">
 
 <pre  class="src src-effigy"><code trim><span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">fib</span><span style="color: #458588;">(</span>n<span style="color: #458588;">)</span>
@@ -65,8 +65,8 @@ home brewed compiler
 </section>
 </section>
 <section>
-<section id="slide-org3141010">
-<h2 id="org3141010">A look from above</h2>
+<section id="slide-orgb849ef7">
+<h2 id="orgb849ef7">A look from above</h2>
 
 <div class="figure">
 <p><img src="../../media/blogimg/effigy-an-experiment-writing-a-compiler-overview.png" alt="effigy-an-experiment-writing-a-compiler-overview.png" />
@@ -74,8 +74,8 @@ home brewed compiler
 </div>
 
 </section>
-<section id="slide-orgcd97cbd">
-<h3 id="orgcd97cbd">How does Python do it</h3>
+<section id="slide-org9d9e128">
+<h3 id="org9d9e128">How does Python do it</h3>
 <p>
 From <a href="https://devguide.python.org/compiler">https://devguide.python.org/compiler</a>
 </p>
@@ -84,13 +84,14 @@ From <a href="https://devguide.python.org/compiler">https://devguide.python.org/
 <li>Parse source code into a parse tree (Parser/pgen)</li>
 <li>Transform the parse tree into an AST (Python/ast.c)</li>
 <li>Transform AST into a Control Flow Graph (Python/compile.c)</li>
-<li>Emit bytecode based on the Control Flow Graph (Python/compile.c)</li>
+<li>Emit <i>bytecode</i> based on the Control Flow Graph
+(Python/compile.c)</li>
 
 </ol>
 
 </section>
-<section id="slide-org79e2a0f">
-<h3 id="org79e2a0f">How are we going to do it</h3>
+<section id="slide-org8a74dc8">
+<h3 id="org8a74dc8">How are we going to do it</h3>
 <ol>
 <li>Parse source code into parse tree with a PEG grammar</li>
 <li>Semantic actions transform parse tree into AST</li>
@@ -102,17 +103,17 @@ actions to emit code</li>
 </section>
 </section>
 <section>
-<section id="slide-orgd41742e">
-<h2 id="orgd41742e">Text parsing</h2>
-<div class="outline-text-2" id="text-orgd41742e">
+<section id="slide-orgca347b1">
+<h2 id="orgca347b1">Text parsing</h2>
+<div class="outline-text-2" id="text-orgca347b1">
 </div>
 </section>
-<section id="slide-org615734a">
-<h3 id="org615734a">Take a stream of characters and produce a tree structure</h3>
+<section id="slide-org2d3f7b9">
+<h3 id="org2d3f7b9">Take a stream of characters and produce a tree structure</h3>
 
 </section>
-<section id="slide-orgb3c8180">
-<h3 id="orgb3c8180">Example</h3>
+<section id="slide-org46baca5">
+<h3 id="org46baca5">Example</h3>
 <p>
 <table width="100%">
 </p>
@@ -155,13 +156,13 @@ actions to emit code</li>
 </p>
 
 </section>
-<section id="slide-orgbfd6de5">
-<h3 id="orgbfd6de5">Parsing Expression Grammars</h3>
-<div class="outline-text-3" id="text-orgbfd6de5">
+<section id="slide-orgff54268">
+<h3 id="orgff54268">Parsing Expression Grammars</h3>
+<div class="outline-text-3" id="text-orgff54268">
 </div>
 </section>
-<section id="slide-org88a2fad">
-<h4 id="org88a2fad">Semantics</h4>
+<section id="slide-org35c0585">
+<h4 id="org35c0585">Semantics</h4>
 <ol>
 <li>Language to describe recursive top-down parsers</li>
 <li>Borrow productions from Context Free Grammars</li>
@@ -174,8 +175,8 @@ deterministic context-free languages</li>
 </ol>
 
 </section>
-<section id="slide-org5bbf812">
-<h4 id="org5bbf812">Expressions</h4>
+<section id="slide-org87df1df">
+<h4 id="org87df1df">Expressions</h4>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -232,8 +233,8 @@ deterministic context-free languages</li>
 </table>
 
 </section>
-<section id="slide-orgf55a2b6">
-<h4 id="orgf55a2b6">A tiny example</h4>
+<section id="slide-orgab55f7b">
+<h4 id="orgab55f7b">A tiny example</h4>
 <p>
 <table width="100%"><tr><th>Grammar</th><th>Input</th></tr>
 </p>
@@ -287,8 +288,8 @@ deterministic context-free languages</li>
 </p>
 
 </section>
-<section id="slide-org73b6394">
-<h4 id="org73b6394">Semantic Actions</h4>
+<section id="slide-org70b3a98">
+<h4 id="org70b3a98">Semantic Actions</h4>
 <p>
 Traverse the parse tree and apply user-defined functions to each
 node <b>after parsing has finished successfully</b>
@@ -299,54 +300,54 @@ node <b>after parsing has finished successfully</b>
 <pre  class="src src-js"><code trim><span style="color: #fb4933;">const</span> <span style="color: #83a598;">parser</span> = peg
  .pegc<span style="color: #458588;">(</span><span style="color: #b8bb26;">'./csv.peg'</span><span style="color: #458588;">)</span>
  .bind<span style="color: #458588;">(</span><span style="color: #b16286;">{</span>
-   File:  <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> visit, action <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">[</span>action, visit<span style="color: #d65d0e;">()</span><span style="color: #8ec07c;">]</span>,
-   Line:  <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> visit, action <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">[</span>action, visit<span style="color: #d65d0e;">()</span><span style="color: #8ec07c;">]</span>,
-   Value: <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> visit, action <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">[</span>action, visit<span style="color: #d65d0e;">()</span>.join<span style="color: #d65d0e;">(</span><span style="color: #b8bb26;">''</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">]</span>,
+   File:  <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> action, visit <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">[</span>action, visit<span style="color: #d65d0e;">()</span><span style="color: #8ec07c;">]</span>,
+   Line:  <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> action, visit <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">[</span>action, visit<span style="color: #d65d0e;">()</span><span style="color: #8ec07c;">]</span>,
+   Value: <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> action, visit <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">[</span>action, visit<span style="color: #d65d0e;">()</span>.join<span style="color: #d65d0e;">(</span><span style="color: #b8bb26;">''</span><span style="color: #d65d0e;">)</span><span style="color: #8ec07c;">]</span>,
  <span style="color: #b16286;">}</span><span style="color: #458588;">)</span>;
 parser<span style="color: #458588;">(</span>input<span style="color: #458588;">)</span>;
 </code></pre>
 </div>
 
 </section>
-<section id="slide-orgb305504">
-<h4 id="orgb305504">A little detour #1</h4>
+<section id="slide-org89da5b4">
+<h4 id="org89da5b4">A little detour #1</h4>
 <p>
 What happens if semantic actions are applied before parsing is
 finished
 </p>
 
 </section>
-<section id="slide-orgf342680">
-<h4 id="orgf342680">A little detour #2</h4>
+<section id="slide-org826e3e4">
+<h4 id="org826e3e4">A little detour #2</h4>
 <p>
 A trade-off of having support for semantic actions embedded within
 the PEG text
 </p>
 
 </section>
-<section id="slide-org3b0a73f">
-<h3 id="org3b0a73f">Language Grammar</h3>
+<section id="slide-org263707e">
+<h3 id="org263707e">Language Grammar</h3>
 <p>
 With a PEG implementation at hand, the next step is to get the
 language grammar ready to take input text and generate an Abstract
-Syntax Tree (or <code>AST</code> for short). <a href="https://github.com/clarete/effigy/blob/master/lang.peg">LIL DEMO!!!</a>
+Syntax Tree (or <code>AST</code> for short). <a href="https://github.com/clarete/effigy/blob/master/lang.peg">Take a look at the grammar</a>.
 </p>
 
 </section>
 </section>
 <section>
-<section id="slide-orgd689d06">
-<h2 id="orgd689d06">Scope rules</h2>
-<div class="outline-text-2" id="text-orgd689d06">
+<section id="slide-org190a8ce">
+<h2 id="org190a8ce">Scope rules</h2>
+<div class="outline-text-2" id="text-org190a8ce">
 </div>
 </section>
-<section id="slide-org48f393a">
-<h3 id="org48f393a">Traverse the AST and map out scope rules</h3>
-<div class="outline-text-3" id="text-org48f393a">
+<section id="slide-org86a7ed6">
+<h3 id="org86a7ed6">Traverse the AST and map out scope rules</h3>
+<div class="outline-text-3" id="text-org86a7ed6">
 </div>
 </section>
-<section id="slide-org068cb74">
-<h4 id="org068cb74">What problem are we solving</h4>
+<section id="slide-org39a7d19">
+<h4 id="org39a7d19">What problem are we solving</h4>
 <p>
 Where do we store <code>x</code> in the example below when <code>plus_n</code> is
 finished executing
@@ -363,8 +364,8 @@ print<span style="color: #458588;">(</span>plus_five<span style="color: #b16286;
 </div>
 
 </section>
-<section id="slide-org648adc2">
-<h4 id="org648adc2">Types of variables in Python</h4>
+<section id="slide-orga659ec6">
+<h4 id="orga659ec6">Types of variables in Python</h4>
 <ul>
 <li><b>Global:</b> Module scope &amp; built-ins</li>
 <li><b>Local:</b> Created and destroyed within a function</li>
@@ -374,16 +375,16 @@ around after scope that it was declared is gone</li>
 </ul>
 
 </section>
-<section id="slide-org0e54781">
-<h4 id="org0e54781">Symbol table</h4>
+<section id="slide-org35ad9a8">
+<h4 id="org35ad9a8">Symbol table</h4>
 <p>
 Data structure for bookkeeping information about variables. The
 Python compiler has one, so does the Effigy compiler.
 </p>
 
 </section>
-<section id="slide-org896e001">
-<h4 id="org896e001">Example</h4>
+<section id="slide-orga64c70a">
+<h4 id="orga64c70a">Example</h4>
 <p>
 <table width="100%"><tr><td>
 </p>
@@ -439,8 +440,8 @@ Python compiler has one, so does the Effigy compiler.
 </p>
 
 </section>
-<section id="slide-org9f19d08">
-<h3 id="org9f19d08">Declaration and assignment</h3>
+<section id="slide-org4fd049e">
+<h3 id="org4fd049e">Declaration and assignment</h3>
 <p>
 <table width="100%"><tr><th>Python</th><th>Effigy</th></tr>
 </p>
@@ -483,10 +484,169 @@ Python compiler has one, so does the Effigy compiler.
 </p>
 
 </section>
+<section id="slide-orga8c27ab">
+<h4 id="orga8c27ab">A grammar for parsing lists?</h4>
+<p>
+PEGs can also be used to parse structured data.  The AST traversal
+that maps the scope rules is implemented with a PEG.  <a href="https://github.com/clarete/effigy/blob/master/lang.tr">Take a look
+at the grammar</a>.
+</p>
+
+</section>
 </section>
 <section>
-<section id="slide-org4b34ccf">
-<h2 id="org4b34ccf">Code generation</h2>
+<section id="slide-org50440f7">
+<h2 id="org50440f7">Code generation</h2>
+<div class="outline-text-2" id="text-org50440f7">
+</div>
+</section>
+<section id="slide-orga30f5fb">
+<h3 id="orga30f5fb">Output Format</h3>
+<div class="outline-text-3" id="text-orga30f5fb">
+</div>
+</section>
+<section id="slide-org9c6a8a6">
+<h4 id="org9c6a8a6">Structure of a pyc file</h4>
+<ul>
+<li><a href="https://github.com/python/cpython/blob/3.7/Python/pythonrun.c#L1049"><b>Magic number</b></a>: Version of marshalling code</li>
+<li><a href="https://www.python.org/dev/peps/pep-0552/"><b>PEP-552</b></a>: used for generating deterministic pycs</li>
+<li><a href="https://github.com/python/cpython/blob/3.7/Lib/py_compile.py#L159-L160"><b>Modified Date</b></a>: Non-deterministic pyc invalidation</li>
+<li><a href="https://github.com/python/cpython/blob/3.7/Lib/py_compile.py#L159-L160"><b>Source Code Size</b></a>: Same as above</li>
+<li>Binary blob with Code Objects stored <i>recursively</i></li>
+
+</ul>
+
+</section>
+<section id="slide-orga324523">
+<h4 id="orga324523"><a href="https://docs.python.org/3.7/c-api/code.html">Code Objects</a></h4>
+<div class="org-src-container">
+
+<pre  class="src src-c"><code trim>PyObject_HEAD
+<span style="color: #d3869b;">int</span> <span style="color: #83a598;">co_argcount</span>;            <span style="color: #7c6f64;">/* </span><span style="color: #7c6f64;">#arguments, except *args</span><span style="color: #7c6f64;"> */</span>
+<span style="color: #d3869b;">int</span> <span style="color: #83a598;">co_posonlyargcount</span>;     <span style="color: #7c6f64;">/* </span><span style="color: #7c6f64;">#positional only arguments</span><span style="color: #7c6f64;"> */</span>
+<span style="color: #d3869b;">int</span> <span style="color: #83a598;">co_kwonlyargcount</span>;      <span style="color: #7c6f64;">/* </span><span style="color: #7c6f64;">#keyword only arguments</span><span style="color: #7c6f64;"> */</span>
+<span style="color: #d3869b;">int</span> <span style="color: #83a598;">co_nlocals</span>;             <span style="color: #7c6f64;">/* </span><span style="color: #7c6f64;">#local variables</span><span style="color: #7c6f64;"> */</span>
+<span style="color: #d3869b;">int</span> <span style="color: #83a598;">co_stacksize</span>;           <span style="color: #7c6f64;">/* </span><span style="color: #7c6f64;">#entries needed for evaluation stack</span><span style="color: #7c6f64;"> */</span>
+<span style="color: #d3869b;">int</span> <span style="color: #83a598;">co_firstlineno</span>;         <span style="color: #7c6f64;">/* </span><span style="color: #7c6f64;">first source line number</span><span style="color: #7c6f64;"> */</span>
+<span style="color: #d3869b;">PyObject</span> *<span style="color: #83a598;">co_code</span>;          <span style="color: #7c6f64;">/* </span><span style="color: #7c6f64;">instruction opcodes</span><span style="color: #7c6f64;"> */</span>
+<span style="color: #d3869b;">PyObject</span> *<span style="color: #83a598;">co_consts</span>;        <span style="color: #7c6f64;">/* </span><span style="color: #7c6f64;">list (constants used)</span><span style="color: #7c6f64;"> */</span>
+<span style="color: #d3869b;">PyObject</span> *<span style="color: #83a598;">co_names</span>;         <span style="color: #7c6f64;">/* </span><span style="color: #7c6f64;">list of strings (names used)</span><span style="color: #7c6f64;"> */</span>
+<span style="color: #d3869b;">PyObject</span> *<span style="color: #83a598;">co_varnames</span>;      <span style="color: #7c6f64;">/* </span><span style="color: #7c6f64;">tuple of strings (local variable names)</span><span style="color: #7c6f64;"> */</span>
+<span style="color: #d3869b;">PyObject</span> *<span style="color: #83a598;">co_freevars</span>;      <span style="color: #7c6f64;">/* </span><span style="color: #7c6f64;">tuple of strings (free variable names)</span><span style="color: #7c6f64;"> */</span>
+<span style="color: #d3869b;">PyObject</span> *<span style="color: #83a598;">co_cellvars</span>;      <span style="color: #7c6f64;">/* </span><span style="color: #7c6f64;">tuple of strings (cell variable names)</span><span style="color: #7c6f64;"> */</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org58b49f7">
+<h4 id="org58b49f7">The tiniest example</h4>
+<p>
+<table width="100%">
+<tr><th>Source</th><th>Code Object</th></tr><tr><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-effigy"><code trim><span style="color: #fb4933;">fn</span><span style="color: #458588;">()</span> 1
+</code></pre>
+</div>
+
+<p>
+</td><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-effigy"><code trim><span style="color: #458588;">{</span> constants: <span style="color: #b16286;">[</span><span style="color: #8ec07c;">{</span>
+    constants: <span style="color: #d65d0e;">[</span>1<span style="color: #d65d0e;">]</span>,
+    name: <span style="color: #b8bb26;">'&lt;lambda&gt;'</span>,
+    instructions: <span style="color: #d65d0e;">[</span>
+      <span style="color: #458588;">[</span><span style="color: #b8bb26;">'load-const'</span>, 0<span style="color: #458588;">]</span>,
+      <span style="color: #458588;">[</span><span style="color: #b8bb26;">'return-value'</span><span style="color: #458588;">]</span>,
+    <span style="color: #d65d0e;">]</span>,
+  <span style="color: #8ec07c;">}</span>, <span style="color: #b8bb26;">'&lt;lambda&gt;'</span>, <span style="color: #d3869b;">null</span><span style="color: #b16286;">]</span>,
+  instructions: <span style="color: #b16286;">[</span>
+    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'load-const'</span>, 0<span style="color: #8ec07c;">]</span>,
+    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'load-const'</span>, 1<span style="color: #8ec07c;">]</span>,
+    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'make-function'</span>, 0<span style="color: #8ec07c;">]</span>,
+    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'pop-top'</span><span style="color: #8ec07c;">]</span>,
+    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'load-const'</span>, 2<span style="color: #8ec07c;">]</span>,
+    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'return-value'</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span> <span style="color: #458588;">}</span>,
+</code></pre>
+</div>
+<p>
+</td></tr></table>
+</p>
+
+</section>
+<section id="slide-org7ba9a9b">
+<h3 id="org7ba9a9b">How <i>bytecode</i> is generated</h3>
+<p>
+The AST is traversed by a PEG grammar and code is emitted during
+the semantic action execution.
+</p>
+
+</section>
+<section id="slide-orga724929">
+<h3 id="orga724929">Assembler API</h3>
+<ul>
+<li><code>enter</code>: Enter a new scope (create Code Object)</li>
+<li><code>leave</code>: Leave scope &amp; return Code Object</li>
+<li><code>emit</code>: Add new instruction <code>co_code</code></li>
+<li><code>attr</code>: Setter &amp; Getter for object tables</li>
+<li><code>pos</code>: Index of the current instruction</li>
+<li><code>ref</code>: Create a new label</li>
+<li><code>fix</code>: Fix parameter of already emitted instruction</li>
+
+</ul>
+
+</section>
+<section id="slide-org32a8927">
+<h3 id="org32a8927">Example</h3>
+<div class="org-src-container">
+
+<pre  class="src src-js"><code trim>IfStm: <span style="color: #458588;">(</span><span style="color: #b16286;">{</span> visit, node <span style="color: #b16286;">}</span><span style="color: #458588;">)</span> =&gt; <span style="color: #458588;">{</span>
+  <span style="color: #fb4933;">const</span> <span style="color: #b16286;">[</span><span style="color: #83a598;">test</span>, <span style="color: #83a598;">body</span>, <span style="color: #83a598;">elsestm</span><span style="color: #b16286;">]</span> = node<span style="color: #b16286;">[</span>1<span style="color: #b16286;">]</span>;
+  visit<span style="color: #b16286;">(</span>test.value<span style="color: #b16286;">)</span>;        <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">Visit the test expression</span>
+  <span style="color: #fb4933;">const</span> <span style="color: #83a598;">lb0</span> = ref<span style="color: #b16286;">()</span>;
+  emit<span style="color: #b16286;">(</span><span style="color: #b8bb26;">'pop-jump-if-false'</span>, lb0<span style="color: #b16286;">)</span>;
+  visit<span style="color: #b16286;">(</span>body.value<span style="color: #b16286;">)</span>;        <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">Visit the body of the statement</span>
+  <span style="color: #fb4933;">if</span> <span style="color: #b16286;">(</span>elsestm<span style="color: #b16286;">)</span> <span style="color: #b16286;">{</span>
+    <span style="color: #fb4933;">const</span> <span style="color: #83a598;">lb1</span> = ref<span style="color: #8ec07c;">()</span>;
+    emit<span style="color: #8ec07c;">(</span><span style="color: #b8bb26;">'jump-forward'</span>, lb1<span style="color: #8ec07c;">)</span>;
+    <span style="color: #fb4933;">const</span> <span style="color: #83a598;">savedPos</span> = pos<span style="color: #8ec07c;">()</span>;
+    fixjabs<span style="color: #8ec07c;">(</span>lb0<span style="color: #8ec07c;">)</span>;
+    visit<span style="color: #8ec07c;">(</span>elsestm.value<span style="color: #8ec07c;">)</span>;   <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">Visit the body of `else' branche</span>
+    fixjrel<span style="color: #8ec07c;">(</span>lb1, savedPos<span style="color: #8ec07c;">)</span>;
+  <span style="color: #b16286;">}</span> <span style="color: #fb4933;">else</span> <span style="color: #b16286;">{</span>
+    fixjabs<span style="color: #8ec07c;">(</span>lb0<span style="color: #8ec07c;">)</span>;
+  <span style="color: #b16286;">}</span>
+  <span style="color: #fb4933;">return</span> <span style="color: #d3869b;">true</span>;
+<span style="color: #458588;">}</span>,
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org5be0468">
+<h2 id="org5be0468">Thank you</h2>
+<div class="thanks">
+
+<div class="figure">
+<p><object type="image/svg+xml" data="../../media/img/8bitme.svg" class="org-svg">
+Sorry, your browser does not support SVG.</object>
+</p>
+</div>
+
+<ul>
+<li>Questions?</li>
+<li><a href="https://github.com/clarete/effigy">Source code</a></li>
+<li><a href="https://clarete.li/blog/toy-compiler-from-scratch.html">Blog post</a></li>
+
+</ul>
+
+</div>
 </section>
 </section>
 </div>
