@@ -970,7 +970,8 @@ sections):
 instance;</li>
 <li><code>leave()</code>: Return the Code object built for the current scope and
 set the enclosing scope as the current one;</li>
-<li><code>emit(opcode, argument)</code>: Append</li>
+<li><code>emit(opcode, argument)</code>: Append instruction to the <code>co_code</code>
+attribute of the current Code Object</li>
 <li><code>attr(name, value=undefined)</code>: Helper function for reading or
 writing a value to one of the values tables of the current scope;</li>
 </ul>

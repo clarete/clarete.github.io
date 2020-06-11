@@ -657,8 +657,8 @@ Virtual Machine.  Without further ado, let's see how it works!
      instance;
    * ~leave()~: Return the Code object built for the current scope and
      set the enclosing scope as the current one;
-   * ~emit(opcode, argument)~: Append instruction to current Code
-     Object
+   * ~emit(opcode, argument)~: Append instruction to the ~co_code~
+     attribute of the current Code Object
    * ~attr(name, value=undefined)~: Helper function for reading or
      writing a value to one of the values tables of the current scope;
 
