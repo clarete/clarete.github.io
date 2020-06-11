@@ -220,7 +220,9 @@ matches BACKEND."
 ;; functions we created so far and finally call `org-publish-project'
 ;; in the end.
 
-(setq org-export-with-toc nil
+(defun lc/ox/setup ()
+  "Write out all configuration parameters of ox with `setq'."
+  (setq org-export-with-toc nil
       org-export-with-author t
       org-export-with-email nil
       org-export-with-creator nil
@@ -295,7 +297,7 @@ matches BACKEND."
          :publishing-function lc/blog/rss/publish
          :publishing-directory ,lc/blog/pub-dir
          :section-numbers nil
-         :table-of-contents nil)))
+         :table-of-contents nil))))
 
 
 (defun lc/index ()
