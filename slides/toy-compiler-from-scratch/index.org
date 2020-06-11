@@ -45,7 +45,8 @@
    1. Parse source code into a parse tree (Parser/pgen)
    2. Transform the parse tree into an AST (Python/ast.c)
    3. Transform AST into a Control Flow Graph (Python/compile.c)
-   4. Emit bytecode based on the Control Flow Graph (Python/compile.c)
+   4. Emit /bytecode/ based on the Control Flow Graph
+      (Python/compile.c)
 
 ** How are we going to do it
 
@@ -155,9 +156,9 @@
     const parser = peg
      .pegc('./csv.peg')
      .bind({
-       File:  ({ visit, action }) => [action, visit()],
-       Line:  ({ visit, action }) => [action, visit()],
-       Value: ({ visit, action }) => [action, visit().join('')],
+       File:  ({ action, visit }) => [action, visit()],
+       Line:  ({ action, visit }) => [action, visit()],
+       Value: ({ action, visit }) => [action, visit().join('')],
      });
     parser(input);
     #+end_src
@@ -172,11 +173,13 @@
     A trade-off of having support for semantic actions embedded within
     the PEG text
 
+    # https://github.com/pegjs/pegjs/blob/master/examples/javascript.pegjs
+
 ** Language Grammar
 
    With a PEG implementation at hand, the next step is to get the
    language grammar ready to take input text and generate an Abstract
-   Syntax Tree (or ~AST~ for short). [[https://github.com/clarete/effigy/blob/master/lang.peg][LIL DEMO!!!]]
+   Syntax Tree (or ~AST~ for short). [[https://github.com/clarete/effigy/blob/master/lang.peg][Take a look at the grammar]].
 
 * Scope rules
 
