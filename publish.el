@@ -300,8 +300,8 @@ matches BACKEND."
          :table-of-contents nil))))
 
 
-(defun lc/index ()
-  "Generate index.html."
+(defun lc/template (body)
+  "Fill in HTML template with BODY."
   (concat
    "<!DOCTYPE html>
 <html lang=\"en-us\">
@@ -315,19 +315,26 @@ matches BACKEND."
   </head>
   <body>\n"
     (lc/blog/file-contents "layout/navbar.html")
-    (lc/blog/file-contents "layout/index.html")
+    (lc/blog/file-contents body)
     (lc/blog/file-contents "layout/footer.html")
     "
   </body>
 </html>\n"))
 
-(defun lc/create-index ()
-  "Write index.html to disk."
-  (write-region (lc/index) nil (lc/blog/file-path "index.html")))
 
-;; Generate the index of the website:
+(defun lc/blog/static ()
+  "Generate all static pages of the site."
+  (write-region
+   (lc/template (format "layout/index.html")) nil
+   (lc/blog/file-path "index.html"))
+  (write-region
+   (lc/template (format "layout/slides-index.html")) nil
+   (lc/blog/file-path "slides/index.html")))
+
+
+;; Generate static pages of the website:
 ;
-; (lc/create-index)
+; (lc/blog/static)
 
 ;; Generate the blog posts & RSS
 ;
