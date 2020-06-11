@@ -387,6 +387,12 @@
     },
    #+end_src
 
+** A new pyc
+
+   The top-level Code Object returned by the traversal for emitting
+   code and then it is marshaled and written right after to header
+   into a pyc file.
+
 * Thank you
 
   #+BEGIN_thanks
