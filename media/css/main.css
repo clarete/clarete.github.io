@@ -5,6 +5,9 @@ body {
     font-size: 16pt;
     line-height: 32px;
     background: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
 h1, h2, h3, h4, h5 {
@@ -121,6 +124,9 @@ a:hover {
     font-size: 16pt;
     display: block;
     min-height: 70vh;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
 hr {
