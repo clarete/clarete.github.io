@@ -283,4 +283,116 @@
 
    @@html:</td></tr></table>@@
 
+*** A grammar for parsing lists?
+
+    PEGs can also be used to parse structured data.  The AST traversal
+    that maps the scope rules is implemented with a PEG.  [[https://github.com/clarete/effigy/blob/master/lang.tr][Take a look
+    at the grammar]].
+
 * Code generation
+
+** Output Format
+
+*** Structure of a pyc file
+
+    * [[https://github.com/python/cpython/blob/3.7/Python/pythonrun.c#L1049][*Magic number*]]: Version of marshalling code
+    * [[https://www.python.org/dev/peps/pep-0552/][*PEP-552*]]: used for generating deterministic pycs
+    * [[https://github.com/python/cpython/blob/3.7/Lib/py_compile.py#L159-L160][*Modified Date*]]: Non-deterministic pyc invalidation
+    * [[https://github.com/python/cpython/blob/3.7/Lib/py_compile.py#L159-L160][*Source Code Size*]]: Same as above
+    * Binary blob with Code Objects stored /recursively/
+
+*** [[https://docs.python.org/3.7/c-api/code.html][Code Objects]]
+
+    #+begin_src c
+    PyObject_HEAD
+    int co_argcount;            /* #arguments, except *args */
+    int co_posonlyargcount;     /* #positional only arguments */
+    int co_kwonlyargcount;      /* #keyword only arguments */
+    int co_nlocals;             /* #local variables */
+    int co_stacksize;           /* #entries needed for evaluation stack */
+    int co_firstlineno;         /* first source line number */
+    PyObject *co_code;          /* instruction opcodes */
+    PyObject *co_consts;        /* list (constants used) */
+    PyObject *co_names;         /* list of strings (names used) */
+    PyObject *co_varnames;      /* tuple of strings (local variable names) */
+    PyObject *co_freevars;      /* tuple of strings (free variable names) */
+    PyObject *co_cellvars;      /* tuple of strings (cell variable names) */
+    #+end_src
+
+*** The tiniest example
+
+    @@html:<table width="100%">@@
+    @@html:<tr><th>Source</th><th>Code Object</th></tr><tr><td>@@
+
+    #+begin_src effigy
+    fn() 1
+    #+end_src
+
+    @@html:</td><td>@@
+
+    #+begin_src effigy
+    { constants: [{
+        constants: [1],
+        name: '<lambda>',
+        instructions: [
+          ['load-const', 0],
+          ['return-value'],
+        ],
+      }, '<lambda>', null],
+      instructions: [
+        ['load-const', 0],
+        ['load-const', 1],
+        ['make-function', 0],
+        ['pop-top'],
+        ['load-const', 2],
+        ['return-value']] },
+    #+end_src
+    @@html:</td></tr></table>@@
+
+** How /bytecode/ is generated
+
+   The AST is traversed by a PEG grammar and code is emitted during
+   the semantic action execution.
+
+** Assembler API
+
+   * ~enter~: Enter a new scope (create Code Object)
+   * ~leave~: Leave scope & return Code Object
+   * ~emit~: Add new instruction ~co_code~
+   * ~attr~: Setter & Getter for object tables
+   * ~pos~: Index of the current instruction
+   * ~ref~: Create a new label
+   * ~fix~: Fix parameter of already emitted instruction
+
+** Example
+
+   #+begin_src js
+    IfStm: ({ visit, node }) => {
+      const [test, body, elsestm] = node[1];
+      visit(test.value);        // Visit the test expression
+      const lb0 = ref();
+      emit('pop-jump-if-false', lb0);
+      visit(body.value);        // Visit the body of the statement
+      if (elsestm) {
+        const lb1 = ref();
+        emit('jump-forward', lb1);
+        const savedPos = pos();
+        fixjabs(lb0);
+        visit(elsestm.value);   // Visit the body of `else' branche
+        fixjrel(lb1, savedPos);
+      } else {
+        fixjabs(lb0);
+      }
+      return true;
+    },
+   #+end_src
+
+* Thank you
+
+  #+BEGIN_thanks
+  [[../../media/img/8bitme.svg]]
+
+  * Questions?
+  * [[https://github.com/clarete/effigy][Source code]]
+  * [[https://clarete.li/blog/toy-compiler-from-scratch.html][Blog post]]
+  #+END_thanks
