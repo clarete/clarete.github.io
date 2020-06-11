@@ -337,7 +337,10 @@ matches BACKEND."
 ; (lc/blog/static)
 
 ;; Generate the blog posts & RSS
-;
+
+;; Needed before `org-publish-project' can be called
+; (lc/ox/setup)
+
 ;; All at once
 ;(org-publish-project "blog" t)
 
