@@ -1,0 +1,19 @@
+package main
+
+type Calculator Peg {
+     Expression
+}
+
+# Fst <- Add !.
+# Add <- Mul '+' Add { fmt.Println("AddOp"); p.AddOperator(TypeAdd) } / Mul
+# Mul <- Exp '*' Mul { fmt.Println("MulOp"); p.AddOperator(TypeMultiply) } / Exp
+# Exp <- '(' Add ')' / Num
+# Num <- < [0-9]+ > { fmt.Printf("Num: %v\n", text); p.AddValue(text) }
+
+Fst <- Add !.
+Add <- Mul AddSuffix
+AddSuffix <- ('+' Add { fmt.Println("AddOp"); p.AddOperator(TypeAdd) })?
+Mul <- Exp MulSuffix
+MulSuffix <- ('*' Mul { fmt.Println("MulOp"); p.AddOperator(TypeMultiply) })?
+Exp <- '(' Add ')' / Num
+Num <- < [0-9]+ > { fmt.Printf("Num: %v\n", text); p.AddValue(text) }
