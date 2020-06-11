@@ -285,9 +285,9 @@
 
 *** Grammars for parsing lists
 
-    PEGs can also be used to parse structured data.  The AST traversal
-    of the AST for maps the scope rules and emitting code is guided by
-    a PEG grammar as well.  [[https://github.com/clarete/effigy/blob/master/lang.tr][Take a look at the grammar]].
+    The traversals on the AST for mapping the scope rules and for
+    emitting code are guided by a PEG grammar with different sets of
+    semantic actions.  [[https://github.com/clarete/effigy/blob/master/lang.tr][Take a look at the grammar]].
 
 * Code generation
 
