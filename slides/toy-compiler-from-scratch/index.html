@@ -29,21 +29,21 @@
 <div class="slides">
 
 <section>
-<section id="slide-org8c7cd23">
-<h2 id="org8c7cd23">Build a toy compiler from scratch</h2>
-<div class="outline-text-2" id="text-org8c7cd23">
+<section id="slide-org1440027">
+<h2 id="org1440027">Build a toy compiler from scratch</h2>
+<div class="outline-text-2" id="text-org1440027">
 </div>
 </section>
-<section id="slide-orgb1699f6">
-<h3 id="orgb1699f6">Goal of this experiment</h3>
+<section id="slide-org675195e">
+<h3 id="org675195e">Goal of this experiment</h3>
 <p>
 To compile a program to the Python Virtual Machine using a
 home brewed compiler
 </p>
 
 </section>
-<section id="slide-orgcc68766">
-<h3 id="orgcc68766">How does this little language look like</h3>
+<section id="slide-org1d0a6ca">
+<h3 id="org1d0a6ca">How does this little language look like</h3>
 <div class="org-src-container">
 
 <pre  class="src src-effigy"><code trim><span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">fib</span><span style="color: #458588;">(</span>n<span style="color: #458588;">)</span>
@@ -65,8 +65,8 @@ home brewed compiler
 </section>
 </section>
 <section>
-<section id="slide-orgb849ef7">
-<h2 id="orgb849ef7">A look from above</h2>
+<section id="slide-orgbca2d23">
+<h2 id="orgbca2d23">A look from above</h2>
 
 <div class="figure">
 <p><img src="../../media/blogimg/effigy-an-experiment-writing-a-compiler-overview.png" alt="effigy-an-experiment-writing-a-compiler-overview.png" />
@@ -74,8 +74,8 @@ home brewed compiler
 </div>
 
 </section>
-<section id="slide-org9d9e128">
-<h3 id="org9d9e128">How does Python do it</h3>
+<section id="slide-org2ea0bcd">
+<h3 id="org2ea0bcd">How does Python do it</h3>
 <p>
 From <a href="https://devguide.python.org/compiler">https://devguide.python.org/compiler</a>
 </p>
@@ -90,8 +90,8 @@ From <a href="https://devguide.python.org/compiler">https://devguide.python.org/
 </ol>
 
 </section>
-<section id="slide-org8a74dc8">
-<h3 id="org8a74dc8">How are we going to do it</h3>
+<section id="slide-orgd8dd9b6">
+<h3 id="orgd8dd9b6">How are we going to do it</h3>
 <ol>
 <li>Parse source code into parse tree with a PEG grammar</li>
 <li>Semantic actions transform parse tree into AST</li>
@@ -103,17 +103,17 @@ actions to emit code</li>
 </section>
 </section>
 <section>
-<section id="slide-orgca347b1">
-<h2 id="orgca347b1">Text parsing</h2>
-<div class="outline-text-2" id="text-orgca347b1">
+<section id="slide-orge45457a">
+<h2 id="orge45457a">Text parsing</h2>
+<div class="outline-text-2" id="text-orge45457a">
 </div>
 </section>
-<section id="slide-org2d3f7b9">
-<h3 id="org2d3f7b9">Take a stream of characters and produce a tree structure</h3>
+<section id="slide-org65c13a0">
+<h3 id="org65c13a0">Take a stream of characters and produce a tree structure</h3>
 
 </section>
-<section id="slide-org46baca5">
-<h3 id="org46baca5">Example</h3>
+<section id="slide-orge5fab50">
+<h3 id="orge5fab50">Example</h3>
 <p>
 <table width="100%">
 </p>
@@ -156,13 +156,13 @@ actions to emit code</li>
 </p>
 
 </section>
-<section id="slide-orgff54268">
-<h3 id="orgff54268">Parsing Expression Grammars</h3>
-<div class="outline-text-3" id="text-orgff54268">
+<section id="slide-org14aab17">
+<h3 id="org14aab17">Parsing Expression Grammars</h3>
+<div class="outline-text-3" id="text-org14aab17">
 </div>
 </section>
-<section id="slide-org35c0585">
-<h4 id="org35c0585">Semantics</h4>
+<section id="slide-org46bdf6c">
+<h4 id="org46bdf6c">Semantics</h4>
 <ol>
 <li>Language to describe recursive top-down parsers</li>
 <li>Borrow productions from Context Free Grammars</li>
@@ -175,8 +175,8 @@ deterministic context-free languages</li>
 </ol>
 
 </section>
-<section id="slide-org87df1df">
-<h4 id="org87df1df">Expressions</h4>
+<section id="slide-orga6e1b54">
+<h4 id="orga6e1b54">Expressions</h4>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -233,8 +233,8 @@ deterministic context-free languages</li>
 </table>
 
 </section>
-<section id="slide-orgab55f7b">
-<h4 id="orgab55f7b">A tiny example</h4>
+<section id="slide-org8f01dca">
+<h4 id="org8f01dca">A tiny example</h4>
 <p>
 <table width="100%"><tr><th>Grammar</th><th>Input</th></tr>
 </p>
@@ -288,8 +288,8 @@ deterministic context-free languages</li>
 </p>
 
 </section>
-<section id="slide-org70b3a98">
-<h4 id="org70b3a98">Semantic Actions</h4>
+<section id="slide-orgfe6e057">
+<h4 id="orgfe6e057">Semantic Actions</h4>
 <p>
 Traverse the parse tree and apply user-defined functions to each
 node <b>after parsing has finished successfully</b>
@@ -309,24 +309,24 @@ parser<span style="color: #458588;">(</span>input<span style="color: #458588;">)
 </div>
 
 </section>
-<section id="slide-org89da5b4">
-<h4 id="org89da5b4">A little detour #1</h4>
+<section id="slide-orgc38ddd2">
+<h4 id="orgc38ddd2">A little detour #1</h4>
 <p>
 What happens if semantic actions are applied before parsing is
 finished
 </p>
 
 </section>
-<section id="slide-org826e3e4">
-<h4 id="org826e3e4">A little detour #2</h4>
+<section id="slide-org4fc58b2">
+<h4 id="org4fc58b2">A little detour #2</h4>
 <p>
 A trade-off of having support for semantic actions embedded within
 the PEG text
 </p>
 
 </section>
-<section id="slide-org263707e">
-<h3 id="org263707e">Language Grammar</h3>
+<section id="slide-orgb690c11">
+<h3 id="orgb690c11">Language Grammar</h3>
 <p>
 With a PEG implementation at hand, the next step is to get the
 language grammar ready to take input text and generate an Abstract
@@ -336,18 +336,18 @@ Syntax Tree (or <code>AST</code> for short). <a href="https://github.com/clarete
 </section>
 </section>
 <section>
-<section id="slide-org190a8ce">
-<h2 id="org190a8ce">Scope rules</h2>
-<div class="outline-text-2" id="text-org190a8ce">
+<section id="slide-orgf677703">
+<h2 id="orgf677703">Scope rules</h2>
+<div class="outline-text-2" id="text-orgf677703">
 </div>
 </section>
-<section id="slide-org86a7ed6">
-<h3 id="org86a7ed6">Traverse the AST and map out scope rules</h3>
-<div class="outline-text-3" id="text-org86a7ed6">
+<section id="slide-org594d270">
+<h3 id="org594d270">Traverse the AST and map out scope rules</h3>
+<div class="outline-text-3" id="text-org594d270">
 </div>
 </section>
-<section id="slide-org39a7d19">
-<h4 id="org39a7d19">What problem are we solving</h4>
+<section id="slide-org2953e2f">
+<h4 id="org2953e2f">What problem are we solving</h4>
 <p>
 Where do we store <code>x</code> in the example below when <code>plus_n</code> is
 finished executing
@@ -364,8 +364,8 @@ print<span style="color: #458588;">(</span>plus_five<span style="color: #b16286;
 </div>
 
 </section>
-<section id="slide-orga659ec6">
-<h4 id="orga659ec6">Types of variables in Python</h4>
+<section id="slide-org3264577">
+<h4 id="org3264577">Types of variables in Python</h4>
 <ul>
 <li><b>Global:</b> Module scope &amp; built-ins</li>
 <li><b>Local:</b> Created and destroyed within a function</li>
@@ -375,16 +375,16 @@ around after scope that it was declared is gone</li>
 </ul>
 
 </section>
-<section id="slide-org35ad9a8">
-<h4 id="org35ad9a8">Symbol table</h4>
+<section id="slide-orgb667daa">
+<h4 id="orgb667daa">Symbol table</h4>
 <p>
 Data structure for bookkeeping information about variables. The
 Python compiler has one, so does the Effigy compiler.
 </p>
 
 </section>
-<section id="slide-orga64c70a">
-<h4 id="orga64c70a">Example</h4>
+<section id="slide-org9abbb6c">
+<h4 id="org9abbb6c">Example</h4>
 <p>
 <table width="100%"><tr><td>
 </p>
@@ -440,8 +440,8 @@ Python compiler has one, so does the Effigy compiler.
 </p>
 
 </section>
-<section id="slide-org4fd049e">
-<h3 id="org4fd049e">Declaration and assignment</h3>
+<section id="slide-org53519c2">
+<h3 id="org53519c2">Declaration and assignment</h3>
 <p>
 <table width="100%"><tr><th>Python</th><th>Effigy</th></tr>
 </p>
@@ -484,29 +484,29 @@ Python compiler has one, so does the Effigy compiler.
 </p>
 
 </section>
-<section id="slide-orga8c27ab">
-<h4 id="orga8c27ab">A grammar for parsing lists?</h4>
+<section id="slide-orgc9a6a18">
+<h4 id="orgc9a6a18">Grammars for parsing lists</h4>
 <p>
 PEGs can also be used to parse structured data.  The AST traversal
-that maps the scope rules is implemented with a PEG.  <a href="https://github.com/clarete/effigy/blob/master/lang.tr">Take a look
-at the grammar</a>.
+of the AST for maps the scope rules and emitting code is guided by
+a PEG grammar as well.  <a href="https://github.com/clarete/effigy/blob/master/lang.tr">Take a look at the grammar</a>.
 </p>
 
 </section>
 </section>
 <section>
-<section id="slide-org50440f7">
-<h2 id="org50440f7">Code generation</h2>
-<div class="outline-text-2" id="text-org50440f7">
+<section id="slide-org7d855f8">
+<h2 id="org7d855f8">Code generation</h2>
+<div class="outline-text-2" id="text-org7d855f8">
 </div>
 </section>
-<section id="slide-orga30f5fb">
-<h3 id="orga30f5fb">Output Format</h3>
-<div class="outline-text-3" id="text-orga30f5fb">
+<section id="slide-orgdab18c8">
+<h3 id="orgdab18c8">Output Format</h3>
+<div class="outline-text-3" id="text-orgdab18c8">
 </div>
 </section>
-<section id="slide-org9c6a8a6">
-<h4 id="org9c6a8a6">Structure of a pyc file</h4>
+<section id="slide-org9c9e171">
+<h4 id="org9c9e171">Structure of a pyc file</h4>
 <ul>
 <li><a href="https://github.com/python/cpython/blob/3.7/Python/pythonrun.c#L1049"><b>Magic number</b></a>: Version of marshalling code</li>
 <li><a href="https://www.python.org/dev/peps/pep-0552/"><b>PEP-552</b></a>: used for generating deterministic pycs</li>
@@ -517,8 +517,8 @@ at the grammar</a>.
 </ul>
 
 </section>
-<section id="slide-orga324523">
-<h4 id="orga324523"><a href="https://docs.python.org/3.7/c-api/code.html">Code Objects</a></h4>
+<section id="slide-orgdcfc72d">
+<h4 id="orgdcfc72d"><a href="https://docs.python.org/3.7/c-api/code.html">Code Objects</a></h4>
 <div class="org-src-container">
 
 <pre  class="src src-c"><code trim>PyObject_HEAD
@@ -538,8 +538,8 @@ at the grammar</a>.
 </div>
 
 </section>
-<section id="slide-org58b49f7">
-<h4 id="org58b49f7">The tiniest example</h4>
+<section id="slide-orgf09b371">
+<h4 id="orgf09b371">The tiniest example</h4>
 <p>
 <table width="100%">
 <tr><th>Source</th><th>Code Object</th></tr><tr><td>
@@ -579,16 +579,16 @@ at the grammar</a>.
 </p>
 
 </section>
-<section id="slide-org7ba9a9b">
-<h3 id="org7ba9a9b">How <i>bytecode</i> is generated</h3>
+<section id="slide-orgd191125">
+<h3 id="orgd191125">How <i>bytecode</i> is generated</h3>
 <p>
 The AST is traversed by a PEG grammar and code is emitted during
 the semantic action execution.
 </p>
 
 </section>
-<section id="slide-orga724929">
-<h3 id="orga724929">Assembler API</h3>
+<section id="slide-org6b1a0ac">
+<h3 id="org6b1a0ac">Assembler API</h3>
 <ul>
 <li><code>enter</code>: Enter a new scope (create Code Object)</li>
 <li><code>leave</code>: Leave scope &amp; return Code Object</li>
@@ -601,8 +601,8 @@ the semantic action execution.
 </ul>
 
 </section>
-<section id="slide-org32a8927">
-<h3 id="org32a8927">Example</h3>
+<section id="slide-org43d105b">
+<h3 id="org43d105b">Example</h3>
 <div class="org-src-container">
 
 <pre  class="src src-js"><code trim>IfStm: <span style="color: #458588;">(</span><span style="color: #b16286;">{</span> visit, node <span style="color: #b16286;">}</span><span style="color: #458588;">)</span> =&gt; <span style="color: #458588;">{</span>
@@ -629,8 +629,8 @@ the semantic action execution.
 </section>
 </section>
 <section>
-<section id="slide-org5be0468">
-<h2 id="org5be0468">Thank you</h2>
+<section id="slide-org5f609f5">
+<h2 id="org5f609f5">Thank you</h2>
 <div class="thanks">
 
 <div class="figure">

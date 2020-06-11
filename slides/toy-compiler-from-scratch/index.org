@@ -283,11 +283,11 @@
 
    @@html:</td></tr></table>@@
 
-*** A grammar for parsing lists?
+*** Grammars for parsing lists
 
     PEGs can also be used to parse structured data.  The AST traversal
-    that maps the scope rules is implemented with a PEG.  [[https://github.com/clarete/effigy/blob/master/lang.tr][Take a look
-    at the grammar]].
+    of the AST for maps the scope rules and emitting code is guided by
+    a PEG grammar as well.  [[https://github.com/clarete/effigy/blob/master/lang.tr][Take a look at the grammar]].
 
 * Code generation
 
