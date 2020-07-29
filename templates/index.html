@@ -1,0 +1,8 @@
+{# index.html --- Template for my website's index page -*- Mode: Jinja2; -*- #}
+{% extends "layout.html" %}
+
+{% block body %}
+  <h1>{{ post.title }}</h1>
+
+  {{ post.html|safe }}
+{% endblock %}

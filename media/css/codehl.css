@@ -1,0 +1,54 @@
+:root {
+    /* --- --- --- Syntax Highlight Color Themes --- --- --- */
+
+    /* --- Monokai Theme */
+    --code-monokai-background:    #272822;
+    --code-monokai-foreground:    #F8F8F2;
+    --code-monokai-comment:       #75715E;
+    --code-monokai-red:           #F92672;
+    --code-monokai-orange:        #FD971F;
+    --code-monokai-light-orange:  #E69F66;
+    --code-monokai-yellow:        #E6DB74;
+    --code-monokai-green:         #A6E22E;
+    --code-monokai-blue:          #66D9EF;
+    --code-monokai-purple:        #AE81FF;
+
+    /* --- Parasol Theme */
+    --code-parasol-background:    #F8F8F2;
+    --code-parasol-foreground:    #25b2ee;
+    --code-parasol-builtin:       #80A5E9;
+    --code-parasol-comment:       #BFBFBF;
+    --code-parasol-doc:           #004260;
+    --code-parasol-functions:     #7540CA;
+    --code-parasol-keyword:       #FB4934;
+    --code-parasol-string:        #00B664;
+    --code-parasol-type:          #F73D8A;
+    --code-parasol-variables:     #008ED4;
+
+    /* Gruvbox Theme Colors */
+    --code-gruvbox-background:    #282828;
+    --code-gruvbox-foreground:    #ebdbb2;
+    --code-gruvbox-dark-1:        #3c3836;
+    --code-gruvbox-dark-2:        #504945;
+    --code-gruvbox-dark-3:        #665c54;
+    --code-gruvbox-dark-4:        #7c6f64;
+    --code-gruvbox-light-1:       #fdf4c1;
+    --code-gruvbox-light-2:       #d5c4a1;
+    --code-gruvbox-light-3:       #bdae93;
+    --code-gruvbox-light-4:       #a89984;
+    --code-gruvbox-red:           #fb4934;
+    --code-gruvbox-orange:        #fe8019;
+    --code-gruvbox-yellow:        #fabd2f;
+    --code-gruvbox-green:         #b8bb26;
+    --code-gruvbox-aqua:          #8ec07c;
+    --code-gruvbox-blue:          #83a598;
+    --code-gruvbox-purple:        #d3869b;
+    --code-gruvbox-builtin:       var(--code-gruvbox-orange);
+    --code-gruvbox-comment:       var(--code-gruvbox-dark-4);
+    --code-gruvbox-doc:           var(--code-gruvbox-dark-4);
+    --code-gruvbox-function-name: var(--code-gruvbox-yellow);
+    --code-gruvbox-keyword:       var(--code-gruvbox-red);
+    --code-gruvbox-string:        var(--code-gruvbox-green);
+    --code-gruvbox-type:          var(--code-gruvbox-purple);
+    --code-gruvbox-variable-name: var(--code-gruvbox-blue);
+}

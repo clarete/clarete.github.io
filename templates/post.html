@@ -1,0 +1,21 @@
+{# post.html --- Blog Post template -*- Mode: Jinja2; -*-
+
+This template is executed once for each post published. Metadata and
+content are available in the `post` variable, passed by the executor.
+
+#}
+{% extends "layout.html" %}
+
+{% block body %}
+  <!-- {{ post.slug }} -->
+  {# Access to the post's metadata #}
+  <div class="title">
+    <h1>{{ post.title }}</h1>
+    <span class="pubdate">{{ post.date|strftime("%b %d, %Y") }}</span>
+  </div>
+
+  {# Access to the content #}
+  <div class="content">
+    {{ post.html|safe }}
+  </div>
+{% endblock %}

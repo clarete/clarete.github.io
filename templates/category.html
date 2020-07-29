@@ -1,0 +1,19 @@
+{# category.html --- Blog Category template ; -*- Mode: Jinja2; -*- #}
+{% extends "layout.html" %}
+
+{% block body %}
+  <div class="title">
+    <h1>{{ category.name }}</h1>
+  </div>
+
+  <div class="content">
+    <ul>
+      {% for post in category.posts %}
+        <li>
+          <span class="pubdate">{{ post.date }}</span>
+          <a href="{{ url_for("posts", slug=post.slug) }}">{{ post.title }}</a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

@@ -1,6 +1,8 @@
 #+TITLE: A toy compiler from scratch
 #+DATE: <2020-05-31>
+#+SLUG: toy-compiler-from-scratch
 #+FILETAGS: :peg:plt:
+#+OPTIONS: toc:nil num:nil
 
 I've always been fascinated with programming languages.  It's
 incredible to me that some programs take the text representation of
@@ -34,7 +36,8 @@ Virtual Machine.  Without further ado, let's see how it works!
   That tree is traversed and the /bytecode/ is emitted.
 
   #+BEGIN_centralized
-  [[blogimg:effigy-an-experiment-writing-a-compiler-overview.png][Highlevel Overview]]
+  #+NAME: Highlevel Overview
+  [[../media/blogimg/effigy-an-experiment-writing-a-compiler-overview.png]]
   #+END_centralized
 
   Because of its simplicity, Effigy doesn't really apply any
