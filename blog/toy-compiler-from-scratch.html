@@ -1,107 +1,64 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<!-- 2020-05-31 Sun 09:50 -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>A toy compiler from scratch</title>
-<meta name="generator" content="Org mode">
-<meta name="author" content="Lincoln Clarete">
-<link rel="stylesheet" type="text/css" href="/media/css/main.css" />
-<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
-<link rel="icon" type="image/png" href="/media/img/8bitme.png" />
-<link rel="alternate" type="application/rss+xml" href="/blog/rss.xml" />
-<script type="text/javascript">
-/*
-@licstart  The following is the entire license notice for the
-JavaScript code in this tag.
 
-Copyright (C) 2012-2020 Free Software Foundation, Inc.
+<!doctype html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <title>clarete &mdash; Home</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="/media/css/main.css">
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="icon" type="image/png" href="/media/img/8bitme.png">
+    <link rel="alternate" type="application/rss+xml" href="/blog/rss.xml">
+  </head>
+  <body>
+    
+      <div class="social">
+        <div class="container">
+          <ul class="badges">
+            <li>
+              <a href="mailto:lincoln@clarete.li" alt="Email">
+                <span class="fa fa-envelope-o"></span>EMail
+              </a>
+            </li>
+            <li>
+              <a href="https://github.com/clarete" target="_blank" alt="Github">
+                <span class="fa fa-github-alt"></span>Github
+              </a>
+            </li>
+            <li>
+              <a href="/blog/rss.xml" alt="RSS">
+                <span class="fa fa-rss"></span>RSS
+              </a>
+            </li>
+          </ul>
 
-The JavaScript code in this tag is free software: you can
-redistribute it and/or modify it under the terms of the GNU
-General Public License (GNU GPL) as published by the Free Software
-Foundation, either version 3 of the License, or (at your option)
-any later version.  The code is distributed WITHOUT ANY WARRANTY;
-without even the implied warranty of MERCHANTABILITY or FITNESS
-FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+          <a href="/">
+            <img class="avatar" type="image/svg+xml" src="/media/img/8bitme.svg" alt="Me in 8bit" />
+          </a>
 
-As additional permission under GNU GPL version 3 section 7, you
-may distribute non-source (e.g., minimized or compacted) forms of
-that code without the copy of the GNU GPL normally required by
-section 4, provided you include this license notice and a URL
-through which recipients can access the Corresponding Source.
+          <div class="balloon">
+            Happy Hacking!
+          </div>
 
+        </div>
+      </div>
+    
 
-@licend  The above is the entire license notice
-for the JavaScript code in this tag.
-*/
-<!--/*--><![CDATA[/*><!--*/
- function CodeHighlightOn(elem, id)
- {
-   var target = document.getElementById(id);
-   if(null != target) {
-     elem.cacheClassElem = elem.className;
-     elem.cacheClassTarget = target.className;
-     target.className = "code-highlighted";
-     elem.className   = "code-highlighted";
-   }
- }
- function CodeHighlightOff(elem, id)
- {
-   var target = document.getElementById(id);
-   if(elem.cacheClassElem)
-     elem.className = elem.cacheClassElem;
-   if(elem.cacheClassTarget)
-     target.className = elem.cacheClassTarget;
- }
-/*]]>*///-->
-</script>
-</head>
-<body>
-<div id="org-div-home-and-up">
- <a accesskey="h" href="/"> UP </a>
- |
- <a accesskey="H" href="/"> HOME </a>
-</div><header id="top" class="status">
-<div class="social">
-  <div class="container">
-
-    <ul class="badges">
-      <li>
-        <a href="mailto:lincoln@clarete.li" alt="Email">
-          <span class="fa fa-envelope-o"></span>EMail
-        </a>
-      </li>
-      <li>
-        <a href="https://github.com/clarete" target="_blank" alt="Github">
-          <span class="fa fa-github-alt"></span>Github
-        </a>
-      </li>
-      <li>
-        <a href="/blog/rss.xml" alt="RSS">
-          <span class="fa fa-rss"></span>RSS
-        </a>
-      </li>
-    </ul>
-
-    <a href="/">
-      <img class="avatar" type="image/svg+xml" src="/media/img/8bitme.svg" alt="Me in 8bit" />
-    </a>
-
-    <div class="balloon">
-      Happy Hacking!
-    </div>
-
+    <div class="post">
+      <div class="container">
+        
+  <!-- toy-compiler-from-scratch -->
+  
+  <div class="title">
+    <h1>A toy compiler from scratch</h1>
+    <span class="pubdate">May 31, 2020</span>
   </div>
-</div>
-</header>
-<main id="content">
-<header>
-<h1 class="title">A toy compiler from scratch</h1>
-<p class="subtitle">May 31, 2020</p>
-</header><p>
+
+  
+  <div class="content">
+    <p>
 I've always been fascinated with programming languages.  It's
 incredible to me that some programs take the text representation of
 our ideas and turn them into code that can be executed by the
@@ -137,9 +94,9 @@ Effigy takes a syntax that I made up and generates <i>bytecode</i> for that
 Virtual Machine.  Without further ado, let's see how it works!
 </p>
 
-<div id="outline-container-org765f044" class="outline-2">
-<h2 id="org765f044">A 38k feet view of the process</h2>
-<div class="outline-text-2" id="text-org765f044">
+<div id="outline-container-org1214571" class="outline-2">
+<h2 id="org1214571">A 38k feet view of the process</h2>
+<div class="outline-text-2" id="text-org1214571">
 <p>
 The text representation of the program is parsed into a tree
 structure that contains the meaning described in the text program.
@@ -147,9 +104,11 @@ That tree is traversed and the <i>bytecode</i> is emitted.
 </p>
 
 <div class="centralized">
-<p>
-<img src="/media/blogimg/effigy-an-experiment-writing-a-compiler-overview.png" alt="Highlevel Overview"/>
+
+<div id="org29c967e" class="figure">
+<p><img src="../media/blogimg/effigy-an-experiment-writing-a-compiler-overview.png" alt="effigy-an-experiment-writing-a-compiler-overview.png" />
 </p>
+</div>
 
 </div>
 
@@ -181,9 +140,9 @@ to really understand how PEGs could be so flexible and powerful.
 </div>
 </div>
 
-<div id="outline-container-orgfcbb9ab" class="outline-2">
-<h2 id="orgfcbb9ab">The PEG library</h2>
-<div class="outline-text-2" id="text-orgfcbb9ab">
+<div id="outline-container-orgf65f4f1" class="outline-2">
+<h2 id="orgf65f4f1">The PEG library</h2>
+<div class="outline-text-2" id="text-orgf65f4f1">
 <p>
 Two out of the three of the main components of Effigy are built on
 top of the PEG implementation.  That makes the PEG implementation
@@ -215,7 +174,7 @@ grammar:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-peg"><span style="color: #fabd2f;">Number</span> <span style="color: #d3869b;">&lt;-</span> <span style="color: #b8bb26;">[0-9]</span><span style="color: #fe8019;">+</span>
+<pre class="src src-peg"><span class="org-function-name">Number</span> <span class="org-type">&lt;-</span> <span class="org-string">[0-9]</span><span class="org-builtin">+</span>
 </pre>
 </div>
 
@@ -224,12 +183,12 @@ yields the following grammar tree:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-effigy"><span style="color: #458588;">{</span>
-  Number: <span style="color: #b16286;">[</span><span style="color: #8ec07c;">[</span>
-    <span style="color: #d65d0e;">[</span><span style="color: #458588;">{</span> name: <span style="color: #b8bb26;">'oneOrMore'</span> <span style="color: #458588;">}</span>,
-      <span style="color: #458588;">[</span><span style="color: #b16286;">{</span> name: <span style="color: #b8bb26;">'range'</span> <span style="color: #b16286;">}</span>, <span style="color: #b8bb26;">'0'</span>, <span style="color: #b8bb26;">'9'</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">]</span>
-  <span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span>
-<span style="color: #458588;">}</span>
+<pre class="src src-effigy"><span class="org-rainbow-delimiters-depth-1">{</span>
+  Number: <span class="org-rainbow-delimiters-depth-2">[</span><span class="org-rainbow-delimiters-depth-3">[</span>
+    <span class="org-rainbow-delimiters-depth-4">[</span><span class="org-rainbow-delimiters-depth-5">{</span> name: <span class="org-string">'oneOrMore'</span> <span class="org-rainbow-delimiters-depth-5">}</span>,
+      <span class="org-rainbow-delimiters-depth-5">[</span><span class="org-rainbow-delimiters-depth-6">{</span> name: <span class="org-string">'range'</span> <span class="org-rainbow-delimiters-depth-6">}</span>, <span class="org-string">'0'</span>, <span class="org-string">'9'</span><span class="org-rainbow-delimiters-depth-5">]</span><span class="org-rainbow-delimiters-depth-4">]</span>
+  <span class="org-rainbow-delimiters-depth-3">]</span><span class="org-rainbow-delimiters-depth-2">]</span>
+<span class="org-rainbow-delimiters-depth-1">}</span>
 </pre>
 </div>
 
@@ -264,8 +223,8 @@ syntax:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-peg"><span style="color: #fabd2f;">Start</span>  <span style="color: #d3869b;">&lt;-</span> Number <span style="color: #fe8019;">!</span>.
-<span style="color: #fabd2f;">Number</span> <span style="color: #d3869b;">&lt;-</span> <span style="color: #b8bb26;">[0-9]</span><span style="color: #fe8019;">+</span>
+<pre class="src src-peg"><span class="org-function-name">Start</span>  <span class="org-type">&lt;-</span> Number <span class="org-builtin">!</span>.
+<span class="org-function-name">Number</span> <span class="org-type">&lt;-</span> <span class="org-string">[0-9]</span><span class="org-builtin">+</span>
 </pre>
 </div>
 
@@ -330,9 +289,9 @@ list;</li>
 </ul>
 </div>
 
-<div id="outline-container-org33b74e5" class="outline-3">
-<h3 id="org33b74e5">Scanner Interface</h3>
-<div class="outline-text-3" id="text-org33b74e5">
+<div id="outline-container-orgc519c54" class="outline-3">
+<h3 id="orgc519c54">Scanner Interface</h3>
+<div class="outline-text-3" id="text-orgc519c54">
 <p>
 The parser that implements the PEG interface listed above is built
 on top of a scanner that provides all the matching functions and
@@ -363,22 +322,22 @@ backtrack before a new option is attempted. E.g.:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">Part of the JavaScript implementation of the scanner</span>
-<span style="color: #fb4933;">function</span> <span style="color: #fabd2f;">choice</span><span style="color: #458588;">(</span>...fns<span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
-  <span style="color: #fb4933;">const</span> <span style="color: #83a598;">saved</span> = cursor; <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">input cursor</span>
-  <span style="color: #fb4933;">for</span> <span style="color: #b16286;">(</span><span style="color: #fb4933;">const</span> <span style="color: #83a598;">fn</span> of fns<span style="color: #b16286;">)</span> <span style="color: #b16286;">{</span>
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">Once an alternative succeeds, all the other ones</span>
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">are discarded.</span>
-    <span style="color: #fb4933;">try</span> <span style="color: #8ec07c;">{</span> <span style="color: #fb4933;">return</span> fn<span style="color: #d65d0e;">()</span>; <span style="color: #8ec07c;">}</span>
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">If an alternative fails, the cursor is backtracked</span>
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">to where it was in the beginning of the choice</span>
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">operation.</span>
-    <span style="color: #fb4933;">catch</span> <span style="color: #8ec07c;">(</span>e<span style="color: #8ec07c;">)</span> <span style="color: #8ec07c;">{</span> cursor = saved; <span style="color: #8ec07c;">}</span>
-  <span style="color: #b16286;">}</span>
-  <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">If no alternatives succeed, the choice operation</span>
-  <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">fails.</span>
-  <span style="color: #fb4933;">throw</span> <span style="color: #fb4933;">new</span> <span style="color: #d3869b;">Error</span><span style="color: #b16286;">(</span><span style="color: #b8bb26;">"None of the options matched"</span><span style="color: #b16286;">)</span>;
-<span style="color: #458588;">}</span>
+<pre class="src src-js"><span class="org-comment-delimiter">// </span><span class="org-comment">Part of the JavaScript implementation of the scanner</span>
+<span class="org-keyword">function</span> <span class="org-function-name">choice</span>(...fns) {
+  <span class="org-keyword">const</span> <span class="org-variable-name">saved</span> = cursor; <span class="org-comment-delimiter">// </span><span class="org-comment">input cursor</span>
+  <span class="org-keyword">for</span> (<span class="org-keyword">const</span> <span class="org-variable-name">fn</span> of fns) {
+    <span class="org-comment-delimiter">// </span><span class="org-comment">Once an alternative succeeds, all the other ones</span>
+    <span class="org-comment-delimiter">// </span><span class="org-comment">are discarded.</span>
+    <span class="org-keyword">try</span> { <span class="org-keyword">return</span> fn(); }
+    <span class="org-comment-delimiter">// </span><span class="org-comment">If an alternative fails, the cursor is backtracked</span>
+    <span class="org-comment-delimiter">// </span><span class="org-comment">to where it was in the beginning of the choice</span>
+    <span class="org-comment-delimiter">// </span><span class="org-comment">operation.</span>
+    <span class="org-keyword">catch</span> (e) { cursor = saved; }
+  }
+  <span class="org-comment-delimiter">// </span><span class="org-comment">If no alternatives succeed, the choice operation</span>
+  <span class="org-comment-delimiter">// </span><span class="org-comment">fails.</span>
+  <span class="org-keyword">throw</span> <span class="org-keyword">new</span> <span class="org-type">Error</span>(<span class="org-string">"None of the options matched"</span>);
+}
 </pre>
 </div>
 
@@ -403,15 +362,15 @@ scanner in action:
 </p>
 </div>
 
-<div id="outline-container-org637d950" class="outline-4">
-<h4 id="org637d950">Text Scanner</h4>
-<div class="outline-text-4" id="text-org637d950">
+<div id="outline-container-orgbfffaca" class="outline-4">
+<h4 id="orgbfffaca">Text Scanner</h4>
+<div class="outline-text-4" id="text-orgbfffaca">
 <p>
 The <code>match</code> function takes a string as its input:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js">peg.pegc<span style="color: #458588;">(</span><span style="color: #b8bb26;">`Number &lt;- [0-9]+`</span><span style="color: #458588;">)</span>.match<span style="color: #458588;">(</span><span style="color: #b8bb26;">'1234'</span><span style="color: #458588;">)</span>
+<pre class="src src-js">peg.pegc(<span class="org-string">`Number &lt;- [0-9]+`</span>).match(<span class="org-string">'1234'</span>)
 </pre>
 </div>
 
@@ -419,24 +378,24 @@ The <code>match</code> function takes a string as its input:
 which generates:
 </p>
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Number'</span>, <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'1'</span>, <span style="color: #b8bb26;">'2'</span>, <span style="color: #b8bb26;">'3'</span>, <span style="color: #b8bb26;">'4'</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>
+<pre class="src src-js">[<span class="org-string">'Number'</span>, [<span class="org-string">'1'</span>, <span class="org-string">'2'</span>, <span class="org-string">'3'</span>, <span class="org-string">'4'</span>]]
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-org8a585f1" class="outline-4">
-<h4 id="org8a585f1">List Scanner</h4>
-<div class="outline-text-4" id="text-org8a585f1">
+<div id="outline-container-org8d33c2a" class="outline-4">
+<h4 id="org8d33c2a">List Scanner</h4>
+<div class="outline-text-4" id="text-org8d33c2a">
 <p>
 The <code>matchl</code> function takes a list as its input:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js">peg.pegc<span style="color: #458588;">(</span><span style="color: #b8bb26;">`</span>
-<span style="color: #b8bb26;">  Numbers &lt;- { "Number" { Atom+ } }</span>
-<span style="color: #b8bb26;">  Atom    &lt;- !{ .* } .</span>
-<span style="color: #b8bb26;">`</span><span style="color: #458588;">)</span>.matchl<span style="color: #458588;">(</span><span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Number'</span>, <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'1'</span>, <span style="color: #b8bb26;">'2'</span>, <span style="color: #b8bb26;">'3'</span>, <span style="color: #b8bb26;">'4'</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">)</span>
+<pre class="src src-js">peg.pegc(<span class="org-string">`</span>
+<span class="org-string">  Numbers &lt;- { "Number" { Atom+ } }</span>
+<span class="org-string">  Atom    &lt;- !{ .* } .</span>
+<span class="org-string">`</span>).matchl([<span class="org-string">'Number'</span>, [<span class="org-string">'1'</span>, <span class="org-string">'2'</span>, <span class="org-string">'3'</span>, <span class="org-string">'4'</span>]])
 </pre>
 </div>
 
@@ -444,21 +403,21 @@ The <code>matchl</code> function takes a list as its input:
 which generates:
 </p>
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Numbers'</span>,
-  <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Number'</span>,
-    <span style="color: #8ec07c;">[</span><span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Atom'</span>, <span style="color: #b8bb26;">'1'</span><span style="color: #d65d0e;">]</span>,
-     <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Atom'</span>, <span style="color: #b8bb26;">'2'</span><span style="color: #d65d0e;">]</span>,
-     <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Atom'</span>, <span style="color: #b8bb26;">'3'</span><span style="color: #d65d0e;">]</span>,
-     <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Atom'</span>, <span style="color: #b8bb26;">'4'</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>
+<pre class="src src-js">[<span class="org-string">'Numbers'</span>,
+  [<span class="org-string">'Number'</span>,
+    [[<span class="org-string">'Atom'</span>, <span class="org-string">'1'</span>],
+     [<span class="org-string">'Atom'</span>, <span class="org-string">'2'</span>],
+     [<span class="org-string">'Atom'</span>, <span class="org-string">'3'</span>],
+     [<span class="org-string">'Atom'</span>, <span class="org-string">'4'</span>]]]]
 </pre>
 </div>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orga466810" class="outline-3">
-<h3 id="orga466810">Semantic Actions</h3>
-<div class="outline-text-3" id="text-orga466810">
+<div id="outline-container-org0d5107b" class="outline-3">
+<h3 id="org0d5107b">Semantic Actions</h3>
+<div class="outline-text-3" id="text-org0d5107b">
 <p>
 After collecting the results from the matching operations and
 nesting them following the grammar's structure, the PEG library can
@@ -467,47 +426,47 @@ execution. E.g.:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">JavaScript API for compiling a grammar and binding</span>
-<span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">semantic actions to the generated parser</span>
-<span style="color: #fb4933;">const</span> <span style="color: #83a598;">grammar</span> = <span style="color: #b8bb26;">`</span>
-<span style="color: #b8bb26;">  Additive  &lt;- Multitive '+' Additive / Multitive</span>
-<span style="color: #b8bb26;">  Multitive &lt;- Primary '*' Multitive / Primary</span>
-<span style="color: #b8bb26;">  Primary   &lt;- '(' Additive ')' / Number</span>
-<span style="color: #b8bb26;">  Number    &lt;- [0-9]+</span>
-<span style="color: #b8bb26;">`</span>;
-<span style="color: #fb4933;">const</span> <span style="color: #83a598;">parser</span> = peg.pegc<span style="color: #458588;">(</span>grammar<span style="color: #458588;">)</span>.bind<span style="color: #458588;">(</span><span style="color: #b16286;">{</span>
-  <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">The name of the action must correspond to the name</span>
-  <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">of the rule present in the grammar string.  The</span>
-  <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">function `visit` gives the control over when the</span>
-  <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">child nodes will be visited.  That allows executing</span>
-  <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">code before and after visiting happens.  This is</span>
-  <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">very useful during the code generation step on</span>
-  <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">the compiler.</span>
-  Additive: <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> visit <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">{</span>
-    <span style="color: #fb4933;">const</span> <span style="color: #83a598;">v</span> = visit<span style="color: #d65d0e;">()</span>;
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">Ignore the string '+'</span>
-    <span style="color: #fb4933;">return</span> Array.isArray<span style="color: #d65d0e;">(</span>v<span style="color: #d65d0e;">)</span> ? v<span style="color: #d65d0e;">[</span>0<span style="color: #d65d0e;">]</span> + v<span style="color: #d65d0e;">[</span>2<span style="color: #d65d0e;">]</span> : v;
-  <span style="color: #8ec07c;">}</span>,
-  Multitive: <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> visit <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">{</span>
-    <span style="color: #fb4933;">const</span> <span style="color: #83a598;">v</span> = visit<span style="color: #d65d0e;">()</span>;
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">Ignore the string '*'</span>
-    <span style="color: #fb4933;">return</span> Array.isArray<span style="color: #d65d0e;">(</span>v<span style="color: #d65d0e;">)</span> ? v<span style="color: #d65d0e;">[</span>0<span style="color: #d65d0e;">]</span> * v<span style="color: #d65d0e;">[</span>2<span style="color: #d65d0e;">]</span> : v;
-  <span style="color: #8ec07c;">}</span>,
-  Primary: <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> visit <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">{</span>
-    <span style="color: #fb4933;">const</span> <span style="color: #83a598;">v</span> = visit<span style="color: #d65d0e;">()</span>;
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">Remove '(' and ')'</span>
-    <span style="color: #fb4933;">return</span> Array.isArray<span style="color: #d65d0e;">(</span>v<span style="color: #d65d0e;">)</span> ? v<span style="color: #d65d0e;">[</span>1<span style="color: #d65d0e;">]</span> : v;
-  <span style="color: #8ec07c;">}</span>,
-  Number: <span style="color: #8ec07c;">(</span><span style="color: #d65d0e;">{</span> visit <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">)</span> =&gt; <span style="color: #8ec07c;">{</span>
-    <span style="color: #fb4933;">const</span> <span style="color: #83a598;">v</span> = visit<span style="color: #d65d0e;">()</span>;
-    <span style="color: #fb4933;">const</span> <span style="color: #83a598;">n</span> = Array.isArray<span style="color: #d65d0e;">(</span>v<span style="color: #d65d0e;">)</span> ? v.join<span style="color: #d65d0e;">(</span><span style="color: #b8bb26;">''</span><span style="color: #d65d0e;">)</span> : v;
-    <span style="color: #fb4933;">return</span> parseInt<span style="color: #d65d0e;">(</span>n, 10<span style="color: #d65d0e;">)</span>;
-  <span style="color: #8ec07c;">}</span>
-<span style="color: #b16286;">}</span><span style="color: #458588;">)</span>;
+<pre class="src src-js"><span class="org-comment-delimiter">// </span><span class="org-comment">JavaScript API for compiling a grammar and binding</span>
+<span class="org-comment-delimiter">// </span><span class="org-comment">semantic actions to the generated parser</span>
+<span class="org-keyword">const</span> <span class="org-variable-name">grammar</span> = <span class="org-string">`</span>
+<span class="org-string">  Additive  &lt;- Multitive '+' Additive / Multitive</span>
+<span class="org-string">  Multitive &lt;- Primary '*' Multitive / Primary</span>
+<span class="org-string">  Primary   &lt;- '(' Additive ')' / Number</span>
+<span class="org-string">  Number    &lt;- [0-9]+</span>
+<span class="org-string">`</span>;
+<span class="org-keyword">const</span> <span class="org-variable-name">parser</span> = peg.pegc(grammar).bind({
+  <span class="org-comment-delimiter">// </span><span class="org-comment">The name of the action must correspond to the name</span>
+  <span class="org-comment-delimiter">// </span><span class="org-comment">of the rule present in the grammar string.  The</span>
+  <span class="org-comment-delimiter">// </span><span class="org-comment">function `visit` gives the control over when the</span>
+  <span class="org-comment-delimiter">// </span><span class="org-comment">child nodes will be visited.  That allows executing</span>
+  <span class="org-comment-delimiter">// </span><span class="org-comment">code before and after visiting happens.  This is</span>
+  <span class="org-comment-delimiter">// </span><span class="org-comment">very useful during the code generation step on</span>
+  <span class="org-comment-delimiter">// </span><span class="org-comment">the compiler.</span>
+  Additive: ({ visit }) =&gt; {
+    <span class="org-keyword">const</span> <span class="org-variable-name">v</span> = visit();
+    <span class="org-comment-delimiter">// </span><span class="org-comment">Ignore the string '+'</span>
+    <span class="org-keyword">return</span> Array.isArray(v) ? v[0] + v[2] : v;
+  },
+  Multitive: ({ visit }) =&gt; {
+    <span class="org-keyword">const</span> <span class="org-variable-name">v</span> = visit();
+    <span class="org-comment-delimiter">// </span><span class="org-comment">Ignore the string '*'</span>
+    <span class="org-keyword">return</span> Array.isArray(v) ? v[0] * v[2] : v;
+  },
+  Primary: ({ visit }) =&gt; {
+    <span class="org-keyword">const</span> <span class="org-variable-name">v</span> = visit();
+    <span class="org-comment-delimiter">// </span><span class="org-comment">Remove '(' and ')'</span>
+    <span class="org-keyword">return</span> Array.isArray(v) ? v[1] : v;
+  },
+  Number: ({ visit }) =&gt; {
+    <span class="org-keyword">const</span> <span class="org-variable-name">v</span> = visit();
+    <span class="org-keyword">const</span> <span class="org-variable-name">n</span> = Array.isArray(v) ? v.join(<span class="org-string">''</span>) : v;
+    <span class="org-keyword">return</span> parseInt(n, 10);
+  }
+});
 
-assertTrue<span style="color: #458588;">(</span>parser<span style="color: #b16286;">(</span><span style="color: #b8bb26;">'42'</span><span style="color: #b16286;">)</span> === 42<span style="color: #458588;">)</span>;
-assertTrue<span style="color: #458588;">(</span>parser<span style="color: #b16286;">(</span><span style="color: #b8bb26;">'40+2*5'</span><span style="color: #b16286;">)</span> === 50<span style="color: #458588;">)</span>;
-assertTrue<span style="color: #458588;">(</span>parser<span style="color: #b16286;">(</span><span style="color: #b8bb26;">'(40+2)*5'</span><span style="color: #b16286;">)</span> === 210<span style="color: #458588;">)</span>;
+assertTrue(parser(<span class="org-string">'42'</span>) === 42);
+assertTrue(parser(<span class="org-string">'40+2*5'</span>) === 50);
+assertTrue(parser(<span class="org-string">'(40+2)*5'</span>) === 210);
 </pre>
 </div>
 
@@ -529,18 +488,18 @@ successfully.
 </div>
 </div>
 
-<div id="outline-container-org41105a9" class="outline-2">
-<h2 id="org41105a9">The Compiler</h2>
-<div class="outline-text-2" id="text-org41105a9">
+<div id="outline-container-org4020c9b" class="outline-2">
+<h2 id="org4020c9b">The Compiler</h2>
+<div class="outline-text-2" id="text-org4020c9b">
 <p>
 Now that we covered the PEG implementation, we're ready to tackle
 the compilation process itself!
 </p>
 </div>
 
-<div id="outline-container-org07f714b" class="outline-3">
-<h3 id="org07f714b">Parsing the program text</h3>
-<div class="outline-text-3" id="text-org07f714b">
+<div id="outline-container-org1c2f35a" class="outline-3">
+<h3 id="org1c2f35a">Parsing the program text</h3>
+<div class="outline-text-3" id="text-org1c2f35a">
 <p>
 The first stage of the compiler <a href="https://github.com/clarete/effigy/blob/master/lang.peg">is a PEG grammar</a> that scan and
 parse the program text and generate an <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree</a> (or AST
@@ -576,8 +535,8 @@ look at an example. The following code:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-effigy"><span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">sum</span><span style="color: #458588;">(</span>a, b<span style="color: #458588;">)</span> a + b
-print<span style="color: #458588;">(</span>sum<span style="color: #b16286;">(</span>2, 3<span style="color: #b16286;">)</span><span style="color: #458588;">)</span>
+<pre class="src src-effigy"><span class="org-keyword">fn</span> <span class="org-function-name">sum</span><span class="org-rainbow-delimiters-depth-1">(</span>a, b<span class="org-rainbow-delimiters-depth-1">)</span> a + b
+print<span class="org-rainbow-delimiters-depth-1">(</span>sum<span class="org-rainbow-delimiters-depth-2">(</span>2, 3<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
 </pre>
 </div>
 
@@ -586,21 +545,21 @@ should generate the following AST:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-effigy"><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Module'</span>,
-  <span style="color: #b16286;">[</span><span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Statement'</span>,
-    <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Function'</span>,
-     <span style="color: #458588;">[</span><span style="color: #b8bb26;">'sum'</span>,
-      <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Params'</span>, <span style="color: #8ec07c;">[</span><span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Param'</span>, <span style="color: #b8bb26;">'a'</span><span style="color: #d65d0e;">]</span>, <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Param'</span>, <span style="color: #b8bb26;">'b'</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span>,
-      <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Code'</span>,
-       <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Statement'</span>,
-        <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'BinOp'</span>, <span style="color: #458588;">[</span><span style="color: #b8bb26;">'Load'</span>, <span style="color: #b8bb26;">'a'</span><span style="color: #458588;">]</span>, <span style="color: #b8bb26;">'+'</span>, <span style="color: #458588;">[</span><span style="color: #b8bb26;">'Load'</span>, <span style="color: #b8bb26;">'b'</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span>,
-   <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Statement'</span>,
-    <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Call'</span>,
-     <span style="color: #458588;">[</span><span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Load'</span>, <span style="color: #b8bb26;">'print'</span><span style="color: #b16286;">]</span>,
-      <span style="color: #b16286;">[</span><span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Call'</span>,
-        <span style="color: #d65d0e;">[</span><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Load'</span>, <span style="color: #b8bb26;">'sum'</span> <span style="color: #458588;">]</span>,
-         <span style="color: #458588;">[</span><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Number'</span>, 2<span style="color: #b16286;">]</span><span style="color: #458588;">]</span>,
-          <span style="color: #458588;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Number'</span>, 3<span style="color: #b16286;">]</span><span style="color: #458588;">]</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>
+<pre class="src src-effigy"><span class="org-rainbow-delimiters-depth-1">[</span><span class="org-string">'Module'</span>,
+  <span class="org-rainbow-delimiters-depth-2">[</span><span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'Statement'</span>,
+    <span class="org-rainbow-delimiters-depth-4">[</span><span class="org-string">'Function'</span>,
+     <span class="org-rainbow-delimiters-depth-5">[</span><span class="org-string">'sum'</span>,
+      <span class="org-rainbow-delimiters-depth-6">[</span><span class="org-string">'Params'</span>, <span class="org-rainbow-delimiters-depth-7">[</span><span class="org-rainbow-delimiters-depth-8">[</span><span class="org-string">'Param'</span>, <span class="org-string">'a'</span><span class="org-rainbow-delimiters-depth-8">]</span>, <span class="org-rainbow-delimiters-depth-8">[</span><span class="org-string">'Param'</span>, <span class="org-string">'b'</span><span class="org-rainbow-delimiters-depth-8">]</span><span class="org-rainbow-delimiters-depth-7">]</span><span class="org-rainbow-delimiters-depth-6">]</span>,
+      <span class="org-rainbow-delimiters-depth-6">[</span><span class="org-string">'Code'</span>,
+       <span class="org-rainbow-delimiters-depth-7">[</span><span class="org-string">'Statement'</span>,
+        <span class="org-rainbow-delimiters-depth-8">[</span><span class="org-string">'BinOp'</span>, <span class="org-rainbow-delimiters-depth-9">[</span><span class="org-string">'Load'</span>, <span class="org-string">'a'</span><span class="org-rainbow-delimiters-depth-9">]</span>, <span class="org-string">'+'</span>, <span class="org-rainbow-delimiters-depth-9">[</span><span class="org-string">'Load'</span>, <span class="org-string">'b'</span><span class="org-rainbow-delimiters-depth-9">]</span><span class="org-rainbow-delimiters-depth-8">]</span><span class="org-rainbow-delimiters-depth-7">]</span><span class="org-rainbow-delimiters-depth-6">]</span><span class="org-rainbow-delimiters-depth-5">]</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">]</span>,
+   <span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'Statement'</span>,
+    <span class="org-rainbow-delimiters-depth-4">[</span><span class="org-string">'Call'</span>,
+     <span class="org-rainbow-delimiters-depth-5">[</span><span class="org-rainbow-delimiters-depth-6">[</span><span class="org-string">'Load'</span>, <span class="org-string">'print'</span><span class="org-rainbow-delimiters-depth-6">]</span>,
+      <span class="org-rainbow-delimiters-depth-6">[</span><span class="org-rainbow-delimiters-depth-7">[</span><span class="org-string">'Call'</span>,
+        <span class="org-rainbow-delimiters-depth-8">[</span><span class="org-rainbow-delimiters-depth-9">[</span><span class="org-string">'Load'</span>, <span class="org-string">'sum'</span> <span class="org-rainbow-delimiters-depth-9">]</span>,
+         <span class="org-rainbow-delimiters-depth-9">[</span><span class="org-rainbow-delimiters-depth-1">[</span><span class="org-string">'Value'</span>, <span class="org-rainbow-delimiters-depth-2">[</span><span class="org-string">'Number'</span>, 2<span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">]</span>,
+          <span class="org-rainbow-delimiters-depth-1">[</span><span class="org-string">'Value'</span>, <span class="org-rainbow-delimiters-depth-2">[</span><span class="org-string">'Number'</span>, 3<span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">]</span><span class="org-rainbow-delimiters-depth-9">]</span><span class="org-rainbow-delimiters-depth-8">]</span><span class="org-rainbow-delimiters-depth-7">]</span><span class="org-rainbow-delimiters-depth-6">]</span><span class="org-rainbow-delimiters-depth-5">]</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">]</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">]</span>
 </pre>
 </div>
 
@@ -612,9 +571,9 @@ statement or a list of statements within curly brackets (<code>{}</code>).
 </div>
 </div>
 
-<div id="outline-container-orge4c980c" class="outline-3">
-<h3 id="orge4c980c">Mapping out scope rules</h3>
-<div class="outline-text-3" id="text-orge4c980c">
+<div id="outline-container-org94e8990" class="outline-3">
+<h3 id="org94e8990">Mapping out scope rules</h3>
+<div class="outline-text-3" id="text-org94e8990">
 <p>
 After generating the AST during the text parsing phase, we need to
 go through an additional step before translating the AST into
@@ -633,9 +592,9 @@ Let's look at the following code snippet to talk about it:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-effigy"><span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">plus_n</span><span style="color: #458588;">(</span>x<span style="color: #458588;">)</span> <span style="color: #fb4933;">fn</span><span style="color: #458588;">(</span>y<span style="color: #458588;">)</span> x + y
-plus_five = plus_n<span style="color: #458588;">(</span>5<span style="color: #458588;">)</span>
-print<span style="color: #458588;">(</span>plus_five<span style="color: #b16286;">(</span>2<span style="color: #b16286;">)</span><span style="color: #458588;">)</span> <span style="color: #7c6f64;"># Equals 7</span>
+<pre class="src src-effigy"><span class="org-keyword">fn</span> <span class="org-function-name">plus_n</span><span class="org-rainbow-delimiters-depth-1">(</span>x<span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-keyword">fn</span><span class="org-rainbow-delimiters-depth-1">(</span>y<span class="org-rainbow-delimiters-depth-1">)</span> x + y
+plus_five = plus_n<span class="org-rainbow-delimiters-depth-1">(</span>5<span class="org-rainbow-delimiters-depth-1">)</span>
+print<span class="org-rainbow-delimiters-depth-1">(</span>plus_five<span class="org-rainbow-delimiters-depth-2">(</span>2<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-comment"># Equals 7</span>
 </pre>
 </div>
 
@@ -674,7 +633,7 @@ The following Effigy snippet
 </p>
 
 <div class="org-src-container">
-<pre class="src src-effigy"><span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">plus_n</span><span style="color: #458588;">(</span>x<span style="color: #458588;">)</span> <span style="color: #fb4933;">fn</span> <span style="color: #458588;">(</span>y<span style="color: #458588;">)</span> x + y
+<pre class="src src-effigy"><span class="org-keyword">fn</span> <span class="org-function-name">plus_n</span><span class="org-rainbow-delimiters-depth-1">(</span>x<span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-keyword">fn</span> <span class="org-rainbow-delimiters-depth-1">(</span>y<span class="org-rainbow-delimiters-depth-1">)</span> x + y
 </pre>
 </div>
 
@@ -683,20 +642,20 @@ generates an annotated AST that looks like this:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-effigy"><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Module'</span>,
-  <span style="color: #b16286;">[</span><span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Statement'</span>,
-    <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Function'</span>,
-     <span style="color: #458588;">[</span><span style="color: #b16286;">[</span><span style="color: #b8bb26;">'ScopeId'</span>, 2<span style="color: #b16286;">]</span>, <span style="color: #b8bb26;">'plus_n'</span>,
-      <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Params'</span>, <span style="color: #8ec07c;">[</span><span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Param'</span>, <span style="color: #b8bb26;">'x'</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span>,
-      <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Code'</span>,
-       <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Statement'</span>,
-        <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Lambda'</span>,
-         <span style="color: #458588;">[</span><span style="color: #458588;">[</span><span style="color: #b8bb26;">'ScopeId'</span>, 1<span style="color: #458588;">]</span>,
-          <span style="color: #458588;">[</span><span style="color: #b8bb26;">'Params'</span>, <span style="color: #b16286;">[</span><span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Param'</span>, <span style="color: #b8bb26;">'y'</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>,
-          <span style="color: #458588;">[</span><span style="color: #b8bb26;">'Code'</span>,
-           <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Statement'</span>,
-            <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'BinOp'</span>,
-             <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Load'</span>, <span style="color: #b8bb26;">'x'</span><span style="color: #d65d0e;">]</span>, <span style="color: #b8bb26;">'+'</span>, <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Load'</span>, <span style="color: #b8bb26;">'y'</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>
+<pre class="src src-effigy"><span class="org-rainbow-delimiters-depth-1">[</span><span class="org-string">'Module'</span>,
+  <span class="org-rainbow-delimiters-depth-2">[</span><span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'Statement'</span>,
+    <span class="org-rainbow-delimiters-depth-4">[</span><span class="org-string">'Function'</span>,
+     <span class="org-rainbow-delimiters-depth-5">[</span><span class="org-rainbow-delimiters-depth-6">[</span><span class="org-string">'ScopeId'</span>, 2<span class="org-rainbow-delimiters-depth-6">]</span>, <span class="org-string">'plus_n'</span>,
+      <span class="org-rainbow-delimiters-depth-6">[</span><span class="org-string">'Params'</span>, <span class="org-rainbow-delimiters-depth-7">[</span><span class="org-rainbow-delimiters-depth-8">[</span><span class="org-string">'Param'</span>, <span class="org-string">'x'</span><span class="org-rainbow-delimiters-depth-8">]</span><span class="org-rainbow-delimiters-depth-7">]</span><span class="org-rainbow-delimiters-depth-6">]</span>,
+      <span class="org-rainbow-delimiters-depth-6">[</span><span class="org-string">'Code'</span>,
+       <span class="org-rainbow-delimiters-depth-7">[</span><span class="org-string">'Statement'</span>,
+        <span class="org-rainbow-delimiters-depth-8">[</span><span class="org-string">'Lambda'</span>,
+         <span class="org-rainbow-delimiters-depth-9">[</span><span class="org-rainbow-delimiters-depth-1">[</span><span class="org-string">'ScopeId'</span>, 1<span class="org-rainbow-delimiters-depth-1">]</span>,
+          <span class="org-rainbow-delimiters-depth-1">[</span><span class="org-string">'Params'</span>, <span class="org-rainbow-delimiters-depth-2">[</span><span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'Param'</span>, <span class="org-string">'y'</span><span class="org-rainbow-delimiters-depth-3">]</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">]</span>,
+          <span class="org-rainbow-delimiters-depth-1">[</span><span class="org-string">'Code'</span>,
+           <span class="org-rainbow-delimiters-depth-2">[</span><span class="org-string">'Statement'</span>,
+            <span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'BinOp'</span>,
+             <span class="org-rainbow-delimiters-depth-4">[</span><span class="org-string">'Load'</span>, <span class="org-string">'x'</span><span class="org-rainbow-delimiters-depth-4">]</span>, <span class="org-string">'+'</span>, <span class="org-rainbow-delimiters-depth-4">[</span><span class="org-string">'Load'</span>, <span class="org-string">'y'</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">]</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">]</span><span class="org-rainbow-delimiters-depth-9">]</span><span class="org-rainbow-delimiters-depth-8">]</span><span class="org-rainbow-delimiters-depth-7">]</span><span class="org-rainbow-delimiters-depth-6">]</span><span class="org-rainbow-delimiters-depth-5">]</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">]</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">]</span>
 </pre>
 </div>
 
@@ -708,25 +667,25 @@ fields a symbol table for the above snippet contains:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-effigy"><span style="color: #458588;">[</span><span style="color: #b16286;">{</span>
-  node: <span style="color: #b8bb26;">'module'</span>,
-  fast: <span style="color: #8ec07c;">[]</span>,
-  deref: <span style="color: #8ec07c;">[]</span>,
-  globals: <span style="color: #8ec07c;">[]</span>,
-  children: <span style="color: #8ec07c;">[</span><span style="color: #d65d0e;">{</span>
-    node: <span style="color: #b8bb26;">'function'</span>,
-    fast: <span style="color: #458588;">[]</span>,
-    deref: <span style="color: #458588;">[</span><span style="color: #b8bb26;">'x'</span><span style="color: #458588;">]</span>,
-    globals: <span style="color: #458588;">[]</span>,
-    children: <span style="color: #458588;">[</span><span style="color: #b16286;">{</span>
-      node: <span style="color: #b8bb26;">'lambda'</span>,
-      fast: <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'y'</span><span style="color: #8ec07c;">]</span>,
-      deref: <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'x'</span><span style="color: #8ec07c;">]</span>,
-      globals: <span style="color: #8ec07c;">[]</span>,
-      children: <span style="color: #8ec07c;">[]</span>
-    <span style="color: #b16286;">}</span><span style="color: #458588;">]</span>
-  <span style="color: #d65d0e;">}</span><span style="color: #8ec07c;">]</span>
-<span style="color: #b16286;">}</span><span style="color: #458588;">]</span>
+<pre class="src src-effigy"><span class="org-rainbow-delimiters-depth-1">[</span><span class="org-rainbow-delimiters-depth-2">{</span>
+  node: <span class="org-string">'module'</span>,
+  fast: <span class="org-rainbow-delimiters-depth-3">[]</span>,
+  deref: <span class="org-rainbow-delimiters-depth-3">[]</span>,
+  globals: <span class="org-rainbow-delimiters-depth-3">[]</span>,
+  children: <span class="org-rainbow-delimiters-depth-3">[</span><span class="org-rainbow-delimiters-depth-4">{</span>
+    node: <span class="org-string">'function'</span>,
+    fast: <span class="org-rainbow-delimiters-depth-5">[]</span>,
+    deref: <span class="org-rainbow-delimiters-depth-5">[</span><span class="org-string">'x'</span><span class="org-rainbow-delimiters-depth-5">]</span>,
+    globals: <span class="org-rainbow-delimiters-depth-5">[]</span>,
+    children: <span class="org-rainbow-delimiters-depth-5">[</span><span class="org-rainbow-delimiters-depth-6">{</span>
+      node: <span class="org-string">'lambda'</span>,
+      fast: <span class="org-rainbow-delimiters-depth-7">[</span><span class="org-string">'y'</span><span class="org-rainbow-delimiters-depth-7">]</span>,
+      deref: <span class="org-rainbow-delimiters-depth-7">[</span><span class="org-string">'x'</span><span class="org-rainbow-delimiters-depth-7">]</span>,
+      globals: <span class="org-rainbow-delimiters-depth-7">[]</span>,
+      children: <span class="org-rainbow-delimiters-depth-7">[]</span>
+    <span class="org-rainbow-delimiters-depth-6">}</span><span class="org-rainbow-delimiters-depth-5">]</span>
+  <span class="org-rainbow-delimiters-depth-4">}</span><span class="org-rainbow-delimiters-depth-3">]</span>
+<span class="org-rainbow-delimiters-depth-2">}</span><span class="org-rainbow-delimiters-depth-1">]</span>
 </pre>
 </div>
 
@@ -748,18 +707,18 @@ to mark variables as free variables at the outer scope:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-effigy"><span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">f</span><span style="color: #458588;">(</span>input<span style="color: #458588;">)</span> <span style="color: #458588;">{</span>
-  <span style="color: #fb4933;">let</span> <span style="color: #83a598;">c</span> = 0
-  <span style="color: #fb4933;">fn</span> <span style="color: #fabd2f;">next</span><span style="color: #b16286;">()</span> <span style="color: #b16286;">{</span>
-    <span style="color: #83a598;">value</span> = input<span style="color: #8ec07c;">[</span>c<span style="color: #8ec07c;">]</span>
-    <span style="color: #83a598;">c</span> = c + 1
-    <span style="color: #fb4933;">return</span> value
-  <span style="color: #b16286;">}</span>
-  <span style="color: #fb4933;">return</span> next
-<span style="color: #458588;">}</span>
-cursor = f<span style="color: #458588;">(</span><span style="color: #b8bb26;">"word"</span><span style="color: #458588;">)</span>
-print<span style="color: #458588;">(</span>cursor<span style="color: #b16286;">()</span><span style="color: #458588;">)</span> <span style="color: #7c6f64;"># prints "w"</span>
-print<span style="color: #458588;">(</span>cursor<span style="color: #b16286;">()</span><span style="color: #458588;">)</span> <span style="color: #7c6f64;"># prints "o"</span>
+<pre class="src src-effigy"><span class="org-keyword">fn</span> <span class="org-function-name">f</span><span class="org-rainbow-delimiters-depth-1">(</span>input<span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+  <span class="org-keyword">let</span> <span class="org-variable-name">c</span> = 0
+  <span class="org-keyword">fn</span> <span class="org-function-name">next</span><span class="org-rainbow-delimiters-depth-2">()</span> <span class="org-rainbow-delimiters-depth-2">{</span>
+    <span class="org-variable-name">value</span> = input<span class="org-rainbow-delimiters-depth-3">[</span>c<span class="org-rainbow-delimiters-depth-3">]</span>
+    <span class="org-variable-name">c</span> = c + 1
+    <span class="org-keyword">return</span> value
+  <span class="org-rainbow-delimiters-depth-2">}</span>
+  <span class="org-keyword">return</span> next
+<span class="org-rainbow-delimiters-depth-1">}</span>
+cursor = f<span class="org-rainbow-delimiters-depth-1">(</span><span class="org-string">"word"</span><span class="org-rainbow-delimiters-depth-1">)</span>
+print<span class="org-rainbow-delimiters-depth-1">(</span>cursor<span class="org-rainbow-delimiters-depth-2">()</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-comment"># prints "w"</span>
+print<span class="org-rainbow-delimiters-depth-1">(</span>cursor<span class="org-rainbow-delimiters-depth-2">()</span><span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-comment"># prints "o"</span>
 </pre>
 </div>
 
@@ -782,9 +741,9 @@ Python itself woks.
 </div>
 </div>
 
-<div id="outline-container-orgee74ad8" class="outline-3">
-<h3 id="orgee74ad8">Output format</h3>
-<div class="outline-text-3" id="text-orgee74ad8">
+<div id="outline-container-org8bb3d96" class="outline-3">
+<h3 id="org8bb3d96">Output format</h3>
+<div class="outline-text-3" id="text-org8bb3d96">
 <p>
 Once the AST is annotated by the scope traversal step, it is ready
 to be fed once again into the <a href="https://github.com/clarete/effigy/blob/master/lang.tr">second PEG grammar</a> to be traversed
@@ -838,9 +797,9 @@ The last step is to write the header and the code buffer into a
 </div>
 </div>
 
-<div id="outline-container-org064db4c" class="outline-3">
-<h3 id="org064db4c">Code Generation</h3>
-<div class="outline-text-3" id="text-org064db4c">
+<div id="outline-container-org018958e" class="outline-3">
+<h3 id="org018958e">Code Generation</h3>
+<div class="outline-text-3" id="text-org018958e">
 <p>
 Generating the assembly code for filling in the <code>co_code</code>
 attributes of Code objects is certainly the biggest task performed
@@ -853,17 +812,17 @@ First the following AST is generated:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-effigy"><span style="color: #458588;">[</span><span style="color: #b8bb26;">'Module'</span>,
-  <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Statement'</span>,
-   <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Assignment'</span>,
-    <span style="color: #d65d0e;">[</span><span style="color: #458588;">[</span><span style="color: #b8bb26;">'BinOp'</span>,
-      <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Number'</span>, 2<span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span>,
-      <span style="color: #b8bb26;">'+'</span>,
-      <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'BinOp'</span>,
-       <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Number'</span>, 3<span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span>,
-       <span style="color: #b8bb26;">'*'</span>,
-       <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'Value'</span>, <span style="color: #d65d0e;">[</span><span style="color: #b8bb26;">'Number'</span>, 4<span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>,
-     <span style="color: #458588;">[</span><span style="color: #b8bb26;">'Store'</span>, <span style="color: #b8bb26;">'result'</span><span style="color: #458588;">]</span><span style="color: #d65d0e;">]</span><span style="color: #8ec07c;">]</span><span style="color: #b16286;">]</span><span style="color: #458588;">]</span>
+<pre class="src src-effigy"><span class="org-rainbow-delimiters-depth-1">[</span><span class="org-string">'Module'</span>,
+  <span class="org-rainbow-delimiters-depth-2">[</span><span class="org-string">'Statement'</span>,
+   <span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'Assignment'</span>,
+    <span class="org-rainbow-delimiters-depth-4">[</span><span class="org-rainbow-delimiters-depth-5">[</span><span class="org-string">'BinOp'</span>,
+      <span class="org-rainbow-delimiters-depth-6">[</span><span class="org-string">'Value'</span>, <span class="org-rainbow-delimiters-depth-7">[</span><span class="org-string">'Number'</span>, 2<span class="org-rainbow-delimiters-depth-7">]</span><span class="org-rainbow-delimiters-depth-6">]</span>,
+      <span class="org-string">'+'</span>,
+      <span class="org-rainbow-delimiters-depth-6">[</span><span class="org-string">'BinOp'</span>,
+       <span class="org-rainbow-delimiters-depth-7">[</span><span class="org-string">'Value'</span>, <span class="org-rainbow-delimiters-depth-8">[</span><span class="org-string">'Number'</span>, 3<span class="org-rainbow-delimiters-depth-8">]</span><span class="org-rainbow-delimiters-depth-7">]</span>,
+       <span class="org-string">'*'</span>,
+       <span class="org-rainbow-delimiters-depth-7">[</span><span class="org-string">'Value'</span>, <span class="org-rainbow-delimiters-depth-8">[</span><span class="org-string">'Number'</span>, 4<span class="org-rainbow-delimiters-depth-8">]</span><span class="org-rainbow-delimiters-depth-7">]</span><span class="org-rainbow-delimiters-depth-6">]</span><span class="org-rainbow-delimiters-depth-5">]</span>,
+     <span class="org-rainbow-delimiters-depth-5">[</span><span class="org-string">'Store'</span>, <span class="org-string">'result'</span><span class="org-rainbow-delimiters-depth-5">]</span><span class="org-rainbow-delimiters-depth-4">]</span><span class="org-rainbow-delimiters-depth-3">]</span><span class="org-rainbow-delimiters-depth-2">]</span><span class="org-rainbow-delimiters-depth-1">]</span>
 </pre>
 </div>
 
@@ -873,20 +832,20 @@ outputs the following Code object:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-effigy"><span style="color: #458588;">{</span>
-  constants: <span style="color: #b16286;">[</span>2, 3, 4, <span style="color: #d3869b;">null</span><span style="color: #b16286;">]</span>,
-  names: <span style="color: #b16286;">[</span><span style="color: #b8bb26;">'result'</span><span style="color: #b16286;">]</span>,
-  instructions: <span style="color: #b16286;">[</span>
-    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'load-const'</span>, 0<span style="color: #8ec07c;">]</span>,
-    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'load-const'</span>, 1<span style="color: #8ec07c;">]</span>,
-    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'load-const'</span>, 2<span style="color: #8ec07c;">]</span>,
-    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'binary-multiply'</span><span style="color: #8ec07c;">]</span>,
-    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'binary-add'</span><span style="color: #8ec07c;">]</span>,
-    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'store-name'</span>, 0<span style="color: #8ec07c;">]</span>,
-    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'load-const'</span>, 3<span style="color: #8ec07c;">]</span>,
-    <span style="color: #8ec07c;">[</span><span style="color: #b8bb26;">'return-value'</span><span style="color: #8ec07c;">]</span>
-  <span style="color: #b16286;">]</span>,
-<span style="color: #458588;">}</span>
+<pre class="src src-effigy"><span class="org-rainbow-delimiters-depth-1">{</span>
+  constants: <span class="org-rainbow-delimiters-depth-2">[</span>2, 3, 4, <span class="org-constant">null</span><span class="org-rainbow-delimiters-depth-2">]</span>,
+  names: <span class="org-rainbow-delimiters-depth-2">[</span><span class="org-string">'result'</span><span class="org-rainbow-delimiters-depth-2">]</span>,
+  instructions: <span class="org-rainbow-delimiters-depth-2">[</span>
+    <span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'load-const'</span>, 0<span class="org-rainbow-delimiters-depth-3">]</span>,
+    <span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'load-const'</span>, 1<span class="org-rainbow-delimiters-depth-3">]</span>,
+    <span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'load-const'</span>, 2<span class="org-rainbow-delimiters-depth-3">]</span>,
+    <span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'binary-multiply'</span><span class="org-rainbow-delimiters-depth-3">]</span>,
+    <span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'binary-add'</span><span class="org-rainbow-delimiters-depth-3">]</span>,
+    <span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'store-name'</span>, 0<span class="org-rainbow-delimiters-depth-3">]</span>,
+    <span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'load-const'</span>, 3<span class="org-rainbow-delimiters-depth-3">]</span>,
+    <span class="org-rainbow-delimiters-depth-3">[</span><span class="org-string">'return-value'</span><span class="org-rainbow-delimiters-depth-3">]</span>
+  <span class="org-rainbow-delimiters-depth-2">]</span>,
+<span class="org-rainbow-delimiters-depth-1">}</span>
 </pre>
 </div>
 
@@ -923,27 +882,27 @@ is a good example to shown how it's done:
 </p>
 
 <div class="org-src-container">
-<pre class="src src-js"><span style="color: #458588;">{</span>
-  Number: <span style="color: #b16286;">(</span><span style="color: #8ec07c;">{</span> visit <span style="color: #8ec07c;">}</span><span style="color: #b16286;">)</span> =&gt; <span style="color: #b16286;">{</span>
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">Visit the actual value to join the digits and</span>
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">convert to a JavaScript integer</span>
-    <span style="color: #fb4933;">const</span> <span style="color: #83a598;">value</span> = visit<span style="color: #8ec07c;">()[</span>1<span style="color: #8ec07c;">]</span>;
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">Push the value to the constants table if it</span>
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">isn't there yet</span>
-    <span style="color: #fb4933;">const</span> <span style="color: #83a598;">index</span> = addToTable<span style="color: #8ec07c;">(</span>attr<span style="color: #d65d0e;">(</span><span style="color: #b8bb26;">'constants'</span><span style="color: #d65d0e;">)</span>, value<span style="color: #8ec07c;">)</span>;
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">Emit the instruction with the index of the</span>
-    <span style="color: #7c6f64;">// </span><span style="color: #7c6f64;">constant as the parameter to the instruction</span>
-    emit<span style="color: #8ec07c;">(</span><span style="color: #b8bb26;">'load-const'</span>, index<span style="color: #8ec07c;">)</span>;
-  <span style="color: #b16286;">}</span>
-<span style="color: #458588;">}</span>
+<pre class="src src-js">{
+  Number: ({ visit }) =&gt; {
+    <span class="org-comment-delimiter">// </span><span class="org-comment">Visit the actual value to join the digits and</span>
+    <span class="org-comment-delimiter">// </span><span class="org-comment">convert to a JavaScript integer</span>
+    <span class="org-keyword">const</span> <span class="org-variable-name">value</span> = visit()[1];
+    <span class="org-comment-delimiter">// </span><span class="org-comment">Push the value to the constants table if it</span>
+    <span class="org-comment-delimiter">// </span><span class="org-comment">isn't there yet</span>
+    <span class="org-keyword">const</span> <span class="org-variable-name">index</span> = addToTable(attr(<span class="org-string">'constants'</span>), value);
+    <span class="org-comment-delimiter">// </span><span class="org-comment">Emit the instruction with the index of the</span>
+    <span class="org-comment-delimiter">// </span><span class="org-comment">constant as the parameter to the instruction</span>
+    emit(<span class="org-string">'load-const'</span>, index);
+  }
+}
 </pre>
 </div>
 </div>
 </div>
 
-<div id="outline-container-orgb6daf3c" class="outline-3">
-<h3 id="orgb6daf3c">Assemble binary data</h3>
-<div class="outline-text-3" id="text-orgb6daf3c">
+<div id="outline-container-orgf4cc23b" class="outline-3">
+<h3 id="orgf4cc23b">Assemble binary data</h3>
+<div class="outline-text-3" id="text-orgf4cc23b">
 <p>
 Besides emitting instructions, the assembler has to support
 back-patching of values that were not known ahead of time.  Three
@@ -998,9 +957,9 @@ translation of the code under <a href="https://github.com/python/cpython/blob/3.
 </div>
 </div>
 
-<div id="outline-container-orgf6c34ec" class="outline-2">
-<h2 id="orgf6c34ec">Final Thoughts</h2>
-<div class="outline-text-2" id="text-orgf6c34ec">
+<div id="outline-container-org0917af9" class="outline-2">
+<h2 id="org0917af9">Final Thoughts</h2>
+<div class="outline-text-2" id="text-org0917af9">
 <p>
 As you must have noticed, there's way more information about the
 architecture of the compiler and the PEG implementation than about
@@ -1049,16 +1008,22 @@ find me on the <a href="https://freenode.net/">freenode</a> IRC network (I'm usu
 </p>
 </div>
 </div>
-</main>
-<footer id="postamble" class="status">
-<div class="footer">
-  <div class="bg">
-    <div class="container">
-      © Lincoln Clarete &mdash; All written content on this website
-      reflects my personal opinion and it's available under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a>
-    </div>
+
   </div>
-</div>
-</footer>
-</body>
+
+      </div>
+    </div>
+
+    <div class="footer">
+      
+        <div class="bg">
+          <div class="container">
+            &#169; Lincoln Clarete &mdash; All written content on this
+            website reflects my personal opinion and it's available
+            under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a>
+          </div>
+        </div>
+      
+    </div>
+  </body>
 </html>

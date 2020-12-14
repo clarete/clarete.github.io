@@ -1,0 +1,275 @@
+body {
+    padding: 0px;
+    margin: 0px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 16pt;
+    line-height: 32px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5 {
+    padding: 0;
+    margin-top: 60px;
+    color: #000;
+}
+
+h1 {
+    font-size: 55px;
+    line-height: 1.1em;
+}
+
+h2 {
+    font-size: 40px;
+    line-height: 1.1em;
+}
+
+h3 {
+    font-size: 30px;
+    line-height: 1.1em;
+}
+
+a {
+    color: #d14;
+    text-decoration: none;
+}
+a:hover {
+    color: #fff;
+    background: #d14;
+}
+
+.container {
+    width: calc(60% - 100px);
+    padding: 10px 150px;
+    margin: auto auto;
+}
+
+.social {
+    background: #d14;
+}
+
+.social .avatar {
+    width: 100px;
+    height: 100px;
+    display: block;
+    margin: 0 auto;
+    float: left;
+}
+
+.social .balloon {
+    display: table-cell;
+    background: url("../img/balloon.png") no-repeat 30% 60%;
+    width: 100px;
+    height: 100px;
+    vertical-align: middle;
+    padding: 10px 0 0 20px;
+    font-size: 11pt;
+    font-weight: bold;
+    color: #fff;
+    line-height: 16px;
+}
+.social .menu a {
+    text-decoration: none;
+    color: #000;
+}
+
+.social .menu a:hover {
+    text-decoration: none;
+    color: #000;
+    background: #fc0;
+    border-radius: 5em;
+    padding: 0 10px;
+}
+
+.social .menu {
+    padding: 0;
+    text-align: center;
+    list-style: none;
+    font-size: 11pt;
+}
+
+.social .badges {
+    float: right;
+    width: 155px;
+    font-size: 36px;
+    list-style: none;
+    display: block;
+}
+.social .badges li {
+    padding-left: 8px;
+    float: left;
+}
+.social .badges a {
+    float: left;
+    display: block;
+    width: 36px;
+    height: 36px;
+    overflow: hidden;
+    margin-left: 5px;
+    padding: 1px;
+    color: #000;
+}
+.social .badges a:hover {
+    color: #9ade00;
+}
+.social .badges a span {
+    height: 50px;
+}
+
+.post {
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16pt;
+    display: block;
+    min-height: 70vh;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+hr {
+    border-top: 0;
+    border-bottom: solid 1px #d14;
+}
+
+ul.posts {
+    color: #d14;
+    padding-left: 20px;
+}
+
+ul.posts li {
+    padding-bottom: 20px;
+}
+
+ul.posts span.date {
+    text-align: right;
+    padding-right: 5px;
+}
+
+ul.posts .comment {
+    padding-top: 10px;
+    color: #666;
+}
+
+.footer {
+    margin: 0;
+}
+
+.footer .email-link {
+    text-align: center;
+    font-size: 30px;
+    color: #666;
+    padding: 40px 0;
+}
+
+.footer .bg {
+    background: #fc0;
+    padding: 40px 0;
+}
+
+.footer a {
+    color: #000;
+    text-decoration: none;
+}
+.footer a:hover {
+    text-decoration: underline;
+    background: transparent;
+}
+
+#org-div-home-and-up {
+    display: none;
+}
+#content {
+    width: calc(60% - 100px);
+    padding: 10px 150px;
+    margin: auto auto;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 16pt;
+    color: #333;
+}
+.subtitle {
+    color: #aaa;
+}
+code {
+    background: #eee;
+    font-family: monospace;
+    border-radius: 3px;
+}
+
+.org-src-container {
+    overflow-x: auto;
+    padding: 0 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    line-height: 1.3;
+}
+
+/* Mobile stuff */
+@media (max-width: 480px) {
+    h1 {
+        margin-top: 20px;
+    }
+    .social .badges {
+        padding: 0 20px 0 0;
+    }
+    .container,
+    #content, .container {
+        width: 90%;
+        padding: 10px;
+    }
+}
+
+@media (min-width: 480px) and (max-width: 1000px) {
+    #content, .container,
+    .container {
+        width: 80%;
+        padding: 10px;
+    }
+}
+
+/* Blocks */
+
+.note {
+    background-color: #efe;
+    padding: 5px 25px;
+    border-radius: 10px;
+}
+
+.centralized img {
+    margin: 50px 0;
+    display: block;
+}
+
+
+/*     "name": "Parasol", */
+/*     "type": "light", */
+/*     "colors": { */
+/*     "editor.background": "#ffffff", */
+/*     "editor.foreground": "#004260", */
+/*     "tab.inactiveBackground": "#f2f2f2", */
+/*     "tab.activeBackground": "#fff", */
+/*     "tab.activeForeground": "#333", */
+/*     "tab.inactiveForeground": "#888", */
+/*     "tab.border": "#eee", */
+/*     "titleBar.activeBackground": "#fff", */
+/*     "titleBar.border": "#eee", */
+/*     "activityBar.background": "#fafafa", */
+/*     "activityBar.border": "#eee", */
+/*     "activityBar.foreground": "#80878d", */
+/*     "activityBarBadge.background": "#25b2ee", */
+/*     "sideBar.background": "#fff", */
+/*     "sideBar.foreground": "#777", */
+/*     "sideBar.border": "#eee", */
+/*     "list.inactiveSelectionBackground": "#a4bee0", */
+/*     "list.inactiveSelectionForeground": "#fff", */
+/*     "terminal.background": "#fff", */
+/*     "terminal.foreground": "#004260", */
+/*     "terminalCursor.foreground": "#25b2ee", */
+/*     "statusBar.background": "#fff", */
+/*     "statusBar.border": "#eee", */
+/*     "statusBar.foreground": "#333", */
+/*     "editor.rangeHighlightBackground": "#f2f2f2", */
+/*     "editor.wordHighlightBackground": "#fffccc", */
+/*     "editor.findMatchHighlightBackground": "#fff78e", */
+/*     "editor.wordHighlightStrongBackground": "#fff78e", */
+/*     "editorLineNumber.foreground": "#ccc" */

@@ -1,10 +1,20 @@
+{# layout.html --- Base template inherited in all the other templates
 
+The blocks available in this file are:
+
+* title: What will show within the HTML <title> tag.
+* description: What will show within the HTML <meta> description tag.
+* nav: Navigation bar with Links, a default is provided
+* body: Main content which starts empty
+* footer: Bottom links, default is provided
+
+#}
 <!doctype html>
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
-    <title>clarete &mdash; Home</title>
-    <meta name="description" content="">
+    <title>clarete &mdash; {% block title %}Home{% endblock %}</title>
+    <meta name="description" content="{% block description %}{% endblock %}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="/media/css/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
@@ -13,7 +23,7 @@
     <link rel="alternate" type="application/rss+xml" href="/blog/rss.xml">
   </head>
   <body>
-    
+    {% block nav %}
       <div class="social">
         <div class="container">
           <ul class="badges">
@@ -44,36 +54,16 @@
 
         </div>
       </div>
-    
+    {% endblock %}
 
     <div class="post">
       <div class="container">
-        
-  <div class="title">
-    <h1>What's on my mind</h1>
-  </div>
-
-  <div class="content">
-    <ul>
-      
-        <li>
-          <span class="pubdate">Apr 26, 2020</span>
-          <a href="http://localhost:8000/blog/starting-a-blog.html">Starting a blog</a>
-        </li>
-      
-        <li>
-          <span class="pubdate">May 31, 2020</span>
-          <a href="http://localhost:8000/blog/toy-compiler-from-scratch.html">A toy compiler from scratch</a>
-        </li>
-      
-    </ul>
-  </div>
-
+        {% block body %}{% endblock %}
       </div>
     </div>
 
     <div class="footer">
-      
+      {% block footer %}
         <div class="bg">
           <div class="container">
             &#169; Lincoln Clarete &mdash; All written content on this
@@ -81,7 +71,7 @@
             under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank">CC BY 4.0</a>
           </div>
         </div>
-      
+      {% endblock %}
     </div>
   </body>
 </html>

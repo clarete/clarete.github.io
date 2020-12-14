@@ -1,0 +1,36 @@
+@import "common.css" screen;
+@import "codehl.css" screen;
+
+:root {
+    /* --- --- --- Dark Theme --- --- ---  */
+    --dark-background: #2A2A2E;
+    --dark-foreground: #F9F9FA;
+
+    --dark-code-background:           var(--code-gruvbox-background);
+    --dark-code-foreground:           var(--code-gruvbox-foreground);
+    --dark-code-builtin:              var(--code-gruvbox-orange);
+    --dark-code-comment:              var(--code-gruvbox-dark-4);
+    --dark-code-doc:                  var(--code-gruvbox-dark-4);
+    --dark-code-function-name:        var(--code-monokai-red);
+    --dark-code-keyword:              var(--code-monokai-red);
+    --dark-code-string:               var(--code-monokai-yellow);
+    --dark-code-type:                 var(--code-monokai-type);
+    --dark-code-variable-name:        var(--code-monokai-variables);
+}
+
+body { background: var(--dark-background);
+       color: var(--dark-foreground); }
+
+/* -- Code Blocks -- */
+.org-builtin            { color: var(--dark-code-builtin); }
+.org-comment            { color: var(--dark-code-comment); }
+.org-comment-delimiter  { color: var(--dark-code-comment); }
+.org-doc                { color: var(--dark-code-doc); }
+.org-function-name      { color: var(--dark-code-function-name); }
+.org-keyword            { color: var(--dark-code-keyword); }
+.org-string             { color: var(--dark-code-string); }
+.org-type               { color: var(--dark-code-type); }
+.org-variable-name      { color: var(--dark-code-variable-name); }
+.org-src-container      { color: var(--dark-code-foreground);
+                          background: var(--dark-code-background);
+                          border: 1px solid var(--dark-border-src); }
