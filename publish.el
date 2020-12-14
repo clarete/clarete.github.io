@@ -25,75 +25,75 @@
 
 ;; Initialize packaging system
 (require 'package)
-(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 (package-initialize)
-
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
 
-(use-package htmlize
-  :config
-  :ensure t)
+;; Install dependencies
+(use-package htmlize :config :ensure t)
+(use-package rainbow-delimiters :config :ensure t)
 
-(use-package templatel
-  :config
-  :ensure t)
-
-(use-package blorg
-  :config
-  :ensure t)
-
-
-;; (add-to-list 'load-path "~/.emacs.d/")
-;; (require 'init)
-;; (message "We've passed that")
-
-(require 'htmlize)
-(setq org-export-htmlize-output-type 'css)
-
+;; Local packages this blog depends on
 (add-to-list 'load-path "~/src/github.com/clarete/templatel/")
 (add-to-list 'load-path "~/src/github.com/clarete/blorg/")
+(add-to-list 'load-path "~/src/github.com/clarete/langlang/extra/")
+(add-to-list 'load-path "~/src/github.com/clarete/effigy/extras/")
+
+;; Configure dependencies
+(require 'ox-html)
+
+;; Output HTML with syntax highlight with css classes instead of
+;; directly formatting the output.
+(setq org-html-htmlize-output-type 'css)
+
+;; For syntax highlight of blocks containing these types of code
+(require 'effigy-mode)
+(require 'peg-mode)
+(add-hook 'peg-mode-hook #'rainbow-delimiters-mode)
+(add-hook 'effigy-mode-hook #'rainbow-delimiters-mode)
+
+;; Static site generation
 (require 'blorg)
 
-;; For syntax highlight
-(add-to-list 'load-path "~/src/github.com/clarete/langlang/extra/")
-(require 'peg-mode)
+;; Site wide configuration
+(if (string= (getenv "ENV") "prod")
+    (setq blorg-default-url "https://clarete.li"))
 
-;; Customize face attributes
-(setq font-lock-face-attributes
-      ;; Symbol-for-Face Foreground Background Bold Italic Underline
-      '((font-lock-comment-face       "DarkGreen")
-        (font-lock-string-face        "Sienna")
-        (font-lock-keyword-face       "RoyalBlue")
-        (font-lock-function-name-face "Blue")
-        (font-lock-variable-name-face "Black")
-        (font-lock-type-face          "Black")
-        (font-lock-reference-face     "Purple")
-        ))
-;; Load the font-lock package.
-(require 'font-lock)
-;; Maximum colors
-(setq font-lock-auto-fontify t)
-(setq font-lock-maximum-decoration t)
-;; Turn on font-lock in all modes that support it
-(global-font-lock-mode t)
-(font-lock-mode t)
+(blorg-route
+ :name "index"
+ :input-pattern "index.org"
+ :template "index.html"
+ :output "index.html"
+ :url "/")
 
-;; '(font-lock-constant-face ((t (:foreground "#2aa198" :weight normal))))
-;; '(font-lock-keyword-face ((t (:foreground "#859900" :weight normal))))
-;; '(font-lock-variable-name-face ((t (:foreground "#839496")))))
+(blorg-route
+ :name "posts"
+ :input-pattern "posts/*.org"
+ :input-filter #'blorg-input-filter-drafts
+ :template "post.html"
+ :output "blog/{{ slug }}.html"
+ :url "/blog/{{ slug }}.html")
 
+(blorg-route
+ :name "blog"
+ :input-pattern "posts/*.org"
+ :input-filter #'blorg-input-filter-drafts
+ :input-aggregate #'blorg-input-aggregate-all
+ :template "blog-index.html"
+ :output "blog/index.html"
+ :url "/blog")
 
-(defun main ()
-  "Main function."
-  (blorg-gen
-   :input-pattern "sources/.*\\.org$"
-   :template "theme/post.html"
-   :output "output/blog/{{ slug }}/index.html"))
+(blorg-route
+ :name "categories"
+ :input-pattern "posts/*.org"
+ :input-aggregate #'blorg-input-aggregate-by-category
+ :input-filter #'blorg-input-filter-drafts
+ :template "category.html"
+ :output "blog/{{ name }}/index.html"
+ :url "/blog/{{ name }}")
 
-(main)
+(blorg-export)
 
-(provide 'publish-blorg)
-;;; publish-blorg.el ends here
+;;; publish.el ends here
