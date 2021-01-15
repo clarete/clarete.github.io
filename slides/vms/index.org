@@ -1,0 +1,220 @@
+#+TITLE: Virtual Machines
+#+AUTHOR: Lincoln
+#+OPTIONS: toc:nil num:nil reveal_title_slide:nil
+#+REVEAL_INIT_OPTIONS: hash: true, history: true
+#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js
+# #+REVEAL_EXTRA_CSS: ./index.css
+#+REVEAL_THEME: simple
+#+REVEAL_TRANS: linear
+
+# M-x load-library<ret>ox-reveal
+# Execute 'C-c C-e R R' to export the presentation
+
+* Virtual Machines
+* Disclaimer
+
+  mistakes will be made, and many things won't make sense, for various reasons.
+  let's make it a conversation bring your own understanding and questions
+
+* Machines made Virtual
+
+** Game Consoles
+   #+NAME: mame
+   [[https://cdn.wallpapersafari.com/60/84/FZKzNp.png]]
+
+** Personal Computers
+   #+NAME: vmware
+   [[https://bmbsolutions.com/wp-content/uploads/2015/08/VMware-logo-1.jpg]]
+
+* Non-Virtual Machines
+
+  * turing + von neumann = computer
+  * cpu is the "needle" and memory is the "tape"
+  * computer architecture
+  * i/o devices
+
+* Instruction Set Architecture (ISA)
+
+  * "what operations a machine can do"
+  * data types
+  * registers and memory addressing modes
+  * arithmetic and logic operations
+  * control flow
+  * call convention
+
+* Some Architectures
+
+** 6502
+
+   * NES (Famicom)
+   * Commodore 64
+   * Apple II
+
+** Z80
+
+   * Sega Master Systems
+   * Pac-Man
+   * Game Boy Color
+
+** 8086 .. x86 .. x86-64
+
+   Intel; AMD;
+   Where we came from; Where we are
+
+** ARM
+
+   * Raspberry PI
+   * iPhone, m1
+   * all smoll computers
+
+   Where we are; Where we're going?
+
+* Inside the machine: 6502
+
+** Registers
+   - A: Accumulator, holds results of arithmetic and logic operations
+   - X and Y: General purpose (also called Loop Registers)
+   - P: Processor Status, result of tests and flags
+   - S: Stack Pointer
+   all 8bit sized
+
+** Addressing Modes
+   | mode              | assembly | comment                          |
+   |-------------------+----------+----------------------------------|
+   | Immediate         | #$FF     | literal value                    |
+   | Accumulator       | A        | register                         |
+   | Absolute          | $FFFF    | lookup(address)                  |
+   | Relative          | $FFFF    | lookup(PC + offset)              |
+   | Zero Page         | $FF      | lookup(address) strip down $00FF |
+   | Indirect Absolute | ($FFFF)  | lookup(address)                  |
+   | Absolute Indexed  | $FFFF,X  | lookup(baseAddr+X): also for Y   |
+   | Zero Page Indexed | $FF,X    | lookup(baseAddr+X): also for Y   |
+   | Indexed Indirect  | ($FF,X)  | lookup(lookup(baseAddr + index)) |
+   | Indirect Indexed  | ($FF),Y  | lookup(lookup(baseAddr) + index) |
+
+** Loop
+
+   #+BEGIN_SRC asm
+      LDX #0    ; load 0 into register X
+loop  LDA $AA,X ; load byte from $AA+X into the A register 
+      STA $BB,X ; store that byte into $BB+X
+      INX       ; increment X
+      CPX #$10  ; have we moved 16 bytes?
+      BNE loop  ; if not, go move the next one
+   #+END_SRC
+
+** Jump to Subroutine
+
+   #+BEGIN_SRC asm
+     JSR init ; start the program jumping to subroutine init
+     JSR end  ; go to subroutine end when init is done
+
+init LDX #$00 ; load literal 0 into register X
+     RTS      ; return from subroutine
+
+end  BRK      ; halt the machine
+   #+END_SRC
+
+** Usage Example: NES
+
+   [[https://www.zupimages.net/up/20/34/ffkd.png]]
+
+   ([[https://forums.nesdev.com/viewtopic.php?f=2&t=20685&start=15][Taken from here]])
+
+** What people do with it
+
+   - play old games emulating consoles on computers
+   - tooling for speedrunners
+   - build their own games
+
+** A live example
+
+* Other well known Virtual Machines
+
+** 
+   #+NAME: jvm
+   [[https://i.ytimg.com/vi/G1ubVOl9IBw/maxresdefault.jpg]]
+
+** 
+   #+NAME: v8
+   [[https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/V8_JavaScript_engine_logo_2.svg/800px-V8_JavaScript_engine_logo_2.svg.png]]
+
+** 
+   #+NAME: Python
+   [[https://mpng.subpng.com/20180506/ile/kisspng-python-programming-language-computer-programming-5aefaba25ef4a4.302516281525656482389.jpg]]
+
+* 
+  [[https://upload.wikimedia.org/wikipedia/en/c/c0/Smalltalk80book.jpg]]
+
+* Less famous Virtual Machines
+
+** 
+   #+NAME: lua
+   [[https://www.lua.org/images/luaa.gif]]
+
+* lpeg
+
+  [[http://www.inf.puc-rio.br/~roberto/lpeg/][Parsing Expression Grammars For Lua]]
+  @@html:<br>@@
+  Stack Machine for pattern matching
+
+* 
+  Found it in an article from Lua creators on pattern matching
+  (2008). Their work is based on Knuth's parsing machine (1971) and
+  there seems to be more research on the topic on its way.
+
+* Machine
+
+  Registers: *PC*, *SP*, *I*
+
+  #+BEGIN_SRC c
+  struct StackFrame {
+    char *i;
+    uint pc;
+  }
+  #+END_SRC
+
+* Instruction Set
+
+  #+BEGIN_SRC asm
+  CHAR chr
+  ANY
+  CHOICE label
+  JUMP label
+  CALL label
+  RETURN
+  COMMIT label
+  FAIL
+  #+END_SRC
+
+* Char
+
+  #+BEGIN_SRC python
+  if m.I == chr: m.I++
+  else: fail
+  #+END_SRC
+
+* Choice
+
+  Pushes a backtrack entry on the stack, where ~label~ is the offset
+  of the alternative instruction.
+
+* Commit
+
+  Commits to a choice, popping the top entry fromthe stack, throwing
+  it away, and jumping to the instructionat offset ~label~.
+
+* Fail
+
+  When failure occurs, pop the stack until it finds a backtrack entry,
+  then use that entry plus the stack as the new machine state.
+
+* 
+    #+begin_src text
+    Π(p1/p2) ≡ Choice |Π(p1)| + 2
+               Π(p1)
+               Commit |Π(p2)| + 1
+               Π(p2)
+    #+end_src
+
+* Demo?

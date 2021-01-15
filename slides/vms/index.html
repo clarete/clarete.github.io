@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Virtual Machines</title>
+<meta name="author" content="(Lincoln)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/simple.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://cdn.jsdelivr.net/npm/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+<section id="slide-org5387d65">
+<h2 id="org5387d65">Virtual Machines</h2>
+</section>
+</section>
+<section>
+<section id="slide-orgf14fe9f">
+<h2 id="orgf14fe9f">Disclaimer</h2>
+<p>
+mistakes will be made, and many things won't make sense, for various reasons.
+let's make it a conversation bring your own understanding and questions
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org1216cc4">
+<h2 id="org1216cc4">Machines made Virtual</h2>
+<div class="outline-text-2" id="text-org1216cc4">
+</div>
+</section>
+<section id="slide-org2e5cbef">
+<h3 id="org2e5cbef">Game Consoles</h3>
+
+<div id="org905a3b2" class="figure">
+<p><img src="https://cdn.wallpapersafari.com/60/84/FZKzNp.png" alt="FZKzNp.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org7b748c5">
+<h3 id="org7b748c5">Personal Computers</h3>
+
+<div id="org97f239f" class="figure">
+<p><img src="https://bmbsolutions.com/wp-content/uploads/2015/08/VMware-logo-1.jpg" alt="VMware-logo-1.jpg" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org9d507bc">
+<h2 id="org9d507bc">Non-Virtual Machines</h2>
+<ul>
+<li>turing + von neumann = computer</li>
+<li>cpu is the "needle" and memory is the "tape"</li>
+<li>computer architecture</li>
+<li>i/o devices</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orge7c07e9">
+<h2 id="orge7c07e9">Instruction Set Architecture (ISA)</h2>
+<ul>
+<li>"what operations a machine can do"</li>
+<li>data types</li>
+<li>registers and memory addressing modes</li>
+<li>arithmetic and logic operations</li>
+<li>control flow</li>
+<li>call convention</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orge287988">
+<h2 id="orge287988">Some Architectures</h2>
+<div class="outline-text-2" id="text-orge287988">
+</div>
+</section>
+<section id="slide-org83d1cdc">
+<h3 id="org83d1cdc">6502</h3>
+<ul>
+<li>NES (Famicom)</li>
+<li>Commodore 64</li>
+<li>Apple II</li>
+
+</ul>
+
+</section>
+<section id="slide-orgd59a75e">
+<h3 id="orgd59a75e">Z80</h3>
+<ul>
+<li>Sega Master Systems</li>
+<li>Pac-Man</li>
+<li>Game Boy Color</li>
+
+</ul>
+
+</section>
+<section id="slide-org2b6d7a7">
+<h3 id="org2b6d7a7">8086 .. x86 .. x86-64</h3>
+<p>
+Intel; AMD;
+Where we came from; Where we are
+</p>
+
+</section>
+<section id="slide-orgf6adaed">
+<h3 id="orgf6adaed">ARM</h3>
+<ul>
+<li>Raspberry PI</li>
+<li>iPhone, m1</li>
+<li>all smoll computers</li>
+
+</ul>
+
+<p>
+Where we are; Where we're going?
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org5beb4a6">
+<h2 id="org5beb4a6">Inside the machine: 6502</h2>
+<div class="outline-text-2" id="text-org5beb4a6">
+</div>
+</section>
+<section id="slide-org65260fe">
+<h3 id="org65260fe">Registers</h3>
+<ul>
+<li>A: Accumulator, holds results of arithmetic and logic operations</li>
+<li>X and Y: General purpose (also called Loop Registers)</li>
+<li>P: Processor Status, result of tests and flags</li>
+<li>S: Stack Pointer</li>
+
+</ul>
+<p>
+all 8bit sized
+</p>
+
+</section>
+<section id="slide-org7246da3">
+<h3 id="org7246da3">Addressing Modes</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">mode</th>
+<th scope="col" class="org-left">assembly</th>
+<th scope="col" class="org-left">comment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">Immediate</td>
+<td class="org-left">#$FF</td>
+<td class="org-left">literal value</td>
+</tr>
+
+<tr>
+<td class="org-left">Accumulator</td>
+<td class="org-left">A</td>
+<td class="org-left">register</td>
+</tr>
+
+<tr>
+<td class="org-left">Absolute</td>
+<td class="org-left">$FFFF</td>
+<td class="org-left">lookup(address)</td>
+</tr>
+
+<tr>
+<td class="org-left">Relative</td>
+<td class="org-left">$FFFF</td>
+<td class="org-left">lookup(PC + offset)</td>
+</tr>
+
+<tr>
+<td class="org-left">Zero Page</td>
+<td class="org-left">$FF</td>
+<td class="org-left">lookup(address) strip down $00FF</td>
+</tr>
+
+<tr>
+<td class="org-left">Indirect Absolute</td>
+<td class="org-left">($FFFF)</td>
+<td class="org-left">lookup(address)</td>
+</tr>
+
+<tr>
+<td class="org-left">Absolute Indexed</td>
+<td class="org-left">$FFFF,X</td>
+<td class="org-left">lookup(baseAddr+X): also for Y</td>
+</tr>
+
+<tr>
+<td class="org-left">Zero Page Indexed</td>
+<td class="org-left">$FF,X</td>
+<td class="org-left">lookup(baseAddr+X): also for Y</td>
+</tr>
+
+<tr>
+<td class="org-left">Indexed Indirect</td>
+<td class="org-left">($FF,X)</td>
+<td class="org-left">lookup(lookup(baseAddr + index))</td>
+</tr>
+
+<tr>
+<td class="org-left">Indirect Indexed</td>
+<td class="org-left">($FF),Y</td>
+<td class="org-left">lookup(lookup(baseAddr) + index)</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org40ce3e9">
+<h3 id="org40ce3e9">Loop</h3>
+<div class="org-src-container">
+
+<pre  class="src src-asm"><code trim>      <span style="color: #fb4933;">LDX</span> #0    <span style="color: #7c6f64;">; </span><span style="color: #7c6f64;">load 0 into register X</span>
+<span style="color: #fabd2f;">loop</span>  <span style="color: #fb4933;">LDA</span> $AA,X <span style="color: #7c6f64;">; </span><span style="color: #7c6f64;">load byte from $AA+X into the A register </span>
+      <span style="color: #fb4933;">STA</span> $BB,X <span style="color: #7c6f64;">; </span><span style="color: #7c6f64;">store that byte into $BB+X</span>
+      <span style="color: #fb4933;">INX</span>       <span style="color: #7c6f64;">; </span><span style="color: #7c6f64;">increment X</span>
+      <span style="color: #fb4933;">CPX</span> #$10  <span style="color: #7c6f64;">; </span><span style="color: #7c6f64;">have we moved 16 bytes?</span>
+      <span style="color: #fb4933;">BNE</span> loop  <span style="color: #7c6f64;">; </span><span style="color: #7c6f64;">if not, go move the next one</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org23f2a9d">
+<h3 id="org23f2a9d">Jump to Subroutine</h3>
+<div class="org-src-container">
+
+<pre  class="src src-asm"><code trim>     <span style="color: #fb4933;">JSR</span> init <span style="color: #7c6f64;">; </span><span style="color: #7c6f64;">start the program jumping to subroutine init</span>
+     <span style="color: #fb4933;">JSR</span> end  <span style="color: #7c6f64;">; </span><span style="color: #7c6f64;">go to subroutine end when init is done</span>
+
+<span style="color: #fabd2f;">init</span> <span style="color: #fb4933;">LDX</span> #$00 <span style="color: #7c6f64;">; </span><span style="color: #7c6f64;">load literal 0 into register X</span>
+     <span style="color: #fb4933;">RTS</span>      <span style="color: #7c6f64;">; </span><span style="color: #7c6f64;">return from subroutine</span>
+
+<span style="color: #fabd2f;">end</span>  <span style="color: #fb4933;">BRK</span>      <span style="color: #7c6f64;">; </span><span style="color: #7c6f64;">halt the machine</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org706ae78">
+<h3 id="org706ae78">Usage Example: NES</h3>
+
+<div class="figure">
+<p><img src="https://www.zupimages.net/up/20/34/ffkd.png" alt="ffkd.png" />
+</p>
+</div>
+
+<p>
+(<a href="https://forums.nesdev.com/viewtopic.php?f=2&amp;t=20685&amp;start=15">Taken from here</a>)
+</p>
+
+</section>
+<section id="slide-org819f0f6">
+<h3 id="org819f0f6">What people do with it</h3>
+<ul>
+<li>play old games emulating consoles on computers</li>
+<li>tooling for speedrunners</li>
+<li>build their own games</li>
+
+</ul>
+
+</section>
+<section id="slide-org99ca62c">
+<h3 id="org99ca62c">A live example</h3>
+
+</section>
+</section>
+<section>
+<section id="slide-org7c8712d">
+<h2 id="org7c8712d">Other well known Virtual Machines</h2>
+<div class="outline-text-2" id="text-org7c8712d">
+</div>
+</section>
+<section id="slide-orgb334013">
+<h3 id="orgb334013"></h3>
+
+<div id="org2d22bb5" class="figure">
+<p><img src="https://i.ytimg.com/vi/G1ubVOl9IBw/maxresdefault.jpg" alt="maxresdefault.jpg" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgbbed937">
+<h3 id="orgbbed937"></h3>
+
+<div id="org9249681" class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/V8_JavaScript_engine_logo_2.svg/800px-V8_JavaScript_engine_logo_2.svg.png" alt="800px-V8_JavaScript_engine_logo_2.svg.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org74d95a2">
+<h3 id="org74d95a2"></h3>
+
+<div id="org37945cc" class="figure">
+<p><img src="https://mpng.subpng.com/20180506/ile/kisspng-python-programming-language-computer-programming-5aefaba25ef4a4.302516281525656482389.jpg" alt="kisspng-python-programming-language-computer-programming-5aefaba25ef4a4.302516281525656482389.jpg" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org6cc600d">
+<h2 id="org6cc600d"></h2>
+
+<div class="figure">
+<p><img src="https://upload.wikimedia.org/wikipedia/en/c/c0/Smalltalk80book.jpg" alt="Smalltalk80book.jpg" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org8a8dc63">
+<h2 id="org8a8dc63">Less famous Virtual Machines</h2>
+<div class="outline-text-2" id="text-org8a8dc63">
+</div>
+</section>
+<section id="slide-org3c1992c">
+<h3 id="org3c1992c"></h3>
+
+<div id="org41b39e3" class="figure">
+<p><img src="https://www.lua.org/images/luaa.gif" alt="luaa.gif" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org14fcbba">
+<h2 id="org14fcbba">lpeg</h2>
+<p>
+<a href="http://www.inf.puc-rio.br/~roberto/lpeg/">Parsing Expression Grammars For Lua</a>
+<br>
+Stack Machine for pattern matching
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org28c7c2c">
+<h2 id="org28c7c2c"></h2>
+<p>
+Found it in an article from Lua creators on pattern matching
+(2008). Their work is based on Knuth's parsing machine (1971) and
+there seems to be more research on the topic on its way.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf4dd9e6">
+<h2 id="orgf4dd9e6">Machine</h2>
+<p>
+Registers: <b>PC</b>, <b>SP</b>, <b>I</b>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-c"><code trim><span style="color: #fb4933;">struct</span> <span style="color: #d3869b;">StackFrame</span> <span style="color: #458588;">{</span>
+  <span style="color: #d3869b;">char</span> *<span style="color: #83a598;">i</span>;
+  <span style="color: #d3869b;">uint</span> <span style="color: #83a598;">pc</span>;
+<span style="color: #458588;">}</span>
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org4df39dd">
+<h2 id="org4df39dd">Instruction Set</h2>
+<div class="org-src-container">
+
+<pre  class="src src-asm"><code trim><span style="color: #fabd2f;">CHAR</span> <span style="color: #fb4933;">chr</span>
+<span style="color: #fabd2f;">ANY</span>
+<span style="color: #fabd2f;">CHOICE</span> <span style="color: #fb4933;">label</span>
+<span style="color: #fabd2f;">JUMP</span> <span style="color: #fb4933;">label</span>
+<span style="color: #fabd2f;">CALL</span> <span style="color: #fb4933;">label</span>
+<span style="color: #fabd2f;">RETURN</span>
+<span style="color: #fabd2f;">COMMIT</span> <span style="color: #fb4933;">label</span>
+<span style="color: #fabd2f;">FAIL</span>
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org8adb503">
+<h2 id="org8adb503">Char</h2>
+<div class="org-src-container">
+
+<pre  class="src src-python"><code trim><span style="color: #fb4933;">if</span> m.I == <span style="color: #fe8019;">chr</span>: m.I++
+<span style="color: #fb4933;">else</span>: fail
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org3fa09b1">
+<h2 id="org3fa09b1">Choice</h2>
+<p>
+Pushes a backtrack entry on the stack, where <code>label</code> is the offset
+of the alternative instruction.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org4b5c064">
+<h2 id="org4b5c064">Commit</h2>
+<p>
+Commits to a choice, popping the top entry fromthe stack, throwing
+it away, and jumping to the instructionat offset <code>label</code>.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org4019b05">
+<h2 id="org4019b05">Fail</h2>
+<p>
+When failure occurs, pop the stack until it finds a backtrack entry,
+then use that entry plus the stack as the new machine state.
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org89ecdfc">
+<h2 id="org89ecdfc"></h2>
+<div class="org-src-container">
+
+<pre  class="src src-text"><code trim>&#928;(p1/p2) &#8801; Choice |&#928;(p1)| + 2
+           &#928;(p1)
+           Commit |&#928;(p2)| + 1
+           &#928;(p2)
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgc8f1bab">
+<h2 id="orgc8f1bab">Demo?</h2>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+hash: true, history: true,
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
