@@ -1,5 +1,5 @@
 @import "common.css" screen;
-@import "codehl.css" screen;
+@import "colors.css" screen;
 
 :root {
     --background: var(--theme-gruvbox-background);
