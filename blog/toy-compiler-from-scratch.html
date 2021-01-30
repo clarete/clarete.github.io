@@ -94,9 +94,9 @@ Effigy takes a syntax that I made up and generates <i>bytecode</i> for that
 Virtual Machine.  Without further ado, let's see how it works!
 </p>
 
-<div id="outline-container-orgcf36e7a" class="outline-2">
-<h2 id="orgcf36e7a">A 38k feet view of the process</h2>
-<div class="outline-text-2" id="text-orgcf36e7a">
+<div class="outline-2">
+<h2 id="a-38k-feet-view-of-the-process">A 38k feet view of the process</h2>
+<div class="outline-text-2">
 <p>
 The text representation of the program is parsed into a tree
 structure that contains the meaning described in the text program.
@@ -105,7 +105,7 @@ That tree is traversed and the <i>bytecode</i> is emitted.
 
 <div class="centralized">
 
-<div id="orgc7ec7ee" class="figure">
+<div id="org34d3349" class="figure">
 <p><img src="../media/blogimg/effigy-an-experiment-writing-a-compiler-overview.png" alt="effigy-an-experiment-writing-a-compiler-overview.png" />
 </p>
 </div>
@@ -140,9 +140,9 @@ to really understand how PEGs could be so flexible and powerful.
 </div>
 </div>
 
-<div id="outline-container-org7dfc5c5" class="outline-2">
-<h2 id="org7dfc5c5">The PEG library</h2>
-<div class="outline-text-2" id="text-org7dfc5c5">
+<div class="outline-2">
+<h2 id="the-peg-library">The PEG library</h2>
+<div class="outline-text-2">
 <p>
 Two out of the three of the main components of Effigy are built on
 top of the PEG implementation.  That makes the PEG implementation
@@ -289,9 +289,9 @@ list;</li>
 </ul>
 </div>
 
-<div id="outline-container-orga54b4e2" class="outline-3">
-<h3 id="orga54b4e2">Scanner Interface</h3>
-<div class="outline-text-3" id="text-orga54b4e2">
+<div class="outline-3">
+<h3 id="scanner-interface">Scanner Interface</h3>
+<div class="outline-text-3">
 <p>
 The parser that implements the PEG interface listed above is built
 on top of a scanner that provides all the matching functions and
@@ -362,9 +362,9 @@ scanner in action:
 </p>
 </div>
 
-<div id="outline-container-org8c72a16" class="outline-4">
-<h4 id="org8c72a16">Text Scanner</h4>
-<div class="outline-text-4" id="text-org8c72a16">
+<div class="outline-4">
+<h4 id="text-scanner">Text Scanner</h4>
+<div class="outline-text-4">
 <p>
 The <code>match</code> function takes a string as its input:
 </p>
@@ -384,9 +384,9 @@ which generates:
 </div>
 </div>
 
-<div id="outline-container-orgbb16026" class="outline-4">
-<h4 id="orgbb16026">List Scanner</h4>
-<div class="outline-text-4" id="text-orgbb16026">
+<div class="outline-4">
+<h4 id="list-scanner">List Scanner</h4>
+<div class="outline-text-4">
 <p>
 The <code>matchl</code> function takes a list as its input:
 </p>
@@ -415,9 +415,9 @@ which generates:
 </div>
 </div>
 
-<div id="outline-container-org2b3d169" class="outline-3">
-<h3 id="org2b3d169">Semantic Actions</h3>
-<div class="outline-text-3" id="text-org2b3d169">
+<div class="outline-3">
+<h3 id="semantic-actions">Semantic Actions</h3>
+<div class="outline-text-3">
 <p>
 After collecting the results from the matching operations and
 nesting them following the grammar's structure, the PEG library can
@@ -488,18 +488,18 @@ successfully.
 </div>
 </div>
 
-<div id="outline-container-org904e30a" class="outline-2">
-<h2 id="org904e30a">The Compiler</h2>
-<div class="outline-text-2" id="text-org904e30a">
+<div class="outline-2">
+<h2 id="the-compiler">The Compiler</h2>
+<div class="outline-text-2">
 <p>
 Now that we covered the PEG implementation, we're ready to tackle
 the compilation process itself!
 </p>
 </div>
 
-<div id="outline-container-org8eb770a" class="outline-3">
-<h3 id="org8eb770a">Parsing the program text</h3>
-<div class="outline-text-3" id="text-org8eb770a">
+<div class="outline-3">
+<h3 id="parsing-the-program-text">Parsing the program text</h3>
+<div class="outline-text-3">
 <p>
 The first stage of the compiler <a href="https://github.com/clarete/effigy/blob/master/lang.peg">is a PEG grammar</a> that scan and
 parse the program text and generate an <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree</a> (or AST
@@ -571,9 +571,9 @@ statement or a list of statements within curly brackets (<code>{}</code>).
 </div>
 </div>
 
-<div id="outline-container-org8f1f4a2" class="outline-3">
-<h3 id="org8f1f4a2">Mapping out scope rules</h3>
-<div class="outline-text-3" id="text-org8f1f4a2">
+<div class="outline-3">
+<h3 id="mapping-out-scope-rules">Mapping out scope rules</h3>
+<div class="outline-text-3">
 <p>
 After generating the AST during the text parsing phase, we need to
 go through an additional step before translating the AST into
@@ -741,9 +741,9 @@ Python itself woks.
 </div>
 </div>
 
-<div id="outline-container-org327d244" class="outline-3">
-<h3 id="org327d244">Output format</h3>
-<div class="outline-text-3" id="text-org327d244">
+<div class="outline-3">
+<h3 id="output-format">Output format</h3>
+<div class="outline-text-3">
 <p>
 Once the AST is annotated by the scope traversal step, it is ready
 to be fed once again into the <a href="https://github.com/clarete/effigy/blob/master/lang.tr">second PEG grammar</a> to be traversed
@@ -797,9 +797,9 @@ The last step is to write the header and the code buffer into a
 </div>
 </div>
 
-<div id="outline-container-orga6cf71f" class="outline-3">
-<h3 id="orga6cf71f">Code Generation</h3>
-<div class="outline-text-3" id="text-orga6cf71f">
+<div class="outline-3">
+<h3 id="code-generation">Code Generation</h3>
+<div class="outline-text-3">
 <p>
 Generating the assembly code for filling in the <code>co_code</code>
 attributes of Code objects is certainly the biggest task performed
@@ -900,9 +900,9 @@ is a good example to shown how it's done:
 </div>
 </div>
 
-<div id="outline-container-orgdce3c15" class="outline-3">
-<h3 id="orgdce3c15">Assemble binary data</h3>
-<div class="outline-text-3" id="text-orgdce3c15">
+<div class="outline-3">
+<h3 id="assemble-binary-data">Assemble binary data</h3>
+<div class="outline-text-3">
 <p>
 Besides emitting instructions, the assembler has to support
 back-patching of values that were not known ahead of time.  Three
@@ -957,9 +957,9 @@ translation of the code under <a href="https://github.com/python/cpython/blob/3.
 </div>
 </div>
 
-<div id="outline-container-org187e7d0" class="outline-2">
-<h2 id="org187e7d0">Final Thoughts</h2>
-<div class="outline-text-2" id="text-org187e7d0">
+<div class="outline-2">
+<h2 id="final-thoughts">Final Thoughts</h2>
+<div class="outline-text-2">
 <p>
 As you must have noticed, there's way more information about the
 architecture of the compiler and the PEG implementation than about

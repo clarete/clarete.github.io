@@ -18,7 +18,7 @@
     <description><![CDATA[]]></description>
     <language>en</language>
     <pubDate>Sun, 31 May 2020 00:00:00 -0400</pubDate>
-    <lastBuildDate>Mon, 18 Jan 2021 21:38:39 -0500</lastBuildDate>
+    <lastBuildDate>Fri, 29 Jan 2021 23:34:26 -0500</lastBuildDate>
     <generator>weblorg 0.1.0 (https://emacs.love/weblorg)</generator>
     <webMaster>lincoln@clarete.li (Lincoln Clarete)</webMaster>
     <image>
@@ -70,9 +70,9 @@ Effigy takes a syntax that I made up and generates <i>bytecode</i> for that
 Virtual Machine.  Without further ado, let's see how it works!
 </p>
 
-<div id="outline-container-org8c60870" class="outline-2">
-<h2 id="org8c60870">A 38k feet view of the process</h2>
-<div class="outline-text-2" id="text-org8c60870">
+<div class="outline-2">
+<h2 id="a-38k-feet-view-of-the-process">A 38k feet view of the process</h2>
+<div class="outline-text-2">
 <p>
 The text representation of the program is parsed into a tree
 structure that contains the meaning described in the text program.
@@ -81,7 +81,7 @@ That tree is traversed and the <i>bytecode</i> is emitted.
 
 <div class="centralized">
 
-<div id="orge0e73d8" class="figure">
+<div id="orga6ec368" class="figure">
 <p><img src="../media/blogimg/effigy-an-experiment-writing-a-compiler-overview.png" alt="effigy-an-experiment-writing-a-compiler-overview.png" />
 </p>
 </div>
@@ -116,9 +116,9 @@ to really understand how PEGs could be so flexible and powerful.
 </div>
 </div>
 
-<div id="outline-container-orgb73dd84" class="outline-2">
-<h2 id="orgb73dd84">The PEG library</h2>
-<div class="outline-text-2" id="text-orgb73dd84">
+<div class="outline-2">
+<h2 id="the-peg-library">The PEG library</h2>
+<div class="outline-text-2">
 <p>
 Two out of the three of the main components of Effigy are built on
 top of the PEG implementation.  That makes the PEG implementation
@@ -265,9 +265,9 @@ list;</li>
 </ul>
 </div>
 
-<div id="outline-container-org042b96e" class="outline-3">
-<h3 id="org042b96e">Scanner Interface</h3>
-<div class="outline-text-3" id="text-org042b96e">
+<div class="outline-3">
+<h3 id="scanner-interface">Scanner Interface</h3>
+<div class="outline-text-3">
 <p>
 The parser that implements the PEG interface listed above is built
 on top of a scanner that provides all the matching functions and
@@ -338,9 +338,9 @@ scanner in action:
 </p>
 </div>
 
-<div id="outline-container-orgecc895e" class="outline-4">
-<h4 id="orgecc895e">Text Scanner</h4>
-<div class="outline-text-4" id="text-orgecc895e">
+<div class="outline-4">
+<h4 id="text-scanner">Text Scanner</h4>
+<div class="outline-text-4">
 <p>
 The <code>match</code> function takes a string as its input:
 </p>
@@ -360,9 +360,9 @@ which generates:
 </div>
 </div>
 
-<div id="outline-container-org78e901a" class="outline-4">
-<h4 id="org78e901a">List Scanner</h4>
-<div class="outline-text-4" id="text-org78e901a">
+<div class="outline-4">
+<h4 id="list-scanner">List Scanner</h4>
+<div class="outline-text-4">
 <p>
 The <code>matchl</code> function takes a list as its input:
 </p>
@@ -391,9 +391,9 @@ which generates:
 </div>
 </div>
 
-<div id="outline-container-org24f0b70" class="outline-3">
-<h3 id="org24f0b70">Semantic Actions</h3>
-<div class="outline-text-3" id="text-org24f0b70">
+<div class="outline-3">
+<h3 id="semantic-actions">Semantic Actions</h3>
+<div class="outline-text-3">
 <p>
 After collecting the results from the matching operations and
 nesting them following the grammar's structure, the PEG library can
@@ -464,18 +464,18 @@ successfully.
 </div>
 </div>
 
-<div id="outline-container-orga065a9a" class="outline-2">
-<h2 id="orga065a9a">The Compiler</h2>
-<div class="outline-text-2" id="text-orga065a9a">
+<div class="outline-2">
+<h2 id="the-compiler">The Compiler</h2>
+<div class="outline-text-2">
 <p>
 Now that we covered the PEG implementation, we're ready to tackle
 the compilation process itself!
 </p>
 </div>
 
-<div id="outline-container-org89b7d70" class="outline-3">
-<h3 id="org89b7d70">Parsing the program text</h3>
-<div class="outline-text-3" id="text-org89b7d70">
+<div class="outline-3">
+<h3 id="parsing-the-program-text">Parsing the program text</h3>
+<div class="outline-text-3">
 <p>
 The first stage of the compiler <a href="https://github.com/clarete/effigy/blob/master/lang.peg">is a PEG grammar</a> that scan and
 parse the program text and generate an <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">Abstract Syntax Tree</a> (or AST
@@ -547,9 +547,9 @@ statement or a list of statements within curly brackets (<code>{}</code>).
 </div>
 </div>
 
-<div id="outline-container-orgd5fd44a" class="outline-3">
-<h3 id="orgd5fd44a">Mapping out scope rules</h3>
-<div class="outline-text-3" id="text-orgd5fd44a">
+<div class="outline-3">
+<h3 id="mapping-out-scope-rules">Mapping out scope rules</h3>
+<div class="outline-text-3">
 <p>
 After generating the AST during the text parsing phase, we need to
 go through an additional step before translating the AST into
@@ -717,9 +717,9 @@ Python itself woks.
 </div>
 </div>
 
-<div id="outline-container-org4c91194" class="outline-3">
-<h3 id="org4c91194">Output format</h3>
-<div class="outline-text-3" id="text-org4c91194">
+<div class="outline-3">
+<h3 id="output-format">Output format</h3>
+<div class="outline-text-3">
 <p>
 Once the AST is annotated by the scope traversal step, it is ready
 to be fed once again into the <a href="https://github.com/clarete/effigy/blob/master/lang.tr">second PEG grammar</a> to be traversed
@@ -773,9 +773,9 @@ The last step is to write the header and the code buffer into a
 </div>
 </div>
 
-<div id="outline-container-orgfb6b536" class="outline-3">
-<h3 id="orgfb6b536">Code Generation</h3>
-<div class="outline-text-3" id="text-orgfb6b536">
+<div class="outline-3">
+<h3 id="code-generation">Code Generation</h3>
+<div class="outline-text-3">
 <p>
 Generating the assembly code for filling in the <code>co_code</code>
 attributes of Code objects is certainly the biggest task performed
@@ -876,9 +876,9 @@ is a good example to shown how it's done:
 </div>
 </div>
 
-<div id="outline-container-org49f28b6" class="outline-3">
-<h3 id="org49f28b6">Assemble binary data</h3>
-<div class="outline-text-3" id="text-org49f28b6">
+<div class="outline-3">
+<h3 id="assemble-binary-data">Assemble binary data</h3>
+<div class="outline-text-3">
 <p>
 Besides emitting instructions, the assembler has to support
 back-patching of values that were not known ahead of time.  Three
@@ -933,9 +933,9 @@ translation of the code under <a href="https://github.com/python/cpython/blob/3.
 </div>
 </div>
 
-<div id="outline-container-org99a2112" class="outline-2">
-<h2 id="org99a2112">Final Thoughts</h2>
-<div class="outline-text-2" id="text-org99a2112">
+<div class="outline-2">
+<h2 id="final-thoughts">Final Thoughts</h2>
+<div class="outline-text-2">
 <p>
 As you must have noticed, there's way more information about the
 architecture of the compiler and the PEG implementation than about
@@ -1005,9 +1005,9 @@ the perfect blog post. I'll start just documenting how I turned this
 GitHub Pages repository in a blog and see what comes next.
 </p>
 
-<div id="outline-container-org0c59df8" class="outline-2">
-<h2 id="org0c59df8">First things first</h2>
-<div class="outline-text-2" id="text-org0c59df8">
+<div class="outline-2">
+<h2 id="first-things-first">First things first</h2>
+<div class="outline-text-2">
 <p>
 I already have a GitHub pages website setup. It's as simple as
 creating a repository called <code>YOURGITHUBUSER.github.io</code> (you can see
@@ -1028,9 +1028,9 @@ new website</a> and <a href="https://help.github.com/en/github/working-with-gith
 </div>
 </div>
 
-<div id="outline-container-org5c71030" class="outline-2">
-<h2 id="org5c71030">The home page</h2>
-<div class="outline-text-2" id="text-org5c71030">
+<div class="outline-2">
+<h2 id="the-home-page">The home page</h2>
+<div class="outline-text-2">
 <p>
 My lil website is as simple as it can get. My amazing <a href="https://www.instagram.com/pinkandsalt/">fiance</a> got me
 the logo you see on the top bar and I took care of putting it on a
@@ -1044,9 +1044,9 @@ recent posts is done manually.
 </div>
 </div>
 
-<div id="outline-container-orga7bcd66" class="outline-2">
-<h2 id="orga7bcd66">The Posts</h2>
-<div class="outline-text-2" id="text-orga7bcd66">
+<div class="outline-2">
+<h2 id="the-posts">The Posts</h2>
+<div class="outline-text-2">
 <p>
 This very post is written as an Org-Mode file. For those who haven't
 heard of Org-Mode before, checkout <a href="https://orgmode.org/">their website</a>.  Long story short,
@@ -1066,9 +1066,9 @@ configuration.
 </div>
 </div>
 
-<div id="outline-container-orgd2ed515" class="outline-2">
-<h2 id="orgd2ed515">Org-Mode Publishing</h2>
-<div class="outline-text-2" id="text-orgd2ed515">
+<div class="outline-2">
+<h2 id="org-mode-publishing">Org-Mode Publishing</h2>
+<div class="outline-text-2">
 <p>
 Being completely honest, the HTML publishing feature doesn't seem
 exactly designed for the blogging use case. It took quite a bit of
@@ -1163,9 +1163,9 @@ most essential parts of the configuration:
 </div>
 </div>
 
-<div id="outline-container-orgd632f19" class="outline-2">
-<h2 id="orgd632f19">Operating the blog</h2>
-<div class="outline-text-2" id="text-orgd632f19">
+<div class="outline-2">
+<h2 id="operating-the-blog">Operating the blog</h2>
+<div class="outline-text-2">
 <p>
 From now one, I just have to execute the command <code>C-c C-e P p</code> to
 ask Org Publishing to generate the HTML file of all the org files that
@@ -1182,9 +1182,9 @@ Pages to pick up the changes and display it properly.
 </div>
 </div>
 
-<div id="outline-container-orgf5459b5" class="outline-2">
-<h2 id="orgf5459b5">Open issues</h2>
-<div class="outline-text-2" id="text-orgf5459b5">
+<div class="outline-2">
+<h2 id="open-issues">Open issues</h2>
+<div class="outline-text-2">
 <p>
 I'm very happy with the current setup and there really aren't that
 many issues so far. But there are two that I want to tackle:
@@ -1204,9 +1204,9 @@ do it from within emacs and that's actually more convenient.</li>
 </div>
 </div>
 
-<div id="outline-container-org7fd454a" class="outline-2">
-<h2 id="org7fd454a">Final thoughts</h2>
-<div class="outline-text-2" id="text-org7fd454a">
+<div class="outline-2">
+<h2 id="final-thoughts">Final thoughts</h2>
+<div class="outline-text-2">
 <p>
 The fine grained customizations were certaingly the hardest to get
 to work and I wouldn't have been able to figure it out in the amount
