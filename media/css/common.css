@@ -118,7 +118,6 @@ a:hover {
 }
 
 .post {
-    /* font-family: 'Quicksand', sans-serif; */
     font-family: monospace;
     font-size: 16pt;
     display: block;
@@ -185,7 +184,6 @@ ul.posts .comment {
     padding: 10px 150px;
     margin: auto auto;
     font-family: monospace;
-    /* font-family: 'Quicksand', sans-serif; */
     font-size: 16pt;
     color: #333;
 }
@@ -246,11 +244,8 @@ code {
     display: block;
 }
 
-.content.blog > ul {
-    list-style: none;
-    padding: 0;
-}
+.content.slides > ul,
+.content.blog > ul { list-style: none;  padding: 0; }
 
-.content.blog > ul > li {
-    margin-bottom: 10px;
-}
+.content.slides > ul > li,
+.content.blog > ul > li { margin-bottom: 10px; }
