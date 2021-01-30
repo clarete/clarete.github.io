@@ -37,7 +37,7 @@ Virtual Machine.  Without further ado, let's see how it works!
 
   #+BEGIN_centralized
   #+NAME: Highlevel Overview
-  [[../media/blogimg/effigy-an-experiment-writing-a-compiler-overview.png]]
+  [[../media/blogimg/effigy-an-experiment-writing-a-compiler-overview-mobile.png]]
   #+END_centralized
 
   Because of its simplicity, Effigy doesn't really apply any

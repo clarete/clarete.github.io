@@ -18,7 +18,7 @@
     <description><![CDATA[]]></description>
     <language>en</language>
     <pubDate>Sun, 31 May 2020 00:00:00 -0400</pubDate>
-    <lastBuildDate>Fri, 29 Jan 2021 23:34:26 -0500</lastBuildDate>
+    <lastBuildDate>Sat, 30 Jan 2021 11:23:59 -0500</lastBuildDate>
     <generator>weblorg 0.1.0 (https://emacs.love/weblorg)</generator>
     <webMaster>lincoln@clarete.li (Lincoln Clarete)</webMaster>
     <image>
@@ -81,8 +81,8 @@ That tree is traversed and the <i>bytecode</i> is emitted.
 
 <div class="centralized">
 
-<div id="orga6ec368" class="figure">
-<p><img src="../media/blogimg/effigy-an-experiment-writing-a-compiler-overview.png" alt="effigy-an-experiment-writing-a-compiler-overview.png" />
+<div id="org113dce0" class="figure">
+<p><img src="../media/blogimg/effigy-an-experiment-writing-a-compiler-overview-mobile.png" alt="effigy-an-experiment-writing-a-compiler-overview-mobile.png" />
 </p>
 </div>
 

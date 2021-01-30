@@ -2,52 +2,54 @@
 @import "codehl.css" screen;
 
 :root {
-    --background: #ffffff;
-    --foreground: #333333;
+    --background: var(--theme-gruvbox-background);
+    --foreground: var(--theme-gruvbox-light-1);
     --foreground-secondary: #aaa;
 
     /* --- --- --- Syntax Highlighting for Code Sections --- --- ---  */
-    ---code-background:           var(--code-gruvbox-background);
-    ---code-foreground:           var(--code-gruvbox-foreground);
-    ---code-builtin:              var(--code-gruvbox-builtin);
-    ---code-comment:              var(--code-gruvbox-comment);
-    ---code-doc:                  var(--code-gruvbox-doc);
-    ---code-function-name:        var(--code-gruvbox-function-name);
-    ---code-keyword:              var(--code-gruvbox-keyword);
-    ---code-string:               var(--code-gruvbox-string);
-    ---code-type:                 var(--code-gruvbox-type);
-    ---code-variable-name:        var(--code-gruvbox-variable-name);
+    ---code-background:           var(--theme-gruvbox-background);
+    ---code-foreground:           var(--theme-gruvbox-foreground);
+    ---code-builtin:              var(--theme-gruvbox-builtin);
+    ---code-comment:              var(--theme-gruvbox-comment);
+    ---code-doc:                  var(--theme-gruvbox-doc);
+    ---code-function-name:        var(--theme-gruvbox-function-name);
+    ---code-keyword:              var(--theme-gruvbox-keyword);
+    ---code-string:               var(--theme-gruvbox-string);
+    ---code-type:                 var(--theme-gruvbox-type);
+    ---code-variable-name:        var(--theme-gruvbox-variable-name);
+    ---code-rainbow1:             var(--theme-gruvbox-rainbow1);
+    ---code-rainbow2:             var(--theme-gruvbox-rainbow2);
+    ---code-rainbow3:             var(--theme-gruvbox-rainbow3);
+    ---code-rainbow4:             var(--theme-gruvbox-rainbow4);
 }
 
-body { background: var(--background);
-       color: var(--foreground); }
+body                             { background: var(--background); color: var(--foreground); }
 
 /* -- Code Blocks -- */
-.org-builtin            { color: var(---code-builtin); }
-.org-comment            { color: var(---code-comment); }
-.org-comment-delimiter  { color: var(---code-comment); }
-.org-doc                { color: var(---code-doc); }
-.org-function-name      { color: var(---code-function-name); }
-.org-keyword            { color: var(---code-keyword); }
-.org-string             { color: var(---code-string); }
-.org-type               { color: var(---code-type); }
-.org-variable-name      { color: var(---code-variable-name); }
-.org-src-container      { color: var(---code-foreground);
-                          background: var(---code-background);
-                          border: 1px solid var(---border-src); }
-
-.org-rainbow-delimiters-depth-1  { color: #458588; }
-.org-rainbow-delimiters-depth-2  { color: #b16286; }
-.org-rainbow-delimiters-depth-3  { color: #8ec07c; }
-.org-rainbow-delimiters-depth-4  { color: #d65d0e; }
-.org-rainbow-delimiters-depth-5  { color: #458588; }
-.org-rainbow-delimiters-depth-6  { color: #b16286; }
-.org-rainbow-delimiters-depth-7  { color: #8ec07c; }
-.org-rainbow-delimiters-depth-8  { color: #d65d0e; }
-.org-rainbow-delimiters-depth-9  { color: #458588; }
-.org-rainbow-delimiters-depth-10 { color: #b16286; }
-.org-rainbow-delimiters-depth-11 { color: #8ec07c; }
-.org-rainbow-delimiters-depth-12 { color: #d65d0e; }
+.org-builtin                     { color: var(---code-builtin); }
+.org-comment                     { color: var(---code-comment); }
+.org-comment-delimiter           { color: var(---code-comment); }
+.org-doc                         { color: var(---code-doc); }
+.org-function-name               { color: var(---code-function-name); }
+.org-keyword                     { color: var(---code-keyword); }
+.org-string                      { color: var(---code-string); }
+.org-type                        { color: var(---code-type); }
+.org-variable-name               { color: var(---code-variable-name); }
+.org-src-container               { color: var(---code-foreground);
+                                   background: var(---code-background);
+                                   border: 1px solid var(---border-src); }
+.org-rainbow-delimiters-depth-1  { color: var(---code-rainbow1); }
+.org-rainbow-delimiters-depth-2  { color: var(---code-rainbow2); }
+.org-rainbow-delimiters-depth-3  { color: var(---code-rainbow3); }
+.org-rainbow-delimiters-depth-4  { color: var(---code-rainbow4); }
+.org-rainbow-delimiters-depth-5  { color: var(---code-rainbow1); }
+.org-rainbow-delimiters-depth-6  { color: var(---code-rainbow2); }
+.org-rainbow-delimiters-depth-7  { color: var(---code-rainbow3); }
+.org-rainbow-delimiters-depth-8  { color: var(---code-rainbow4); }
+.org-rainbow-delimiters-depth-9  { color: var(---code-rainbow1); }
+.org-rainbow-delimiters-depth-10 { color: var(---code-rainbow2); }
+.org-rainbow-delimiters-depth-11 { color: var(---code-rainbow3); }
+.org-rainbow-delimiters-depth-12 { color: var(---code-rainbow4); }
 
 
 .pubdate { color: var(--foreground-secondary); }

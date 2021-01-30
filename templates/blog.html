@@ -3,15 +3,16 @@
 
 {% block body %}
   <div class="title">
-    <h1>What's on my mind</h1>
+    <h1>blog</h1>
   </div>
 
-  <div class="content">
+  <div class="content blog">
     <ul>
       {% for post in posts %}
         <li>
-          <span class="pubdate">{{ post.date|strftime("%b %d, %Y") }}</span>
-          <a href="{{ url_for("posts", slug=post.slug) }}">{{ post.title }}</a>
+          <a href="{{ url_for("posts", slug=post.slug) }}">
+            {{ post.date|strftime("%b %d, %Y") }}: {{ post.title }}
+          </a>
         </li>
       {% endfor %}
     </ul>
