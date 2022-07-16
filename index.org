@@ -20,7 +20,7 @@ just looking at the sky.
 
 * Links
 
-  * [[mailto:lincoln@clarete.li][Email]]
-  * [[https://github.com/clarete][GitHub]]
   * [[url_for:blog][Blog]]
   * [[url_for:slides][Slides]]
+  * [[https://github.com/clarete][GitHub]]
+  * [[mailto:lincoln@clarete.li][Email]]
