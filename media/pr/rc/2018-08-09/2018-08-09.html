@@ -3,13 +3,15 @@
 <head>
 <meta charset="utf-8"/>
 <title>Parsing Machines</title>
-<meta name="author" content="(Lincoln Clarete • S'2)"/>
+<meta name="author" content="Lincoln Clarete • S'2"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/reveal.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/3.0.0/dist/reveal.css"/>
 
-<link rel="stylesheet" href="http://cdn.jsdelivr.net/reveal.js/3.0.0/css/theme/black.css" id="theme"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/3.0.0/dist/theme/black.css" id="theme"/>
 
 <link rel="stylesheet" href="extra.css"/>
 
@@ -19,7 +21,7 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'http://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
+        link.href = 'https://cdn.jsdelivr.net/reveal.js/3.0.0/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
@@ -27,12 +29,13 @@
 <body>
 <div class="reveal">
 <div class="slides">
-<section id="sec-title-slide"><h1 class="title">Parsing Machines</h1><h2 class="author">Lincoln Clarete • S'2</h2><p class="date">Created: 2018-08-09 Thu 18:11</p>
+<section id="sec-title-slide"><h1 class="title">Parsing Machines</h1><p class="subtitle"></p>
+<h2 class="author">Lincoln Clarete • S'2</h2><p class="date">Created: 2023-07-03 Mon 16:00</p>
 </section>
 
 <section>
-<section id="slide-org9e08469">
-<h2 id="org9e08469"><span class="section-number-2">1</span> What are Parsing Machines</h2>
+<section id="slide-org17197d3">
+<h2 id="org17197d3"><span class="section-number-2">1.</span> What are Parsing Machines</h2>
 <p>
 Another way of parsing data that can give a fast implementation
 of pattern matching. Also, very good for implementing semantics of
@@ -41,8 +44,8 @@ recursive grammars.
 </section>
 </section>
 <section>
-<section id="slide-org62b164c">
-<h2 id="org62b164c"><span class="section-number-2">2</span> Where the idea came from</h2>
+<section id="slide-org6bb1c1d">
+<h2 id="org6bb1c1d"><span class="section-number-2">2.</span> Where the idea came from</h2>
 <p>
 First read about it in article from Lua creators on pattern matching
 (2008). Their work is based on Knuth's parsing machine (1971) and
@@ -51,13 +54,13 @@ there seems to be more research on the topic on its way.
 </section>
 </section>
 <section>
-<section id="slide-orgd14ff39">
-<h2 id="orgd14ff39"><span class="section-number-2">3</span> Semantics</h2>
+<section id="slide-org41d6c05">
+<h2 id="org41d6c05"><span class="section-number-2">3.</span> Semantics</h2>
 <div class="outline-text-2" id="text-3">
 </div>
 </section>
-<section id="slide-orgfc46dc4">
-<h3 id="orgfc46dc4"><span class="section-number-3">3.1</span> Parsing Expression Grammars</h3>
+<section id="slide-orgf6209fc">
+<h3 id="orgf6209fc"><span class="section-number-3">3.1.</span> Parsing Expression Grammars</h3>
 <ul>
 <li>Patterns are very similar to Regular Expressions, but&#x2026;</li>
 <li>Use greedy patterns to describe parsers for <b>unambiguous</b>
@@ -69,8 +72,8 @@ Recognition-Based Syntactic Foundation.</li>
 
 </ul>
 </section>
-<section id="slide-org6fb2427">
-<h3 id="org6fb2427"><span class="section-number-3">3.2</span> Operations</h3>
+<section id="slide-org51db586">
+<h3 id="org51db586"><span class="section-number-3">3.2.</span> Operations</h3>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -126,169 +129,168 @@ Recognition-Based Syntactic Foundation.</li>
 </tbody>
 </table>
 </section>
-<section id="slide-orgf208b57">
-<h3 id="orgf208b57"><span class="section-number-3">3.3</span> Small Example of Grammar</h3>
+<section id="slide-orgbb7d986">
+<h3 id="orgbb7d986"><span class="section-number-3">3.3.</span> Small Example of Grammar</h3>
 <div class="org-src-container">
 
-<pre  class="src src-antlr"><span style="color: #50fa7b; font-weight: bold;">File</span> &lt;- <span style="color: #bd93f9;">CSV</span>*
-<span style="color: #50fa7b; font-weight: bold;">CSV</span>  &lt;- <span style="color: #bd93f9;">Val</span> <span style="color: #8be9fd;">(</span><span style="color: #f1fa8c;">','</span> <span style="color: #bd93f9;">Val</span><span style="color: #8be9fd;">)*</span> <span style="color: #f1fa8c;">'\n'</span>
-<span style="color: #50fa7b; font-weight: bold;">Val</span>  &lt;- <span style="color: #8be9fd;">(</span><span style="color: #8be9fd;">!</span>[,\n] .<span style="color: #8be9fd;">)*</span>
-</pre>
+<pre  class="src src-antlr"   ><code trim>File &lt;- CSV*
+CSV  &lt;- Val (',' Val)* '\n'
+Val  &lt;- (![,\n] .)*
+</code></pre>
 </div>
 </section>
 </section>
 <section>
-<section id="slide-org4a7e02a">
-<h2 id="org4a7e02a"><span class="section-number-2">4</span> Map PEG semantics into VM instructions</h2>
+<section id="slide-org302ca17">
+<h2 id="org302ca17"><span class="section-number-2">4.</span> Map PEG semantics into VM instructions</h2>
 <div class="outline-text-2" id="text-4">
 </div>
 </section>
-<section id="slide-org7e0a738">
-<h3 id="org7e0a738"><span class="section-number-3">4.1</span> Not Operator</h3>
+<section id="slide-orgf46d54d">
+<h3 id="orgf46d54d"><span class="section-number-3">4.1.</span> Not Operator</h3>
 <div class="org-src-container">
 
-<pre  class="src src-text">&#928;(!p) &#8801; Choice |&#928;(p)| + 3
-        &#928;(p)
+<pre  class="src src-text"   ><code trim>Π(!p) ≡ Choice |Π(p)| + 3
+        Π(p)
         Commit 1
         Fail
-</pre>
+</code></pre>
 </div>
 </section>
-<section id="slide-orge869cbd">
-<h3 id="orge869cbd"><span class="section-number-3">4.2</span> Ordered Choice</h3>
+<section id="slide-orgb455bc7">
+<h3 id="orgb455bc7"><span class="section-number-3">4.2.</span> Ordered Choice</h3>
 <div class="org-src-container">
 
-<pre  class="src src-text">&#928;(p1/p2) &#8801; Choice |&#928;(p1)| + 2
-           &#928;(p1)
-           Commit |&#928;(p2)| + 1
-           &#928;(p2)
-</pre>
+<pre  class="src src-text"   ><code trim>Π(p1/p2) ≡ Choice |Π(p1)| + 2
+           Π(p1)
+           Commit |Π(p2)| + 1
+           Π(p2)
+</code></pre>
 </div>
 </section>
 </section>
 <section>
-<section id="slide-orgb60a8d5">
-<h2 id="orgb60a8d5"><span class="section-number-2">5</span> Bootstrapping a Parse Machine</h2>
+<section id="slide-org7c8b806">
+<h2 id="org7c8b806"><span class="section-number-2">5.</span> Bootstrapping a Parse Machine</h2>
 <div class="outline-text-2" id="text-5">
 </div>
 </section>
-<section id="slide-orge92d829">
-<h3 id="orge92d829"><span class="section-number-3">5.1</span> Implement a PEG System</h3>
+<section id="slide-org2f4a503">
+<h3 id="org2f4a503"><span class="section-number-3">5.1.</span> Implement a PEG System</h3>
 <div class="org-src-container">
 
-<pre  class="src src-sh">$ python peg.py -g csv.g -d tiny.csv -s File
-</pre>
+<pre  class="src src-sh"   ><code trim>$ python peg.py -g csv.g -d tiny.csv -s File
+</code></pre>
 </div>
 </section>
-<section id="slide-org018fb41">
-<h3 id="org018fb41"><span class="section-number-3">5.2</span> Parse the parser description</h3>
+<section id="slide-orgd8d11f7">
+<h3 id="orgd8d11f7"><span class="section-number-3">5.2.</span> Parse the parser description</h3>
 <div class="org-src-container">
 
-<pre  class="src src-sh">$ python peg.py -g peg.g -d peg.g -s Grammar
-</pre>
+<pre  class="src src-sh"   ><code trim>$ python peg.py -g peg.g -d peg.g -s Grammar
+</code></pre>
 </div>
 </section>
-<section id="slide-orga511d9b">
-<h3 id="orga511d9b"><span class="section-number-3">5.3</span> Who comes first? Compiler or VM?</h3>
+<section id="slide-org1f7316b">
+<h3 id="org1f7316b"><span class="section-number-3">5.3.</span> Who comes first? Compiler or VM?</h3>
 
-<div class="figure">
-<p><object type="image/svg+xml" data="./cae.svg" class="org-svg">
-Sorry, your browser does not support SVG.</object>
+<div id="orgf9012cd" class="figure">
+<p><img src="./cae.svg" alt="cae.svg" class="org-svg" />
 </p>
 </div>
 </section>
-<section id="slide-orgf509015">
-<h3 id="orgf509015"><span class="section-number-3">5.4</span> Design!</h3>
+<section id="slide-org0b58f7f">
+<h3 id="org0b58f7f"><span class="section-number-3">5.4.</span> Design!</h3>
 <div class="outline-text-3" id="text-5-4">
 </div>
 </section>
-<section id="slide-orga79f669">
-<h4 id="orga79f669"><span class="section-number-4">5.4.1</span> Bytecode Format</h4>
+<section id="slide-orgd544cc6">
+<h4 id="orgd544cc6"><span class="section-number-4">5.4.1.</span> Bytecode Format</h4>
 <div class="org-src-container">
 
-<pre  class="src src-src">  32bits   32bits   32bits
+<pre  class="src src-src"   ><code trim>  32bits   32bits   32bits
 -----|--------|--------|----
 | Instr1 | Instr2 | InstrN |
 ----------------------------
-</pre>
+</code></pre>
 </div>
 </section>
-<section id="slide-org5543299">
-<h4 id="org5543299"><span class="section-number-4">5.4.2</span> Parse instructions with one or no parameters</h4>
+<section id="slide-org453787c">
+<h4 id="org453787c"><span class="section-number-4">5.4.2.</span> Parse instructions with one or no parameters</h4>
 <div class="org-src-container">
 
-<pre  class="src src-text">opcode  | Parameter #1 (or 28bit of nothingness)
+<pre  class="src src-text"   ><code trim>opcode  | Parameter #1 (or 28bit of nothingness)
 --------|--------------------------------------------------------
 |0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|0|1|1|0|0|0|0|1|
 --------|--------------------------------------------------------
 [ 0 - 4 |                                                5 - 32 ]
 [     4 |                                                    28 ]
-</pre>
+</code></pre>
 </div>
 </section>
-<section id="slide-orgb5aadbd">
-<h4 id="orgb5aadbd"><span class="section-number-4">5.4.3</span> Parse instructions with two parameters</h4>
+<section id="slide-org767ddd1">
+<h4 id="org767ddd1"><span class="section-number-4">5.4.3.</span> Parse instructions with two parameters</h4>
 <div class="org-src-container">
 
-<pre  class="src src-text">opcode  | Parameter #1              | Parameter #2
+<pre  class="src src-text"   ><code trim>opcode  | Parameter #1              | Parameter #2
 --------|---------------------------|----------------------------
 |0|0|0|1|0|0|0|0|0|0|0|0|0|0|0|1|0|0|0|0|0|0|0|0|0|1|1|0|0|0|0|1|
 --------|---------------------------|----------------------------
 [ 0 - 4 |                    5 - 18 |                   19 - 32 ]
 [     4 |                        14 |                        14 ]
-</pre>
+</code></pre>
 </div>
 </section>
-<section id="slide-org4640c55">
-<h3 id="org4640c55"><span class="section-number-3">5.5</span> Virtual Machine</h3>
+<section id="slide-org961a9d3">
+<h3 id="org961a9d3"><span class="section-number-3">5.5.</span> Virtual Machine</h3>
 <div class="outline-text-3" id="text-5-5">
 </div>
 </section>
-<section id="slide-org2a5017d">
-<h4 id="org2a5017d"><span class="section-number-4">5.5.1</span> Instruction Set</h4>
+<section id="slide-org61e56a2">
+<h4 id="org61e56a2"><span class="section-number-4">5.5.1.</span> Instruction Set</h4>
 </section>
-<section id="slide-org4f9803c">
-<h4 id="org4f9803c"><span class="section-number-4">5.5.2</span> Example</h4>
+<section id="slide-org66ea126">
+<h4 id="org66ea126"><span class="section-number-4">5.5.2.</span> Example</h4>
 </section>
-<section id="slide-org25a2790">
-<h4 id="org25a2790"><span class="section-number-4">5.5.3</span> Grammar</h4>
+<section id="slide-org03452a4">
+<h4 id="org03452a4"><span class="section-number-4">5.5.3.</span> Grammar</h4>
 <div class="org-src-container">
 
-<pre  class="src src-antlr"><span style="color: #50fa7b; font-weight: bold;">S</span> &lt;- <span style="color: #bd93f9;">D</span> <span style="color: #f1fa8c;">'+'</span> <span style="color: #bd93f9;">D</span>
-<span style="color: #50fa7b; font-weight: bold;">D</span> &lt;- <span style="color: #f1fa8c;">'0'</span> / <span style="color: #f1fa8c;">'1'</span>
-</pre>
+<pre  class="src src-antlr"   ><code trim>S &lt;- D '+' D
+D &lt;- '0' / '1'
+</code></pre>
 </div>
 </section>
-<section id="slide-org3c8698d">
-<h4 id="org3c8698d"><span class="section-number-4">5.5.4</span> Program</h4>
+<section id="slide-org78f856f">
+<h4 id="org78f856f"><span class="section-number-4">5.5.4.</span> Program</h4>
 <div class="org-src-container">
 
-<pre  class="src src-c"><span style="color: #6272a4;">/* </span><span style="color: #6272a4;">Invariant </span><span style="color: #6272a4;">*/</span>
-0xc0, 0x0, 0x0, 0x02,       <span style="color: #6272a4;">/* </span><span style="color: #6272a4;">0x1: Call 0x2 [0x3]     </span><span style="color: #6272a4;">*/</span>
-0xb0, 0x0, 0x0, 0x0b,       <span style="color: #6272a4;">/* </span><span style="color: #6272a4;">0x2: Jump 0xb           </span><span style="color: #6272a4;">*/</span>
-<span style="color: #6272a4;">/* </span><span style="color: #6272a4;">S &lt;- D '+' D </span><span style="color: #6272a4;">*/</span>
-0xc0, 0x0, 0x0, 0x04,       <span style="color: #6272a4;">/* </span><span style="color: #6272a4;">0x3: Call 0x5 [0x7]     </span><span style="color: #6272a4;">*/</span>
-0x10, 0x0, 0x0, 0x2b,       <span style="color: #6272a4;">/* </span><span style="color: #6272a4;">0x4: Char '+'           </span><span style="color: #6272a4;">*/</span>
-0xc0, 0x0, 0x0, 0x02,       <span style="color: #6272a4;">/* </span><span style="color: #6272a4;">0x5: Call 0x2 [0x7]     </span><span style="color: #6272a4;">*/</span>
-0xd0, 0x0, 0x0, 0x00,       <span style="color: #6272a4;">/* </span><span style="color: #6272a4;">0x6: Return             </span><span style="color: #6272a4;">*/</span>
-<span style="color: #6272a4;">/* </span><span style="color: #6272a4;">D &lt;- '0' / '1' </span><span style="color: #6272a4;">*/</span>
-0x30, 0x0, 0x0, 0x03,       <span style="color: #6272a4;">/* </span><span style="color: #6272a4;">0x7: Choice 0x3 [0x8]   </span><span style="color: #6272a4;">*/</span>
-0x10, 0x0, 0x0, 0x30,       <span style="color: #6272a4;">/* </span><span style="color: #6272a4;">0x8: Char '0'           </span><span style="color: #6272a4;">*/</span>
-0x40, 0x0, 0x0, 0x03,       <span style="color: #6272a4;">/* </span><span style="color: #6272a4;">0x9: Commit 0x03 [0xa]  </span><span style="color: #6272a4;">*/</span>
-0x10, 0x0, 0x0, 0x31,       <span style="color: #6272a4;">/* </span><span style="color: #6272a4;">0xa: Char '1'           </span><span style="color: #6272a4;">*/</span>
-0xd0, 0x0, 0x0, 0x00,       <span style="color: #6272a4;">/* </span><span style="color: #6272a4;">0xb: Return             </span><span style="color: #6272a4;">*/</span>
-<span style="color: #6272a4;">/* </span><span style="color: #6272a4;">We're done! </span><span style="color: #6272a4;">*/</span>
-0x00, 0x0, 0x0, 0x00,       <span style="color: #6272a4;">/* </span><span style="color: #6272a4;">0xc: Halt               </span><span style="color: #6272a4;">*/</span>
-</pre>
+<pre  class="src src-c"   ><code trim>/* Invariant */
+0xc0, 0x0, 0x0, 0x02,       /* 0x1: Call 0x2 [0x3]     */
+0xb0, 0x0, 0x0, 0x0b,       /* 0x2: Jump 0xb           */
+/* S &lt;- D '+' D */
+0xc0, 0x0, 0x0, 0x04,       /* 0x3: Call 0x5 [0x7]     */
+0x10, 0x0, 0x0, 0x2b,       /* 0x4: Char '+'           */
+0xc0, 0x0, 0x0, 0x02,       /* 0x5: Call 0x2 [0x7]     */
+0xd0, 0x0, 0x0, 0x00,       /* 0x6: Return             */
+/* D &lt;- '0' / '1' */
+0x30, 0x0, 0x0, 0x03,       /* 0x7: Choice 0x3 [0x8]   */
+0x10, 0x0, 0x0, 0x30,       /* 0x8: Char '0'           */
+0x40, 0x0, 0x0, 0x03,       /* 0x9: Commit 0x03 [0xa]  */
+0x10, 0x0, 0x0, 0x31,       /* 0xa: Char '1'           */
+0xd0, 0x0, 0x0, 0x00,       /* 0xb: Return             */
+/* We're done! */
+0x00, 0x0, 0x0, 0x00,       /* 0xc: Halt               */
+</code></pre>
 </div>
 </section>
-<section id="slide-org31bfe93">
-<h3 id="org31bfe93"><span class="section-number-3">5.6</span> Compiler</h3>
+<section id="slide-orgf9a66b6">
+<h3 id="orgf9a66b6"><span class="section-number-3">5.6.</span> Compiler</h3>
 </section>
 </section>
 <section>
-<section id="slide-org5c85eb6">
-<h2 id="org5c85eb6"><span class="section-number-2">6</span> What's next</h2>
+<section id="slide-orgccf7f6e">
+<h2 id="orgccf7f6e"><span class="section-number-2">6.</span> What's next</h2>
 <ul>
 <li>Extract lists of lists from the matching;</li>
 <li>Support matching on lists on top of matching text streams.</li>
@@ -300,40 +302,22 @@ Sorry, your browser does not support SVG.</object>
 </section>
 </div>
 </div>
-<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/head.min.js"></script>
-<script src="http://cdn.jsdelivr.net/reveal.js/3.0.0/js/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/reveal.js/3.0.0/dist/reveal.js"></script>
 
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
 Reveal.initialize({
 
-controls: true,
-progress: true,
-history: false,
-center: true,
-slideNumber: 'c',
-rollingLinks: false,
-keyboard: true,
-overview: true,
-
-theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-transition: Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/fade/none
-transitionSpeed: 'default',
-multiplex: {
-    secret: '', // null if client
-    id: '', // id, obtained from socket.io server
-    url: '' // Location of socket.io server
-},
-
 // Optional libraries used to extend on reveal.js
 dependencies: [
- { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/lib/js/classList.js', condition: function() { return !document.body.classList; } },
- { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
- { src: 'http://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+ { src: 'https://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/reveal.js/3.0.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+
 });
+
 </script>
 </body>
 </html>
