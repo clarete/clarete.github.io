@@ -6,6 +6,7 @@
 #+REVEAL_EXTRA_CSS: extra.css
 #+REVEAL_THEME: black
 #+REVEAL_TRANS: linear
+#+REVEAL_REVEAL_JS_VERSION: 4
 
 # M-x<ret>load-library<ret>ox-reveal
 # C-c C-e R R: to export the presentation

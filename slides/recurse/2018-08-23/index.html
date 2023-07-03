@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Language Land</title>
+<meta name="author" content="Lincoln Clarete • S'2"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/black.css" id="theme"/>
+
+<link rel="stylesheet" href="extra.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+<section id="slide-orgb407bfe" data-background="./bg/1.png" data-background-transition="slide">
+<h2 id="orgb407bfe"><span class="section-number-2">1.</span> </h2>
+</section>
+</section>
+<section>
+<section id="slide-org7c069a6" data-background="./bg/2.png" data-background-transition="slide">
+<h2 id="org7c069a6"><span class="section-number-2">2.</span> Parsing: Grammars</h2>
+
+<div id="orga356de6" class="figure">
+<p><img src="./im/compiler.png" alt="compiler.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org680b2f6" data-background="./bg/3.png" data-background-transition="slide">
+<h3 id="org680b2f6"><span class="section-number-3">2.1.</span> Parsing: Text Matching</h3>
+
+<div id="org44e72ad" class="figure">
+<p><img src="./im/pvm.png" alt="pvm.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgec3dc61" data-background="./bg/4.png" data-background-transition="slide">
+<h2 id="orgec3dc61"><span class="section-number-2">3.</span> Example Grammar</h2>
+<div class="org-src-container">
+
+<pre  class="src src-antlr"   ><code trim>S &lt;- (!'a' .)*
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org8a74dcb" data-background="./bg/4.png" data-background-transition="slide">
+<h3 id="org8a74dcb"><span class="section-number-3">3.1.</span> Input Data</h3>
+<div class="org-src-container">
+
+<pre  class="src src-antlr"   ><code trim>FFFFF
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org49fcf04" data-background="./bg/4.png" data-background-transition="slide">
+<h3 id="org49fcf04"><span class="section-number-3">3.2.</span> Parsing Tree</h3>
+<ul>
+<li><p>
+Result the Parsing Machine
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-emacs-lisp"   ><code trim>((0
+  (2 . F)
+  (2 . F)
+  (2 . F)
+  (2 . F)
+  (2 . F)))
+</code></pre>
+</div></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgffcf6b6" data-background="./bg/5.png" data-background-transition="slide">
+<h2 id="orgffcf6b6"><span class="section-number-2">4.</span> Future: Actions for productions</h2>
+<div class="org-src-container">
+
+<pre  class="src src-antlr"   ><code trim>S &lt;- x:((!'a' .)*) -&gt; { (join x "") }
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgc24f2e5" data-background="./bg/5.png" data-background-transition="slide">
+<h2 id="orgc24f2e5"><span class="section-number-2">5.</span> Future: Data Structure Matching</h2>
+<div class="org-src-container">
+
+<pre  class="src src-antlr"   ><code trim>A &lt;- [:0, [:1, [:2, 'F'], [:2, 'F']]]
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org27d04e5" data-background="./bg/5.png" data-background-transition="slide">
+<h2 id="org27d04e5"><span class="section-number-2">6.</span> Future: Code Generators</h2>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/markdown/markdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/zoom/zoom.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealMarkdown, RevealZoom, RevealNotes]
+});
+
+</script>
+</body>
+</html>

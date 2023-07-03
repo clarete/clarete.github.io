@@ -6,13 +6,13 @@
 #+REVEAL_EXTRA_CSS: extra.css
 #+REVEAL_THEME: white
 #+REVEAL_TRANS: linear
+#+REVEAL_REVEAL_JS_VERSION: 4
 
 # M-x<ret>load-library<ret>ox-reveal
 # C-c C-e R R: to export the presentation
 
 * Adinkras
   :PROPERTIES:
-  :reveal_background: /tmp/foo.jpg
   :reveal_background_width: 100%
   :reveal_background_trans: slide
   :END:
@@ -22,7 +22,7 @@
 ** Gold Coast (Where Ghana is nowadays)
 
    #+attr_html: :width 40%
-   [[./africa.png]]
+   [[./imgs/africa.png]]
 
 ** Who created it?
 
@@ -35,35 +35,35 @@
 
 ** Clothing
    #+attr_html: :width 40%
-   [[./adinkracloth.jpg]]
+   [[./imgs/adinkracloth.jpg]]
 
 ** 
 
    #+attr_html: :width 80%
-   [[./adinkracloth2.jpg]]
+   [[./imgs/adinkracloth2.jpg]]
 
 ** 
 
    #+attr_html: :width 80%
-   [[./adinkracloth3.png]]
+   [[./imgs/adinkracloth3.png]]
 
 ** Pottery
    #+attr_html: :width 40%
-   [[./adinkrapots.jpg]]
+   [[./imgs/adinkrapots.jpg]]
 
 * What do they mean
 
 ** Mmere dane • time changes
 
    #+attr_html: :width 20%
-   [[./mmeredane.gif]]
+   [[./imgs/mmeredane.gif]]
 
    * symbol of change, life's dynamics 
 
 ** Sankofa • return and get it
 
    #+attr_html: :width 20%
-   [[./sankofa.gif]]
+   [[./imgs/sankofa.gif]]
 
    * symbol of importance of learning from the past. Value your
      heritage
@@ -71,7 +71,7 @@
 ** Ese ne tekrema • the teeth and the tongue
 
    #+attr_html: :width 20%
-   [[./esene.gif]]
+   [[./imgs/esene.gif]]
    
    * symbol of friendship and interdependence. The teeth and the
      tongue play interdependent roles in the mouth. They may come into
@@ -80,14 +80,14 @@
 ** Akoma ntoso • linked hearts
 
    #+attr_html: :width 20%
-   [[./akon.gif]]
+   [[./imgs/akon.gif]]
    
    * symbol of understanding and agreement
 
 ** Boa me na me mmoa wo • Help me and let me help you
 
    #+attr_html: :width 20%
-   [[./boame.gif]]
+   [[./imgs/boame.gif]]
    
    * symbol of cooperation and interdependence 
 
@@ -95,7 +95,7 @@
 ** Fawodhodie • Independence
 
    #+attr_html: :width 20%
-   [[./fawo.gif]]
+   [[./imgs/fawo.gif]]
 
    * symbol of independence, freedom, emancipation
    * "From the expression: Fawodhodie ene obre na enam. Literal
