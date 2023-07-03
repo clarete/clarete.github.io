@@ -1,0 +1,3 @@
+#+TITLE: My personal website
+
+Built with lots of parenthesis and love with [[https://github.com/emacs-love/weblorg][weblorg]]
