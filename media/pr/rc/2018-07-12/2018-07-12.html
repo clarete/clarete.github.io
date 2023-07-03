@@ -9,9 +9,9 @@
 <style type="text/css">
 .underline { text-decoration: underline; }
 </style>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/4.5.0/dist/reveal.css"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css"/>
 
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/reveal.js/4.5.0/dist/theme/white.css" id="theme"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/white.css" id="theme"/>
 
 <link rel="stylesheet" href="extra.css"/>
 
@@ -21,7 +21,7 @@
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = 'https://cdn.jsdelivr.net/reveal.js/4.5.0/css/print/pdf.css';
+        link.href = 'https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
@@ -30,19 +30,19 @@
 <div class="reveal">
 <div class="slides">
 <section id="sec-title-slide"><h1 class="title">Parsing with Parsimony</h1><p class="subtitle"></p>
-<p class="date">Created: 2023-07-03 Mon 16:12</p>
+<p class="date">Created: 2023-07-03 Mon 16:17</p>
 </section>
 
 <section>
-<section id="slide-org7f490dd">
-<h2 id="org7f490dd"><span class="section-number-2">1.</span> Text Parsing</h2>
+<section id="slide-org9e51744">
+<h2 id="org9e51744"><span class="section-number-2">1.</span> Text Parsing</h2>
 <p>
 A walk through a stream of bits to identify a pattern
 </p>
 
 </section>
-<section id="slide-orgf2da55e">
-<h3 id="orgf2da55e"><span class="section-number-3">1.1.</span> Example of text pattern</h3>
+<section id="slide-orgf975dc1">
+<h3 id="orgf975dc1"><span class="section-number-3">1.1.</span> Example of text pattern</h3>
 <div class="org-src-container">
 
 <pre  class="src src-text"   ><code trim>abcde
@@ -50,8 +50,8 @@ A walk through a stream of bits to identify a pattern
 </div>
 
 </section>
-<section id="slide-orgae32f3f">
-<h3 id="orgae32f3f"><span class="section-number-3">1.2.</span> What do I want to represent</h3>
+<section id="slide-org87d33ee">
+<h3 id="org87d33ee"><span class="section-number-3">1.2.</span> What do I want to represent</h3>
 <div class="org-src-container">
 
 <pre  class="src src-text"   ><code trim>abc,de
@@ -59,13 +59,13 @@ A walk through a stream of bits to identify a pattern
 </div>
 
 </section>
-<section id="slide-orgdaf1dd7">
-<h3 id="orgdaf1dd7"><span class="section-number-3">1.3.</span> How can we parse that</h3>
+<section id="slide-orgdf5efa3">
+<h3 id="orgdf5efa3"><span class="section-number-3">1.3.</span> How can we parse that</h3>
 <div class="outline-text-3" id="text-1-3">
 </div>
 </section>
-<section id="slide-org5e24eae">
-<h4 id="org5e24eae"><span class="section-number-4">1.3.1.</span> Skeleton</h4>
+<section id="slide-orgd1a36a9">
+<h4 id="orgd1a36a9"><span class="section-number-4">1.3.1.</span> Skeleton</h4>
 <div class="org-src-container">
 
 <pre  class="src src-python"   ><code trim>class parser:
@@ -89,8 +89,8 @@ A walk through a stream of bits to identify a pattern
 </div>
 
 </section>
-<section id="slide-org5e2eb52">
-<h4 id="org5e2eb52"><span class="section-number-4">1.3.2.</span> Read the bits</h4>
+<section id="slide-org63708a7">
+<h4 id="org63708a7"><span class="section-number-4">1.3.2.</span> Read the bits</h4>
 <div class="org-src-container">
 
 <pre  class="src src-python"   ><code trim>def parse(self):
@@ -110,8 +110,8 @@ A walk through a stream of bits to identify a pattern
 </div>
 
 </section>
-<section id="slide-org9863606">
-<h3 id="org9863606"><span class="section-number-3">1.4.</span> Voilá</h3>
+<section id="slide-org849622a">
+<h3 id="org849622a"><span class="section-number-3">1.4.</span> Voilá</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"   ><code trim>&gt;&gt;&gt; parser("ab,c,d").parse()
@@ -121,15 +121,15 @@ A walk through a stream of bits to identify a pattern
 </section>
 </section>
 <section>
-<section id="slide-org754440b">
-<h2 id="org754440b"><span class="section-number-2">2.</span> Recursive Parsing</h2>
+<section id="slide-orga8b6b2c">
+<h2 id="orga8b6b2c"><span class="section-number-2">2.</span> Recursive Parsing</h2>
 <p>
 What if the pattern we want to represent is a tree-like structure
 </p>
 
 </section>
-<section id="slide-orga7fb3c9">
-<h3 id="orga7fb3c9"><span class="section-number-3">2.1.</span> Let's say lists within lists</h3>
+<section id="slide-orga4043c0">
+<h3 id="orga4043c0"><span class="section-number-3">2.1.</span> Let's say lists within lists</h3>
 <div class="org-src-container">
 
 <pre  class="src src-text"   ><code trim>[a, b, [c, d]]
@@ -137,17 +137,17 @@ What if the pattern we want to represent is a tree-like structure
 </div>
 
 </section>
-<section id="slide-org0176163">
-<h3 id="org0176163"><span class="section-number-3">2.2.</span> How do we parse that?</h3>
+<section id="slide-org2f5d13c">
+<h3 id="org2f5d13c"><span class="section-number-3">2.2.</span> How do we parse that?</h3>
 <div class="outline-text-3" id="text-2-2">
 </div>
 </section>
-<section id="slide-org429936c">
-<h4 id="org429936c"><span class="section-number-4">2.2.1.</span> First some refactoring</h4>
+<section id="slide-org4519d93">
+<h4 id="org4519d93"><span class="section-number-4">2.2.1.</span> First some refactoring</h4>
 <div class="outline-text-4" id="text-2-2-1">
 </div>
 <ol class="org-ol">
-<li><a id="orgc4e1b0b"></a>Single function to parse atoms<br />
+<li><a id="orgccb2f5d"></a>Single function to parse atoms<br />
 <div class="org-src-container">
 
 <pre  class="src src-python"   ><code trim>def parseAtom(self):
@@ -161,8 +161,8 @@ What if the pattern we want to represent is a tree-like structure
 </ol>
 
 </section>
-<section id="slide-org1bc5493">
-<h4 id="org1bc5493"><span class="section-number-4">2.2.2.</span> New entry point for the parser</h4>
+<section id="slide-org9a8196b">
+<h4 id="org9a8196b"><span class="section-number-4">2.2.2.</span> New entry point for the parser</h4>
 <div class="org-src-container">
 
 <pre  class="src src-python"   ><code trim>def parseValue(self):
@@ -178,13 +178,13 @@ What if the pattern we want to represent is a tree-like structure
 </div>
 
 </section>
-<section id="slide-org849fa04">
-<h3 id="org849fa04"><span class="section-number-3">2.3.</span> Add the recursive sauce</h3>
+<section id="slide-org72e78ab">
+<h3 id="org72e78ab"><span class="section-number-3">2.3.</span> Add the recursive sauce</h3>
 <div class="outline-text-3" id="text-2-3">
 </div>
 </section>
-<section id="slide-org862e939">
-<h4 id="org862e939"><span class="section-number-4">2.3.1.</span> Change the parser's entry point</h4>
+<section id="slide-org9b3fdc5">
+<h4 id="org9b3fdc5"><span class="section-number-4">2.3.1.</span> Change the parser's entry point</h4>
 <div class="org-src-container">
 
 <pre  class="src src-python"   ><code trim>def parseValue(self):
@@ -202,8 +202,8 @@ What if the pattern we want to represent is a tree-like structure
 </div>
 
 </section>
-<section id="slide-orgd9e520f">
-<h4 id="orgd9e520f"><span class="section-number-4">2.3.2.</span> Add the method to deal with lists</h4>
+<section id="slide-org0988256">
+<h4 id="org0988256"><span class="section-number-4">2.3.2.</span> Add the method to deal with lists</h4>
 <div class="org-src-container">
 
 <pre  class="src src-python"   ><code trim>def parseList(self):
@@ -215,8 +215,8 @@ What if the pattern we want to represent is a tree-like structure
 </div>
 
 </section>
-<section id="slide-org5b9d6d6">
-<h3 id="org5b9d6d6"><span class="section-number-3">2.4.</span> Voilá</h3>
+<section id="slide-org99f3a39">
+<h3 id="org99f3a39"><span class="section-number-3">2.4.</span> Voilá</h3>
 <div class="org-src-container">
 
 <pre  class="src src-python"   ><code trim>&gt;&gt;&gt; parser("[abc,de,[fg,hij]]").parse()
@@ -227,31 +227,31 @@ What if the pattern we want to represent is a tree-like structure
 </section>
 </section>
 <section>
-<section id="slide-org09e610b">
-<h2 id="org09e610b"><span class="section-number-2">3.</span> Resource we take for granted and possibli exhausting</h2>
+<section id="slide-orgf42c1c4">
+<h2 id="orgf42c1c4"><span class="section-number-2">3.</span> Resource we take for granted and possibli exhausting</h2>
 
-<div id="orgcdbb08f" class="figure">
+<div id="org39fe22b" class="figure">
 <p><img src="https://www.snackncake.com/postpic/2017/08/stack-of-pancakes-ihop_676004.jpg" alt="stack-of-pancakes-ihop_676004.jpg" width="600px" />
 </p>
 </div>
 
 </section>
-<section id="slide-orgb3dd706">
-<h3 id="orgb3dd706"><span class="section-number-3">3.1.</span> Wat?</h3>
+<section id="slide-orgf2eed52">
+<h3 id="orgf2eed52"><span class="section-number-3">3.1.</span> Wat?</h3>
 
-<div id="orgfda144f" class="figure">
+<div id="org49a5ac1" class="figure">
 <p><img src="https://blog.ampedsoftware.com/wp-content/uploads/2015/01/enhance.png" alt="enhance.png" width="600px" />
 </p>
 </div>
 
 </section>
-<section id="slide-orgc981230">
-<h3 id="orgc981230"><span class="section-number-3">3.2.</span> Zoom into the problem</h3>
+<section id="slide-orge718ebf">
+<h3 id="orge718ebf"><span class="section-number-3">3.2.</span> Zoom into the problem</h3>
 <div class="outline-text-3" id="text-3-2">
 </div>
 </section>
-<section id="slide-org1296996">
-<h4 id="org1296996"><span class="section-number-4">3.2.1.</span> Creating lists</h4>
+<section id="slide-org88b25bb">
+<h4 id="org88b25bb"><span class="section-number-4">3.2.1.</span> Creating lists</h4>
 <div class="org-src-container">
 
 <pre  class="src src-python"   ><code trim>def parseValue(self):
@@ -269,8 +269,8 @@ What if the pattern we want to represent is a tree-like structure
 </div>
 
 </section>
-<section id="slide-org02b5878">
-<h4 id="org02b5878"><span class="section-number-4">3.2.2.</span> Creating list elements</h4>
+<section id="slide-orgde6324f">
+<h4 id="orgde6324f"><span class="section-number-4">3.2.2.</span> Creating list elements</h4>
 <div class="org-src-container">
 
 <pre  class="src src-python"   ><code trim>def parseList(self):
@@ -284,8 +284,8 @@ What if the pattern we want to represent is a tree-like structure
 </section>
 </section>
 <section>
-<section id="slide-org10619e6">
-<h2 id="org10619e6"><span class="section-number-2">4.</span> How to save the stack?</h2>
+<section id="slide-org30cc3f2">
+<h2 id="org30cc3f2"><span class="section-number-2">4.</span> How to save the stack?</h2>
 <ul>
 <li>Let's use stacks!</li>
 <li>But not recursion!</li>
@@ -296,7 +296,7 @@ What if the pattern we want to represent is a tree-like structure
 </section>
 </div>
 </div>
-<script src="https://cdn.jsdelivr.net/reveal.js/4.5.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
 
 <script>
 // Full list of configuration options available here:
@@ -305,10 +305,10 @@ Reveal.initialize({
 
 // Optional libraries used to extend on reveal.js
 dependencies: [
- { src: 'https://cdn.jsdelivr.net/reveal.js/4.5.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: 'https://cdn.jsdelivr.net/reveal.js/4.5.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: 'https://cdn.jsdelivr.net/reveal.js/4.5.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
- { src: 'https://cdn.jsdelivr.net/reveal.js/4.5.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
 
 });
 
