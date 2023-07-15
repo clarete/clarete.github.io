@@ -22,13 +22,44 @@ Link da palestra
 
 * Um pouco sobre o jardineiro
 
- - Bairro Felicidade, Belo Horizonte
- - PSL, Minas Livre, Encontro Mineiro de Software Livre
- - Ministério da Cultura, Cultura Digital
- - Governo do Rio Grande do Sul, Gabinete Digital
- - Uma meia dúzia de startups, Burnout
- - Recurse Center, reaprendendo a programar
- - Datadog, atual
+** Bairro Felicidade, Belo Horizonte
+
+#+attr_html: :width 55%
+[[./imgs/0001-felicidade.jpg]]
+
+** PSL-MG, Minas Livre, Encontro Mineiro de Software Livre
+
+#+attr_html: :width 60%
+[[./imgs/logos/minaslivre.png]]
+
+** Ministério da Cultura, Cultura Digital
+
+[[./imgs/logos/cultura-digital.jpg]]
+
+** Governo do Rio Grande do Sul, Gabinete Digital
+
+@@html:<table width="100%" style="background: #000"><tr><td width="50%">@@
+
+#+attr_html: :width 80%
+[[./imgs/logos/gabinetedigital.png]]
+
+@@html:</td><td>@@
+
+#+attr_html: :width 50%
+[[./imgs/logos/rgds.png]]
+
+@@html:</td></tr></table>@@
+
+** Uma meia dúzia de startups, Burnout
+
+** Recurse Center, reaprendendo a programar
+
+https://recurse.com
+
+#+attr_html: :width 20%
+[[./imgs/logos/recurse.svg]]
+
+** DataDog, atual
 
 # https://www.favelaeissoai.com.br/comunidades/conjunto-felicidade/
 
