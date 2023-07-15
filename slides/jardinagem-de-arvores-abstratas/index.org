@@ -357,7 +357,8 @@ print(25)
 
 ** Top Down Recursive Parsing
 
- * https://github.com/clarete/dojo/
+ * https://github.com/clarete/dojo
+ * https://github.com/clarete/langlang/tree/main/go
 
 ** Parsing Expression Grammars
 
