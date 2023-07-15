@@ -19,8 +19,6 @@ export const Instruction = {
 
 export function interpreter(code, values) {
   let instructionPointer = 0;
-  let stackPointer = 0;
-  let framePointer = 0;
   const flags = [0];
   const stack = [];
   const primitives = {

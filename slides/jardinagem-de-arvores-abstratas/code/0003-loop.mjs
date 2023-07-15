@@ -2,7 +2,7 @@ import { Instruction, interpreter } from "./bytecode.mjs"
 
 // a = 0
 // while (a < 10) {
-//   print("oi!")
+//   print(a)
 //   a++
 // }
 interpreter([
