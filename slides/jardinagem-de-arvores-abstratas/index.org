@@ -114,6 +114,12 @@ Máquina de Pilha
 
 @@html:</td></tr></table>@@
 
+* Pilhas
+
+[[./imgs/pilha.jpg]]
+
+~Array.push()~ e ~Array.pop()~
+
 * Uma pausa pra falar de arquitetura
 ** Compilação
 
@@ -173,29 +179,49 @@ Groovy, Jython, etc...
          push b
          push a
          cmp
-         pop-jump-if-false label
+         jne label
          push "oi!"
          primitive "print" 1
-  label:
+  label: halt
 #+end_src
 
 @@html:</td></tr></table>@@
 
 * Repetições
 ** Textual
+
+@@html:<table width="100%"><tr>@@
+@@html:<th>Textual</th>@@
+@@html:<th>Máquina de Pilha</th>@@
+@@html:</tr><tr><td>@@
+
 #+begin_src js
-while ()
+  a = 0
+  while (a < 10) {
+    print(a)
+    a++
+  }
 #+end_src
-** Máquina de Pilha
+
+@@html:</td><td>@@
 
 #+begin_src asm
-
-
-loop: 
-      incr
-      bne loop
-
+        push 0
+        store 0
+  loop: load 0
+        push 10
+        cmp
+        jnb exit
+        load 0
+        prim "print" 1
+        load 0
+        incr
+        store 0
+        jmp loop
+  exit: halt
 #+end_src
+
+@@html:</td></tr></table>@@
 
 * Funções
 * Gradicido!
