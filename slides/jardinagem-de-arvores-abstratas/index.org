@@ -1,0 +1,205 @@
+#+TITLE: Jardinagem de Árvores Abstratas
+#+AUTHOR: Lincoln
+#+OPTIONS: toc:nil num:nil reveal_title_slide:nil
+#+REVEAL_INIT_OPTIONS: hash: true, history: true
+#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/
+#+REVEAL_THEME: simple
+#+REVEAL_TRANS: linear
+#+REVEAL_REVEAL_JS_VERSION: 4
+#+REVEAL_EXTRA_CSS: index.css
+
+# M-x load-library<ret>ox-reveal
+# Execute 'C-c C-e R R' to export the presentation
+# (setq org-html-htmlize-output-type "css")
+
+* Jardinagem de Árvores Abstratas
+* Um pouco sobre o jardineiro
+
+ - Bairro Felicidade, Belo Horizonte
+ - PSL, Minas Livre, Encontro Mineiro de Software Livre
+ - Ministério da Cultura, Cultura Digital
+ - Governo do Rio Grande do Sul, Gabinete Digital
+ - Uma meia dúzia de startups, Burnout
+ - Recurse Center, reaprendendo a programar
+ - Datadog, atual
+
+# https://www.favelaeissoai.com.br/comunidades/conjunto-felicidade/
+
+* Façamos uma pequena linguagem de programação
+** Por que? Pra que? Pra quem?
+** Este é um papo informal
+* Expressões Aritméticas
+
+#+begin_src python
+ 1 + 2 * 3 = 7
+ (1 + 2) * 3 = 9
+#+end_src
+
+*** Primeiros Arbustos
+
+@@html:<table width="100%"><tr>@@
+@@html:<th>1 + 2 * 3 = 7</th>@@
+@@html:<th>(1 + 2) * 3 = 9</th>@@
+@@html:</tr><tr><td>@@
+
+[[./imgs/arbusto1.png]]
+
+@@html:</td><td>@@
+
+[[./imgs/arbusto2.png]]
+
+@@html:</td></tr></table>@@
+
+*** Propriedades de Operadores
+
+ - Aridade
+ - Precedência
+ - Associatividade
+
+*** Notações de Expressões
+
+ * infix
+ * prefix
+ * postfix
+
+*** Prefix
+
+#+begin_src fundamental
+ + 1 * 2 3 = 7
+ * + 1 2 3 = 9
+#+end_src
+
+*** Quem usa notação prefix?
+
+lisp é um exemplo
+
+#+begin_src lisp
+(+ 1 (* 2 3))
+(* 3 (+ 1 2))
+#+end_src
+
+*** Postfix
+
+#+begin_src fundamental
+ 3 2 * 1 + = 7
+ 1 2 + 3 * = 9
+#+end_src
+
+*** Quem usa notação postfix?
+
+Máquina de Pilha
+
+@@html:<table width="100%"><tr>@@
+@@html:<th>3 2 * 1 + = 7</th>@@
+@@html:<th>2 1 + 3 * = 9</th>@@
+@@html:</tr><tr><td>@@
+
+#+begin_src asm
+  push 3
+  push 2
+  mul
+  push 1
+  add
+#+end_src
+
+@@html:</td><td>@@
+
+#+begin_src asm
+  push 2
+  push 1
+  add
+  push 3
+  mul
+#+end_src
+
+@@html:</td></tr></table>@@
+
+* Uma pausa pra falar de arquitetura
+** Compilação
+
+[[./imgs/compilador.png]]
+
+A linguagem alvo pode ser ou uma linguagem textual, ou código de
+máquina (Bytecode, Assembly).
+
+** Execução
+
+- Interpretador de Árvores: Exemplo
+- Interpretador de Bytecode: Exemplo
+- Código de Máquina (Assembly): Intel x86, ARM, RISC-V, etc
+
+** Exemplos
+*** texto pra texto
+
+#+attr_html: :width 60%
+[[./imgs/logos/babel.svg]]
+
+*** texto pra bytecode
+
+#+attr_html: :width 60%
+[[./imgs/logos/python.svg]]
+
+*** texto pra bytecode
+
+A JVM é alvo de vários compiladores: Java, Clojure, Kotlin, Scala,
+Groovy, Jython, etc...
+
+#+attr_html: :width 60%
+[[./imgs/logos/java.svg]]
+
+*** Chrome's v8: everything all at once
+
+#+attr_html: :width 50%
+[[./imgs/v8-architecture.png]]
+
+[[https://www.fhinkel.rocks/posts/Understanding-V8-s-Bytecode][fonte da imagem]]
+
+* Condicionais: Galhos (Branches)
+
+@@html:<table width="100%"><tr>@@
+@@html:<th>Textual</th>@@
+@@html:<th>Máquina de Pilha</th>@@
+@@html:</tr><tr><td>@@
+
+#+begin_src js
+  if (a == b) {
+    print("oi!")
+  }
+#+end_src
+
+@@html:</td><td>@@
+
+#+begin_src asm
+         push b
+         push a
+         cmp
+         pop-jump-if-false label
+         push "oi!"
+         primitive "print" 1
+  label:
+#+end_src
+
+@@html:</td></tr></table>@@
+
+* Repetições
+** Textual
+#+begin_src js
+while ()
+#+end_src
+** Máquina de Pilha
+
+#+begin_src asm
+
+
+loop: 
+      incr
+      bne loop
+
+#+end_src
+
+* Funções
+* Gradicido!
+
+  #+BEGIN_thanks
+  * Perguntas?
+  #+END_thanks

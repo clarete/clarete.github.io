@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Jardinagem de Árvores Abstratas</title>
+<meta name="author" content="Lincoln"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="index.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+<section id="slide-orgd251681">
+<h2 id="orgd251681">Jardinagem de Árvores Abstratas</h2>
+</section>
+</section>
+<section>
+<section id="slide-org12462ce">
+<h2 id="org12462ce">Um pouco sobre o jardineiro</h2>
+<ul>
+<li>Bairro Felicidade, Belo Horizonte</li>
+<li>PSL, Minas Livre, Encontro Mineiro de Software Livre</li>
+<li>Ministério da Cultura, Cultura Digital</li>
+<li>Governo do Rio Grande do Sul, Gabinete Digital</li>
+<li>Uma meia dúzia de startups, Burnout</li>
+<li>Recurse Center, reaprendendo a programar</li>
+<li>Datadog, atual</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org108b1a5">
+<h2 id="org108b1a5">Façamos uma pequena linguagem de programação</h2>
+<div class="outline-text-2" id="text-org108b1a5">
+</div>
+</section>
+<section id="slide-orgc81b06b">
+<h3 id="orgc81b06b">Por que? Pra que? Pra quem?</h3>
+</section>
+<section id="slide-orgc472e74">
+<h3 id="orgc472e74">Este é um papo informal</h3>
+</section>
+</section>
+<section>
+<section id="slide-org972b584">
+<h2 id="org972b584">Expressões Aritméticas</h2>
+<div class="org-src-container">
+
+<pre  class="src src-python"   ><code trim>1 <span class="org-operator">+</span> 2 <span class="org-operator">*</span> 3 <span class="org-operator">=</span> 7
+<span class="org-rainbow-delimiters-depth-1">(</span>1 <span class="org-operator">+</span> 2<span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-operator">*</span> 3 <span class="org-operator">=</span> 9
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org928e1ce">
+<h4 id="org928e1ce">Primeiros Arbustos</h4>
+<p>
+<table width="100%"><tr>
+<th>1 + 2 * 3 = 7</th>
+<th>(1 + 2) * 3 = 9</th>
+</tr><tr><td>
+</p>
+
+
+<div id="orgbf91df6" class="figure">
+<p><img src="./imgs/arbusto1.png" alt="arbusto1.png" />
+</p>
+</div>
+
+<p>
+</td><td>
+</p>
+
+
+<div id="org5b4b52e" class="figure">
+<p><img src="./imgs/arbusto2.png" alt="arbusto2.png" />
+</p>
+</div>
+
+<p>
+</td></tr></table>
+</p>
+
+</section>
+<section id="slide-orgaeb690c">
+<h4 id="orgaeb690c">Propriedades de Operadores</h4>
+<ul>
+<li>Aridade</li>
+<li>Precedência</li>
+<li>Associatividade</li>
+
+</ul>
+
+</section>
+<section id="slide-org4c876c8">
+<h4 id="org4c876c8">Notações de Expressões</h4>
+<ul>
+<li>infix</li>
+<li>prefix</li>
+<li>postfix</li>
+
+</ul>
+
+</section>
+<section id="slide-orgfe4fdcb">
+<h4 id="orgfe4fdcb">Prefix</h4>
+<div class="org-src-container">
+
+<pre  class="src src-fundamental"   ><code trim>+ 1 * 2 3 = 7
+* + 1 2 3 = 9
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org3db8e57">
+<h4 id="org3db8e57">Quem usa notação prefix?</h4>
+<p>
+lisp é um exemplo
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-lisp"   ><code trim><span class="org-rainbow-delimiters-depth-1">(</span>+ 1 <span class="org-rainbow-delimiters-depth-2">(</span>* 2 3<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+<span class="org-rainbow-delimiters-depth-1">(</span>* 3 <span class="org-rainbow-delimiters-depth-2">(</span>+ 1 2<span class="org-rainbow-delimiters-depth-2">)</span><span class="org-rainbow-delimiters-depth-1">)</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org9870250">
+<h4 id="org9870250">Postfix</h4>
+<div class="org-src-container">
+
+<pre  class="src src-fundamental"   ><code trim>3 2 * 1 + = 7
+1 2 + 3 * = 9
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgdc901fe">
+<h4 id="orgdc901fe">Quem usa notação postfix?</h4>
+<p>
+Máquina de Pilha
+</p>
+
+<p>
+<table width="100%"><tr>
+<th>3 2 * 1 + = 7</th>
+<th>2 1 + 3 * = 9</th>
+</tr><tr><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim><span class="org-function-name">push</span> <span class="org-keyword">3</span>
+<span class="org-function-name">push</span> <span class="org-keyword">2</span>
+<span class="org-function-name">mul</span>
+<span class="org-function-name">push</span> <span class="org-keyword">1</span>
+<span class="org-function-name">add</span>
+</code></pre>
+</div>
+
+<p>
+</td><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim><span class="org-function-name">push</span> <span class="org-keyword">2</span>
+<span class="org-function-name">push</span> <span class="org-keyword">1</span>
+<span class="org-function-name">add</span>
+<span class="org-function-name">push</span> <span class="org-keyword">3</span>
+<span class="org-function-name">mul</span>
+</code></pre>
+</div>
+
+<p>
+</td></tr></table>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org3c1affb">
+<h2 id="org3c1affb">Uma pausa pra falar de arquitetura</h2>
+<div class="outline-text-2" id="text-org3c1affb">
+</div>
+</section>
+<section id="slide-org62ed91d">
+<h3 id="org62ed91d">Compilação</h3>
+
+<div id="orgde30748" class="figure">
+<p><img src="./imgs/compilador.png" alt="compilador.png" />
+</p>
+</div>
+
+<p>
+A linguagem alvo pode ser ou uma linguagem textual, ou código de
+máquina (Bytecode, Assembly).
+</p>
+
+</section>
+<section id="slide-orga51a84d">
+<h3 id="orga51a84d">Execução</h3>
+<ul>
+<li>Interpretador de Árvores: Exemplo</li>
+<li>Interpretador de Bytecode: Exemplo</li>
+<li>Código de Máquina (Assembly): Intel x86, ARM, RISC-V, etc</li>
+
+</ul>
+
+</section>
+<section id="slide-orgc9f2b99">
+<h3 id="orgc9f2b99">Exemplos</h3>
+<div class="outline-text-3" id="text-orgc9f2b99">
+</div>
+</section>
+<section id="slide-orgd111a45">
+<h4 id="orgd111a45">texto pra texto</h4>
+
+<div id="orgb650ff4" class="figure">
+<p><img src="./imgs/logos/babel.svg" alt="babel.svg" class="org-svg" width="60%" />
+</p>
+</div>
+
+</section>
+<section id="slide-org69a1eea">
+<h4 id="org69a1eea">texto pra bytecode</h4>
+
+<div id="org2616fb4" class="figure">
+<p><img src="./imgs/logos/python.svg" alt="python.svg" class="org-svg" width="60%" />
+</p>
+</div>
+
+</section>
+<section id="slide-org1fbbabe">
+<h4 id="org1fbbabe">texto pra bytecode</h4>
+<p>
+A JVM é alvo de vários compiladores: Java, Clojure, Kotlin, Scala,
+Groovy, Jython, etc&#x2026;
+</p>
+
+
+<div id="org4c74698" class="figure">
+<p><img src="./imgs/logos/java.svg" alt="java.svg" class="org-svg" width="60%" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgdc79ea9">
+<h4 id="orgdc79ea9">Chrome's v8: everything all at once</h4>
+
+<div id="org0ef82f9" class="figure">
+<p><img src="./imgs/v8-architecture.png" alt="v8-architecture.png" width="50%" />
+</p>
+</div>
+
+<p>
+<a href="https://www.fhinkel.rocks/posts/Understanding-V8-s-Bytecode">fonte da imagem</a>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org4ee5a52">
+<h2 id="org4ee5a52">Condicionais: Galhos (Branches)</h2>
+<p>
+<table width="100%"><tr>
+<th>Textual</th>
+<th>Máquina de Pilha</th>
+</tr><tr><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-js"   ><code trim><span class="org-keyword">if</span> <span class="org-rainbow-delimiters-depth-1">(</span>a == b<span class="org-rainbow-delimiters-depth-1">)</span> <span class="org-rainbow-delimiters-depth-1">{</span>
+  print<span class="org-rainbow-delimiters-depth-2">(</span><span class="org-string">"oi!"</span><span class="org-rainbow-delimiters-depth-2">)</span>
+<span class="org-rainbow-delimiters-depth-1">}</span>
+</code></pre>
+</div>
+
+<p>
+</td><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim>       <span class="org-keyword">push</span> b
+       <span class="org-keyword">push</span> a
+       <span class="org-keyword">cmp</span>
+       <span class="org-keyword">pop-jump-if-false</span> label
+       <span class="org-keyword">push</span> <span class="org-string">"oi!"</span>
+       <span class="org-keyword">primitive</span> <span class="org-string">"print"</span> 1
+<span class="org-function-name">label</span>:
+</code></pre>
+</div>
+
+<p>
+</td></tr></table>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgb2cb8c3">
+<h2 id="orgb2cb8c3">Repetições</h2>
+<div class="outline-text-2" id="text-orgb2cb8c3">
+</div>
+</section>
+<section id="slide-org956046c">
+<h3 id="org956046c">Textual</h3>
+<div class="org-src-container">
+
+<pre  class="src src-js"   ><code trim><span class="org-keyword">while</span> <span class="org-rainbow-delimiters-depth-1">()</span>
+</code></pre>
+</div>
+</section>
+<section id="slide-orgae51034">
+<h3 id="orgae51034">Máquina de Pilha</h3>
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim>
+
+<span class="org-function-name">loop</span>: 
+      <span class="org-keyword">incr</span>
+      <span class="org-keyword">bne</span> loop
+
+</code></pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgde3739a">
+<h2 id="orgde3739a">Funções</h2>
+</section>
+</section>
+<section>
+<section id="slide-org585ad90">
+<h2 id="org585ad90">Gradicido!</h2>
+<div class="thanks" id="org7322d5f">
+<ul>
+<li>Perguntas?</li>
+
+</ul>
+
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/markdown/markdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/zoom/zoom.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealMarkdown, RevealZoom, RevealNotes],
+hash: true, history: true
+});
+
+</script>
+</body>
+</html>
