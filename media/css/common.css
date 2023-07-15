@@ -51,6 +51,7 @@ ul.posts .comment   { padding-top: 10px;  color: #666; }
 .content.blog > ul  { list-style: none;  padding: 0; }
 .content.slides > ul > li,
 .content.blog > ul > li { margin-bottom: 10px; }
+.content.slides ul div { padding-left: 102px; font-size: 12pt; }
 
 /* Content formatting */
 #content            { width: calc(60% - 100px); padding: 10px 150px; margin: auto auto; color: #333; }
