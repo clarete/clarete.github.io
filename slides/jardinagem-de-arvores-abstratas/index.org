@@ -371,9 +371,9 @@ print(25)
     | *optional*       | =e?=      | (sugar for =&ee / !e=) |
 
 * O que não falamos sobre
-** Muuuita coisa 😅
 ** Tipos
 ** Biblioteca Padrão (stdlib)
+** Muuuita coisa 😅
 * Gradicido!
 
   #+BEGIN_thanks
