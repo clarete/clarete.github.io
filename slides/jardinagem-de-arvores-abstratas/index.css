@@ -1,4 +1,5 @@
-@import "colors.css" screen;
+@import "colors.css";
+@import "code.css";
 
 body.reveal-viewport {
     background: var(--background);

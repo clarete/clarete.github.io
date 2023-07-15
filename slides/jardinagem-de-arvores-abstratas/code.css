@@ -1,0 +1,25 @@
+/* -- Code Blocks -- */
+.org-builtin                     { color: var(--code-builtin); }
+.org-comment                     { color: var(--code-comment); }
+.org-comment-delimiter           { color: var(--code-comment); }
+.org-doc                         { color: var(--code-doc); }
+.org-function-name               { color: var(--code-function-name); }
+.org-keyword                     { color: var(--code-keyword); }
+.org-string                      { color: var(--code-string); }
+.org-type                        { color: var(--code-type); }
+.org-variable-name               { color: var(--code-variable-name); }
+.org-src-container               { color: var(--code-foreground);
+                                   background: var(--code-background);
+                                   border: 1px solid var(--border-src); }
+.org-rainbow-delimiters-depth-1  { color: var(--code-rainbow1); }
+.org-rainbow-delimiters-depth-2  { color: var(--code-rainbow2); }
+.org-rainbow-delimiters-depth-3  { color: var(--code-rainbow3); }
+.org-rainbow-delimiters-depth-4  { color: var(--code-rainbow4); }
+.org-rainbow-delimiters-depth-5  { color: var(--code-rainbow1); }
+.org-rainbow-delimiters-depth-6  { color: var(--code-rainbow2); }
+.org-rainbow-delimiters-depth-7  { color: var(--code-rainbow3); }
+.org-rainbow-delimiters-depth-8  { color: var(--code-rainbow4); }
+.org-rainbow-delimiters-depth-9  { color: var(--code-rainbow1); }
+.org-rainbow-delimiters-depth-10 { color: var(--code-rainbow2); }
+.org-rainbow-delimiters-depth-11 { color: var(--code-rainbow3); }
+.org-rainbow-delimiters-depth-12 { color: var(--code-rainbow4); }
