@@ -25,8 +25,8 @@
      inkscape:document-units="mm"
      showgrid="false"
      inkscape:zoom="1.8807946"
-     inkscape:cx="304.92432"
-     inkscape:cy="329.11622"
+     inkscape:cx="291.10038"
+     inkscape:cy="425.88384"
      inkscape:window-width="1512"
      inkscape:window-height="916"
      inkscape:window-x="0"
@@ -390,34 +390,6 @@
            y="102.93005"
            style="fill:#ffffff;stroke-width:0.264583"
            id="tspan2111">Alvo</tspan></text>
-    </g>
-    <g
-       id="g3347"
-       transform="translate(33.436834,23.923297)">
-      <rect
-         style="fill:#000000;stroke-width:0.119107"
-         id="rect1287-4-0"
-         width="20"
-         height="14.024607"
-         x="98.651741"
-         y="109.53202"
-         ry="0" />
-      <text
-         xml:space="preserve"
-         style="font-size:3.175px;fill:#000000;stroke-width:0.264583"
-         x="100.69796"
-         y="115.53973"
-         id="text1291-3-9"><tspan
-           sodipodi:role="line"
-           x="100.69796"
-           y="115.53973"
-           style="fill:#ffffff;stroke-width:0.264583"
-           id="tspan1293-7-5">Código de</tspan><tspan
-           sodipodi:role="line"
-           x="100.69796"
-           y="119.50848"
-           style="fill:#ffffff;stroke-width:0.264583"
-           id="tspan1695-7">Máquina</tspan></text>
     </g>
     <g
        id="g2209"
