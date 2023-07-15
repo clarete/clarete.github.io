@@ -160,6 +160,53 @@ Groovy, Jython, etc...
 
 [[https://www.fhinkel.rocks/posts/Understanding-V8-s-Bytecode][fonte da imagem]]
 
+* Funções Primitivas
+
+@@html:<table width="100%"><tr>@@
+@@html:<th>Textual</th>@@
+@@html:<th>Máquina de Pilha</th>@@
+@@html:</tr><tr><td>@@
+
+#+begin_src js
+print("a")
+print(25)
+#+end_src
+
+@@html:</td><td>@@
+
+#+begin_src asm
+ load "a"        ; copia a constante "a" pro topo do stack
+ prim "print" 1  ; chama a função primitiva "print"
+                 ; que tem 1 parâmetro
+#+end_src
+
+@@html:</td></tr></table>@@
+
+* Variáveis
+
+@@html:<table width="100%"><tr>@@
+@@html:<th>Textual</th>@@
+@@html:<th>Máquina de Pilha</th>@@
+@@html:</tr><tr><td>@@
+
+#+begin_src js
+  a = 1
+  print(a)
+#+end_src
+
+@@html:</td><td>@@
+
+#+begin_src asm
+  push 1     ; coloca o valor 1 no topo da pilha
+  store 0    ; remove o valor no topo da pilha
+             ; e salva na variavel 0
+
+  load 0     ; copia a variável 0 pro topo da pilha
+  prim "print" 1
+#+end_src
+
+@@html:</td></tr></table>@@
+
 * Condicionais: Galhos (Branches)
 
 @@html:<table width="100%"><tr>@@
@@ -176,19 +223,21 @@ Groovy, Jython, etc...
 @@html:</td><td>@@
 
 #+begin_src asm
-         push b
-         push a
-         cmp
-         jne label
-         push "oi!"
-         primitive "print" 1
-  label: halt
+        push b
+        push a
+        ; compara os dois valores no topo da pilha
+        cmp
+        ; Jump If Not Equal: Pula pro rótulo "exit"
+        ; se a comparação não for igual
+        jne exit
+        push "oi!"
+        prim "print" 1
+  exit: halt
 #+end_src
 
 @@html:</td></tr></table>@@
 
 * Repetições
-** Textual
 
 @@html:<table width="100%"><tr>@@
 @@html:<th>Textual</th>@@
@@ -211,19 +260,52 @@ Groovy, Jython, etc...
   loop: load 0
         push 10
         cmp
-        jnb exit
+        jnb exit      ; Jump if not below
         load 0
         prim "print" 1
         load 0
         incr
         store 0
-        jmp loop
+        jmp loop      ; Unconditional Jump
   exit: halt
 #+end_src
 
 @@html:</td></tr></table>@@
 
 * Funções
+
+#+begin_src js
+
+  function sum() {
+    a = 2
+    return 40 + a
+  }
+
+  print(sum())
+
+#+end_src
+
+
+#+begin_src asm
+
+       call sum 0
+       prim "print" 1
+       halt
+
+  sum: push 2
+       store 0
+       push 40
+       load 0
+       sum
+       ret
+
+#+end_src
+
+* O que não falamos sobre
+
+ - Tipos
+ - Standard library
+
 * Gradicido!
 
   #+BEGIN_thanks
