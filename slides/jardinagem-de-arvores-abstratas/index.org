@@ -29,8 +29,17 @@ Link da palestra
 
 ** PSL-MG, Minas Livre, Encontro Mineiro de Software Livre
 
-#+attr_html: :width 60%
+@@html:<table width="100%" style="background: #fff"><tr><td width="50%">@@
+
+#+attr_html: :width 70%
 [[./imgs/logos/minaslivre.png]]
+
+@@html:</td><td>@@
+
+#+attr_html: :width 60%
+[[./imgs/logos/emsl.png]]
+
+@@html:</td></tr></table>@@
 
 ** Ministério da Cultura, Cultura Digital
 
@@ -60,8 +69,6 @@ https://recurse.com
 [[./imgs/logos/recurse.svg]]
 
 ** DataDog, atual
-
-# https://www.favelaeissoai.com.br/comunidades/conjunto-felicidade/
 
 * Façamos uma pequena linguagem de programação
 ** Por que? Pra que? Pra quem?
@@ -347,6 +354,22 @@ print(25)
 @@html:</td></tr></table>@@
 
 * Extra: Parsing
+
+** Top Down Recursive Parsing
+
+ * https://github.com/clarete/dojo/
+
+** Parsing Expression Grammars
+
+    |------------------+-----------+------------------------|
+    | *sequence*       | =e1 e2=   |                        |
+    | *ordered choice* | =e1 / e2= |                        |
+    | *not predicate*  | =!e=      |                        |
+    | *and predicate*  | =&e=      | (sugar for =!!e=)      |
+    | *zero or more*   | =e*=      |                        |
+    | *one or more*    | =e+=      | (sugar for =ee*=)      |
+    | *optional*       | =e?=      | (sugar for =&ee / !e=) |
+
 * O que não falamos sobre
 ** Muuuita coisa 😅
 ** Tipos
