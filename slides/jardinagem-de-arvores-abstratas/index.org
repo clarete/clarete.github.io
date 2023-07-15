@@ -13,6 +13,13 @@
 # (setq org-html-htmlize-output-type "css")
 
 * Jardinagem de Árvores Abstratas
+** 
+
+Link da palestra
+
+#+attr_html: :width 45%
+[[./imgs/qr-code.png]]
+
 * Um pouco sobre o jardineiro
 
  - Bairro Felicidade, Belo Horizonte
@@ -175,9 +182,12 @@ print(25)
 @@html:</td><td>@@
 
 #+begin_src asm
- load "a"        ; copia a constante "a" pro topo do stack
+ push "a"        ; copia a constante "a" pro topo do stack
  prim "print" 1  ; chama a função primitiva "print"
                  ; que tem 1 parâmetro
+
+ push 25         ; copia a constante 25 pro topo do stack
+ prim "print" 1
 #+end_src
 
 @@html:</td></tr></table>@@
@@ -274,20 +284,23 @@ print(25)
 
 * Funções
 
-#+begin_src js
+@@html:<table width="100%"><tr>@@
+@@html:<th>Textual</th>@@
+@@html:<th>Máquina de Pilha</th>@@
+@@html:</tr><tr><td>@@
 
+#+begin_src js
   function sum() {
     a = 2
     return 40 + a
   }
 
   print(sum())
-
 #+end_src
 
+@@html:</td><td>@@
 
 #+begin_src asm
-
        call sum 0
        prim "print" 1
        halt
@@ -298,16 +311,21 @@ print(25)
        load 0
        sum
        ret
-
 #+end_src
 
+@@html:</td></tr></table>@@
+
+* Extra: Parsing
 * O que não falamos sobre
-
- - Tipos
- - Standard library
-
+** Muuuita coisa 😅
+** Tipos
+** Biblioteca Padrão (stdlib)
 * Gradicido!
+
+  - mailto:lincoln@clarete.li
+  - https://clarete.li
 
   #+BEGIN_thanks
   * Perguntas?
   #+END_thanks
+
