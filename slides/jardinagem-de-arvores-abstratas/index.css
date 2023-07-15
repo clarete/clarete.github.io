@@ -109,3 +109,8 @@ code {
     list-style: none;
     padding: none:
 }
+
+.thanks img {
+    position: absolute;
+    margin-left: 55%;
+}

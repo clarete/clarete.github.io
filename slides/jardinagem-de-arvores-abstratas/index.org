@@ -376,10 +376,13 @@ print(25)
 ** Biblioteca Padrão (stdlib)
 * Gradicido!
 
+  #+BEGIN_thanks
+
+  #+attr_html: :width 40%
+  [[./imgs/qr-code.png]]
+
+  * Perguntas?
   - mailto:lincoln@clarete.li
   - https://clarete.li
-
-  #+BEGIN_thanks
-  * Perguntas?
   #+END_thanks
 
