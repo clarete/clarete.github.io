@@ -397,7 +397,9 @@ Val  <- (![,\n] .)*
   [[./imgs/qr-code.png]]
 
   * Perguntas?
-  - mailto:lincoln@clarete.li
-  - https://clarete.li
+  * mailto:lincoln@clarete.li
+  * https://clarete.li
+  * [[https://github.com/clarete/clarete.github.io/tree/main/slides/jardinagem-de-arvores-abstratas][código da palestra]]
+
   #+END_thanks
 
