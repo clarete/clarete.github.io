@@ -12,11 +12,15 @@ export const Instruction = {
   JNE: 'jne',
   JNB: 'jnb',
   INCR: 'incr',
+  CALL: 'call',
+  RET: 'ret',
   PRIMITIVE: 'primitive',
 };
 
 export function interpreter(code, values) {
   let instructionPointer = 0;
+  let stackPointer = 0;
+  let framePointer = 0;
   const flags = [0];
   const stack = [];
   const primitives = {
@@ -26,7 +30,7 @@ export function interpreter(code, values) {
   outer: while (true) {
     const instruction = code[instructionPointer++];
 
-    //console.log(instructionPointer-1, instruction);
+    // console.log(instructionPointer-1, instruction);
 
     switch (instruction) {
     case Instruction.HALT: {
@@ -131,6 +135,22 @@ export function interpreter(code, values) {
         args.push(stack.pop());
       }
       stack.push(func.apply(null, args));
+      break;
+    }
+
+    case Instruction.CALL: {
+      const address = code[instructionPointer++];
+      const arity = code[instructionPointer++];
+      stack.push(instructionPointer);
+      instructionPointer = address;
+      break;
+    }
+
+    case Instruction.RET: {
+      const returnValue = stack.pop();
+      const nextAddress = stack.pop();
+      instructionPointer = nextAddress;
+      stack.push(returnValue);
       break;
     }
 
