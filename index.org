@@ -6,10 +6,6 @@ programming. I'm very curious and interested in various programming
 languages and technologies ranging from web development to systems
 programming.
 
-I'll most certainly open pull requests against random codebases on the
-wild internet whenever I spot typos, dead code, memory overflows, low
-test coverage, or brittle built systems.
-
 I'm most happy when I can use my knowledge to promote social justice
 and advance how human societies interact and communicate. When I'm not
 on the computer, I'm usually hanging out with friends, and/or enjoying
