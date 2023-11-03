@@ -18,7 +18,7 @@
 Link da palestra
 
 #+attr_html: :width 45%
-[[./imgs/qr-code.png]]
+[[./imgs/qrcode.png]]
 
 * Um pouco sobre o jardineiro
 
