@@ -12,7 +12,7 @@
 # Execute 'C-c C-e R R' to export the presentation
 # (setq org-html-htmlize-output-type "css")
 
-* Jardinagem de Árvores Abstratas
+* Jardinagem de Árvores Abstratas (V2)
 ** 
 
 Link da palestra
@@ -81,8 +81,27 @@ Groovy, Jython, etc...
 
 Transforma lista de caracteres em árvore de tokens
 
-#+begin_src rust
-  parse(input: string) Node
+#+begin_src python
+  parse(input: string): Node
+#+end_src
+
+** 
+
+#+begin_src python
+  class Node:
+    pass
+
+  class Number(Node):
+    value: int
+
+  class String(Node):
+    value: str
+
+  class Assignment(Node): # variable = value
+    identifier: str
+    right_hand_side: Node
+
+  # ...
 #+end_src
 
 ** 
@@ -95,9 +114,28 @@ Transforma lista de caracteres em árvore de tokens
  - Context Free Grammars (LR, LL, ...)
  - Parsing Expression Grammars
 
+** Ferramentas
+
+ - [[https://www.gnu.org/software/bison/][GNU Bison]] ([[https://en.wikipedia.org/wiki/Yacc][Yacc]] compatible)
+ - https://tree-sitter.github.io
+ - https://www.antlr.org
+ - https://github.com/ohmjs/ohm
+ - https://github.com/clarete/langlang (Não é estável ainda :-)
+
 ** Parsing Expression Grammars
 
-*** Gramáticas
+*** 
+
+   |------------------+-----------+------------------------|
+   | *sequence*       | =e1 e2=   |                        |
+   | *ordered choice* | =e1 / e2= |                        |
+   | *not predicate*  | =!e=      |                        |
+   | *and predicate*  | =&e=      | (sugar for =!!e=)      |
+   | *zero or more*   | =e*=      |                        |
+   | *one or more*    | =e+=      | (sugar for =ee*=)      |
+   | *optional*       | =e?=      | (sugar for =&ee / !e=) |
+
+*** 
 
 e.g.: Parser de CSV
 
@@ -134,17 +172,6 @@ c,d
 #+end_src
 
 @@html:</td></tr></table>@@
-
-*** Expressões
-
-   |------------------+-----------+------------------------|
-   | *sequence*       | =e1 e2=   |                        |
-   | *ordered choice* | =e1 / e2= |                        |
-   | *not predicate*  | =!e=      |                        |
-   | *and predicate*  | =&e=      | (sugar for =!!e=)      |
-   | *zero or more*   | =e*=      |                        |
-   | *one or more*    | =e+=      | (sugar for =ee*=)      |
-   | *optional*       | =e?=      | (sugar for =&ee / !e=) |
 
 * Expressões Aritméticas
 
@@ -397,7 +424,7 @@ print(25)
   #+BEGIN_thanks
 
   #+attr_html: :width 40%
-  [[./imgs/qr-code.png]]
+  [[./imgs/qrcode.png]]
 
   * Perguntas?
   * mailto:lincoln@clarete.li
