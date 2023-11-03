@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Jardinagem de Árvores Abstratas</title>
+<meta name="author" content="Lincoln"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.css"/>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="index.css"/>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<section>
+<section id="slide-org06817c4">
+<h2 id="org06817c4">Jardinagem de Árvores Abstratas</h2>
+<div class="outline-text-2" id="text-org06817c4">
+</div>
+</section>
+<section id="slide-org5cf5f37">
+<h3 id="org5cf5f37"></h3>
+<p>
+Link da palestra
+</p>
+
+
+<div id="org785c590" class="figure">
+<p><img src="./imgs/qr-code.png" alt="qr-code.png" width="45%" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-orgd006ff4">
+<h2 id="orgd006ff4">Um pouco sobre o jardineiro</h2>
+<div class="outline-text-2" id="text-orgd006ff4">
+</div>
+</section>
+<section id="slide-org557ca17">
+<h3 id="org557ca17"></h3>
+<ul>
+<li>Bairro Felicidade, Belo Horizonte</li>
+<li>PSL-MG, Minas Livre, Encontro Mineiro de Software Livre</li>
+<li>Ministério da Cultura, Cultura Digital</li>
+<li>Governo do Rio Grande do Sul, Gabinete Digital</li>
+<li>Uma meia dúzia de startups, Burnout :(</li>
+<li><a href="https://recurse.com">Recurse Center</a></li>
+<li>Datadog</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgd89ad6c">
+<h2 id="orgd89ad6c">Façamos uma pequena linguagem de programação</h2>
+<div class="outline-text-2" id="text-orgd89ad6c">
+</div>
+</section>
+<section id="slide-orgd3618ab">
+<h3 id="orgd3618ab">Por que? Pra que? Pra quem?</h3>
+</section>
+<section id="slide-orga070b13">
+<h3 id="orga070b13">Este é um papo informal</h3>
+</section>
+</section>
+<section>
+<section id="slide-org2e41ebc">
+<h2 id="org2e41ebc">Arquitetura geral de uma linguagem de programação</h2>
+<div class="outline-text-2" id="text-org2e41ebc">
+</div>
+</section>
+<section id="slide-org84d5dd2">
+<h3 id="org84d5dd2"></h3>
+
+<div id="org3233bb9" class="figure">
+<p><img src="./imgs/compilador.png" alt="compilador.png" />
+</p>
+</div>
+
+<p>
+A linguagem alvo pode ser ou uma linguagem textual, ou código de
+máquina (Bytecode, Assembly).
+</p>
+
+</section>
+<section id="slide-org96e4ba4">
+<h3 id="org96e4ba4">Execução</h3>
+<ul>
+<li>Interpretador de Árvores: Exemplo</li>
+<li>Interpretador de Bytecode: Exemplo</li>
+<li>Código de Máquina (Assembly): Intel x86, ARM, RISC-V, etc</li>
+
+</ul>
+
+</section>
+<section id="slide-org6963dd0">
+<h3 id="org6963dd0">Exemplos</h3>
+<div class="outline-text-3" id="text-org6963dd0">
+</div>
+</section>
+<section id="slide-org626669d">
+<h4 id="org626669d">texto pra texto</h4>
+
+<div id="orgab6c690" class="figure">
+<p><img src="./imgs/logos/babel.svg" alt="babel.svg" class="org-svg" width="60%" />
+</p>
+</div>
+
+</section>
+<section id="slide-orge2ba3ff">
+<h4 id="orge2ba3ff">texto pra bytecode</h4>
+
+<div id="org413df18" class="figure">
+<p><img src="./imgs/logos/python.svg" alt="python.svg" class="org-svg" width="60%" />
+</p>
+</div>
+
+</section>
+<section id="slide-org280d8ae">
+<h4 id="org280d8ae">texto pra bytecode</h4>
+<p>
+A JVM é alvo de vários compiladores: Java, Clojure, Kotlin, Scala,
+Groovy, Jython, etc&#x2026;
+</p>
+
+
+<div id="org6be8108" class="figure">
+<p><img src="./imgs/logos/java.svg" alt="java.svg" class="org-svg" width="60%" />
+</p>
+</div>
+
+</section>
+<section id="slide-org8f217b3">
+<h4 id="org8f217b3">Chrome's v8: everything all at once</h4>
+
+<div id="orgeb29990" class="figure">
+<p><img src="./imgs/v8-architecture.png" alt="v8-architecture.png" width="50%" />
+</p>
+</div>
+
+<p>
+<a href="https://www.fhinkel.rocks/posts/Understanding-V8-s-Bytecode">fonte da imagem</a>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org4e558b4">
+<h2 id="org4e558b4">Parsing</h2>
+<div class="outline-text-2" id="text-org4e558b4">
+</div>
+</section>
+<section id="slide-org39ae745">
+<h3 id="org39ae745"></h3>
+<p>
+Transforma lista de caracteres em árvore de tokens
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-rust"   ><code trim>parse<span style="color: #8959a8;">(</span><span style="color: #c82829;">input</span>: string<span style="color: #8959a8;">)</span> <span style="color: #bb9200;">Node</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org1bc3d68">
+<h3 id="org1bc3d68"></h3>
+<ul>
+<li>Algorítmos Bottom-Up or Top-Down</li>
+<li>Escrito à mão ou gerado a partir de uma gramática</li>
+
+</ul>
+
+</section>
+<section id="slide-org3f19113">
+<h3 id="org3f19113"></h3>
+<ul>
+<li>Context Free Grammars (LR, LL, &#x2026;)</li>
+<li>Parsing Expression Grammars</li>
+
+</ul>
+
+</section>
+<section id="slide-orgcc6a1c0">
+<h3 id="orgcc6a1c0">Parsing Expression Grammars</h3>
+<div class="outline-text-3" id="text-orgcc6a1c0">
+</div>
+</section>
+<section id="slide-org69af4e0">
+<h4 id="org69af4e0">Gramáticas</h4>
+<p>
+e.g.: Parser de CSV
+</p>
+
+<p>
+<table width="100%">
+</p>
+
+<p>
+<tr><th>Gramática</th><th>Entrada</th><th>Resultado</th></tr>
+</p>
+
+<p>
+<tr><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-peg"   ><code trim><span style="color: #4271ae;">File</span> <span style="color: #bb9200;">&lt;-</span> Line<span style="color: #4271ae;">*</span>
+<span style="color: #4271ae;">Line</span> <span style="color: #bb9200;">&lt;-</span> Val <span style="color: #8959a8;">(</span><span style="color: #718c00;">','</span> Val<span style="color: #8959a8;">)</span><span style="color: #4271ae;">*</span> <span style="color: #718c00;">'\n'</span>
+<span style="color: #4271ae;">Val</span>  <span style="color: #bb9200;">&lt;-</span> <span style="color: #8959a8;">(</span><span style="color: #4271ae;">!</span><span style="color: #718c00;">[,\n]</span> .<span style="color: #8959a8;">)</span><span style="color: #4271ae;">*</span>
+</code></pre>
+</div>
+
+<p>
+</td><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-text"   ><code trim>a,b
+c,d
+</code></pre>
+</div>
+
+<p>
+</td><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-rust"   ><code trim><span style="color: #bb9200;">File</span><span style="color: #8959a8;">(</span>
+  <span style="color: #bb9200;">Line</span><span style="color: #4271ae;">(</span>
+      <span style="color: #bb9200;">Val</span><span style="color: #718c00;">(</span><span style="color: #718c00;">'a'</span><span style="color: #718c00;">)</span>, <span style="color: #718c00;">','</span>, <span style="color: #bb9200;">Val</span><span style="color: #718c00;">(</span><span style="color: #718c00;">'b'</span><span style="color: #718c00;">)</span>, <span style="color: #718c00;">'\n'</span>
+  <span style="color: #4271ae;">)</span>,
+  <span style="color: #bb9200;">Line</span><span style="color: #4271ae;">(</span>
+      <span style="color: #bb9200;">Val</span><span style="color: #718c00;">(</span><span style="color: #718c00;">'c'</span><span style="color: #718c00;">)</span>, <span style="color: #718c00;">','</span>, <span style="color: #bb9200;">Val</span><span style="color: #718c00;">(</span><span style="color: #718c00;">'d'</span><span style="color: #718c00;">)</span>, <span style="color: #718c00;">'\n'</span>
+  <span style="color: #4271ae;">)</span>
+<span style="color: #8959a8;">)</span>
+</code></pre>
+</div>
+
+<p>
+</td></tr></table>
+</p>
+
+</section>
+<section id="slide-org050cf0b">
+<h4 id="org050cf0b">Expressões</h4>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>sequence</b></td>
+<td class="org-left"><code>e1 e2</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>ordered choice</b></td>
+<td class="org-left"><code>e1 / e2</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>not predicate</b></td>
+<td class="org-left"><code>!e</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>and predicate</b></td>
+<td class="org-left"><code>&amp;e</code></td>
+<td class="org-left">(sugar for <code>!!e</code>)</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>zero or more</b></td>
+<td class="org-left"><code>e*</code></td>
+<td class="org-left">&#xa0;</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>one or more</b></td>
+<td class="org-left"><code>e+</code></td>
+<td class="org-left">(sugar for <code>ee*</code>)</td>
+</tr>
+
+<tr>
+<td class="org-left"><b>optional</b></td>
+<td class="org-left"><code>e?</code></td>
+<td class="org-left">(sugar for <code>&amp;ee / !e</code>)</td>
+</tr>
+</tbody>
+</table>
+
+</section>
+</section>
+<section>
+<section id="slide-org9e7cb68">
+<h2 id="org9e7cb68">Expressões Aritméticas</h2>
+<div class="org-src-container">
+
+<pre  class="src src-python"   ><code trim>1 + 2 * 3 = 7
+<span style="color: #8959a8;">(</span>1 + 2<span style="color: #8959a8;">)</span> * 3 = 9
+</code></pre>
+</div>
+
+</section>
+<section id="slide-orgeedc83c">
+<h4 id="orgeedc83c">Primeiros Arbustos</h4>
+<p>
+<table width="100%"><tr>
+<th>1 + 2 * 3 = 7</th>
+<th>(1 + 2) * 3 = 9</th>
+</tr><tr><td style="width:50%">
+</p>
+
+
+<div id="orgac2debb" class="figure">
+<p><img src="./imgs/v2_arbusto1.png" alt="v2_arbusto1.png" width="50%" />
+</p>
+</div>
+
+<p>
+</td><td>
+</p>
+
+
+<div id="org533dabf" class="figure">
+<p><img src="./imgs/v2_arbusto2.png" alt="v2_arbusto2.png" width="50%" />
+</p>
+</div>
+
+<p>
+</td></tr></table>
+</p>
+
+</section>
+<section id="slide-org588eb15">
+<h4 id="org588eb15">Propriedades de Operadores</h4>
+<ul>
+<li>Aridade</li>
+<li>Precedência</li>
+<li>Associatividade</li>
+
+</ul>
+
+</section>
+<section id="slide-org8cf3bec">
+<h4 id="org8cf3bec">Notações de Expressões</h4>
+<ul>
+<li>infix</li>
+<li>prefix</li>
+<li>postfix</li>
+
+</ul>
+
+</section>
+<section id="slide-org4dc0ac9">
+<h4 id="org4dc0ac9">Prefix</h4>
+<div class="org-src-container">
+
+<pre  class="src src-fundamental"   ><code trim>+ 1 * 2 3 = 7
+* + 1 2 3 = 9
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org72b2d51">
+<h4 id="org72b2d51">Quem usa notação prefix?</h4>
+<p>
+lisp é um exemplo
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-lisp"   ><code trim><span style="color: #8959a8;">(</span>+ 1 <span style="color: #4271ae;">(</span>* 2 3<span style="color: #4271ae;">)</span><span style="color: #8959a8;">)</span>
+<span style="color: #8959a8;">(</span>* 3 <span style="color: #4271ae;">(</span>+ 1 2<span style="color: #4271ae;">)</span><span style="color: #8959a8;">)</span>
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org882a2b2">
+<h4 id="org882a2b2">Postfix</h4>
+<div class="org-src-container">
+
+<pre  class="src src-fundamental"   ><code trim>3 2 * 1 + = 7
+1 2 + 3 * = 9
+</code></pre>
+</div>
+
+</section>
+<section id="slide-org25e5ce7">
+<h4 id="org25e5ce7">Quem usa notação postfix?</h4>
+<p>
+Máquina de Pilha
+</p>
+
+<p>
+<table width="100%"><tr>
+<th>3 2 * 1 + = 7</th>
+<th>2 1 + 3 * = 9</th>
+</tr><tr><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim><span style="color: #4271ae;">push</span> <span style="color: #8959a8;">3</span>
+<span style="color: #4271ae;">push</span> <span style="color: #8959a8;">2</span>
+<span style="color: #4271ae;">mul</span>
+<span style="color: #4271ae;">push</span> <span style="color: #8959a8;">1</span>
+<span style="color: #4271ae;">add</span>
+</code></pre>
+</div>
+
+<p>
+</td><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim><span style="color: #4271ae;">push</span> <span style="color: #8959a8;">2</span>
+<span style="color: #4271ae;">push</span> <span style="color: #8959a8;">1</span>
+<span style="color: #4271ae;">add</span>
+<span style="color: #4271ae;">push</span> <span style="color: #8959a8;">3</span>
+<span style="color: #4271ae;">mul</span>
+</code></pre>
+</div>
+
+<p>
+</td></tr></table>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org4f89699">
+<h2 id="org4f89699">Pilhas</h2>
+
+<div id="org5e8ced9" class="figure">
+<p><img src="./imgs/pilha.jpg" alt="pilha.jpg" />
+</p>
+</div>
+
+<p>
+<code>Array.push()</code> e <code>Array.pop()</code>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org8465faf">
+<h2 id="org8465faf">Funções Primitivas</h2>
+<p>
+<table width="100%"><tr>
+<th>Textual</th>
+<th>Máquina de Pilha</th>
+</tr><tr><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-js"   ><code trim>print<span style="color: #8959a8;">(</span><span style="color: #718c00;">"a"</span><span style="color: #8959a8;">)</span>
+print<span style="color: #8959a8;">(</span>25<span style="color: #8959a8;">)</span>
+</code></pre>
+</div>
+
+<p>
+</td><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim><span style="color: #4271ae;">push</span> <span style="color: #718c00;">"a"</span>        <span style="color: #8e908c;">; </span><span style="color: #8e908c;">copia a constante "a" pro topo do stack</span>
+<span style="color: #4271ae;">prim</span> <span style="color: #718c00;">"print"</span> 1  <span style="color: #8e908c;">; </span><span style="color: #8e908c;">chama a fun&#231;&#227;o primitiva "print"</span>
+                <span style="color: #8e908c;">; </span><span style="color: #8e908c;">que tem 1 par&#226;metro</span>
+
+<span style="color: #4271ae;">push</span> <span style="color: #8959a8;">25</span>         <span style="color: #8e908c;">; </span><span style="color: #8e908c;">copia a constante 25 pro topo do stack</span>
+<span style="color: #4271ae;">prim</span> <span style="color: #718c00;">"print"</span> 1
+</code></pre>
+</div>
+
+<p>
+</td></tr></table>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org579cdfb">
+<h2 id="org579cdfb">Variáveis</h2>
+<p>
+<table width="100%"><tr>
+<th>Textual</th>
+<th>Máquina de Pilha</th>
+</tr><tr><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-js"   ><code trim>a = 1
+print<span style="color: #8959a8;">(</span>a<span style="color: #8959a8;">)</span>
+</code></pre>
+</div>
+
+<p>
+</td><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim><span style="color: #4271ae;">push</span> <span style="color: #8959a8;">1</span>     <span style="color: #8e908c;">; </span><span style="color: #8e908c;">coloca o valor 1 no topo da pilha</span>
+<span style="color: #4271ae;">store</span> <span style="color: #8959a8;">0</span>    <span style="color: #8e908c;">; </span><span style="color: #8e908c;">remove o valor no topo da pilha</span>
+           <span style="color: #8e908c;">; </span><span style="color: #8e908c;">e salva na variavel 0</span>
+
+<span style="color: #4271ae;">load</span> <span style="color: #8959a8;">0</span>     <span style="color: #8e908c;">; </span><span style="color: #8e908c;">copia a vari&#225;vel 0 pro topo da pilha</span>
+<span style="color: #4271ae;">prim</span> <span style="color: #718c00;">"print"</span> 1
+</code></pre>
+</div>
+
+<p>
+</td></tr></table>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org26840b1">
+<h2 id="org26840b1">Condicionais: Galhos (Branches)</h2>
+<p>
+<table width="100%"><tr>
+<th>Textual</th>
+<th>Máquina de Pilha</th>
+</tr><tr><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-js"   ><code trim><span style="color: #8959a8;">if</span> <span style="color: #8959a8;">(</span>a == b<span style="color: #8959a8;">)</span> <span style="color: #8959a8;">{</span>
+  print<span style="color: #4271ae;">(</span><span style="color: #718c00;">"oi!"</span><span style="color: #4271ae;">)</span>
+<span style="color: #8959a8;">}</span>
+</code></pre>
+</div>
+
+<p>
+</td><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim>      <span style="color: #8959a8;">push</span> b
+      <span style="color: #8959a8;">push</span> a
+      <span style="color: #8e908c;">; </span><span style="color: #8e908c;">compara os dois valores no topo da pilha</span>
+      <span style="color: #8959a8;">cmp</span>
+      <span style="color: #8e908c;">; </span><span style="color: #8e908c;">Jump If Not Equal: Pula pro r&#243;tulo "exit"</span>
+      <span style="color: #8e908c;">; </span><span style="color: #8e908c;">se a compara&#231;&#227;o n&#227;o for igual</span>
+      <span style="color: #8959a8;">jne</span> exit
+      <span style="color: #8959a8;">push</span> <span style="color: #718c00;">"oi!"</span>
+      <span style="color: #8959a8;">prim</span> <span style="color: #718c00;">"print"</span> 1
+<span style="color: #4271ae;">exit</span>: <span style="color: #8959a8;">halt</span>
+</code></pre>
+</div>
+
+<p>
+</td></tr></table>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-org5b69063">
+<h2 id="org5b69063">Repetições</h2>
+<p>
+<table width="100%"><tr>
+<th>Textual</th>
+<th>Máquina de Pilha</th>
+</tr><tr><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-js"   ><code trim>a = 0
+<span style="color: #8959a8;">while</span> <span style="color: #8959a8;">(</span>a &lt; 10<span style="color: #8959a8;">)</span> <span style="color: #8959a8;">{</span>
+  print<span style="color: #4271ae;">(</span>a<span style="color: #4271ae;">)</span>
+  a++
+<span style="color: #8959a8;">}</span>
+</code></pre>
+</div>
+
+<p>
+</td><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim>      <span style="color: #8959a8;">push</span> 0
+      <span style="color: #8959a8;">store</span> 0
+<span style="color: #4271ae;">loop</span>: <span style="color: #8959a8;">load</span> 0
+      <span style="color: #8959a8;">push</span> 10
+      <span style="color: #8959a8;">cmp</span>
+      <span style="color: #8959a8;">jnb</span> exit      <span style="color: #8e908c;">; </span><span style="color: #8e908c;">Jump if not below</span>
+      <span style="color: #8959a8;">load</span> 0
+      <span style="color: #8959a8;">prim</span> <span style="color: #718c00;">"print"</span> 1
+      <span style="color: #8959a8;">load</span> 0
+      <span style="color: #8959a8;">incr</span>
+      <span style="color: #8959a8;">store</span> 0
+      <span style="color: #8959a8;">jmp</span> loop      <span style="color: #8e908c;">; </span><span style="color: #8e908c;">Unconditional Jump</span>
+<span style="color: #4271ae;">exit</span>: <span style="color: #8959a8;">halt</span>
+</code></pre>
+</div>
+
+<p>
+</td></tr></table>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgc04ec90">
+<h2 id="orgc04ec90">Funções</h2>
+<p>
+<table width="100%"><tr>
+<th>Textual</th>
+<th>Máquina de Pilha</th>
+</tr><tr><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-js"   ><code trim><span style="color: #8959a8;">function</span> <span style="color: #4271ae;">sum</span><span style="color: #8959a8;">()</span> <span style="color: #8959a8;">{</span>
+  a = 2
+  <span style="color: #8959a8;">return</span> 40 + a
+<span style="color: #8959a8;">}</span>
+
+print<span style="color: #8959a8;">(</span>sum<span style="color: #4271ae;">()</span><span style="color: #8959a8;">)</span>
+</code></pre>
+</div>
+
+<p>
+</td><td>
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-asm"   ><code trim>     <span style="color: #8959a8;">call</span> sum 0
+     <span style="color: #8959a8;">prim</span> <span style="color: #718c00;">"print"</span> 1
+     <span style="color: #8959a8;">halt</span>
+
+<span style="color: #4271ae;">sum</span>: <span style="color: #8959a8;">push</span> 2
+     <span style="color: #8959a8;">store</span> 0
+     <span style="color: #8959a8;">push</span> 40
+     <span style="color: #8959a8;">load</span> 0
+     <span style="color: #8959a8;">sum</span>
+     <span style="color: #8959a8;">ret</span>
+</code></pre>
+</div>
+
+<p>
+</td></tr></table>
+</p>
+
+</section>
+</section>
+<section>
+<section id="slide-orgd9b5ebb">
+<h2 id="orgd9b5ebb">O que não falamos sobre</h2>
+<div class="outline-text-2" id="text-orgd9b5ebb">
+</div>
+</section>
+<section id="slide-org57ee6ab">
+<h3 id="org57ee6ab">Tipos</h3>
+</section>
+<section id="slide-org88b29e7">
+<h3 id="org88b29e7">Biblioteca Padrão (stdlib)</h3>
+</section>
+<section id="slide-orgd598623">
+<h3 id="orgd598623">Muuuita coisa 😅</h3>
+</section>
+</section>
+<section>
+<section id="slide-org7c36d06">
+<h2 id="org7c36d06">Gradicido!</h2>
+<div class="thanks" id="org69a7c51">
+<p>
+
+</p>
+
+
+<div id="orga910ca4" class="figure">
+<p><img src="./imgs/qr-code.png" alt="qr-code.png" width="40%" />
+</p>
+</div>
+
+<ul>
+<li>Perguntas?</li>
+<li><a href="mailto:lincoln@clarete.li">mailto:lincoln@clarete.li</a></li>
+<li><a href="https://clarete.li">https://clarete.li</a></li>
+<li><a href="https://github.com/clarete/clarete.github.io/tree/main/slides/jardinagem-de-arvores-abstratas">código da palestra</a></li>
+
+</ul>
+
+</div>
+</section>
+</section>
+</div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/dist/reveal.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/markdown/markdown.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/zoom/zoom.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/plugin/notes/notes.js"></script>
+
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+plugins: [RevealMarkdown, RevealZoom, RevealNotes],
+hash: true, history: true
+});
+
+</script>
+</body>
+</html>

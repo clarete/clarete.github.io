@@ -1,0 +1,66 @@
+:root {
+    /* --- --- --- Gruvbox Theme --- --- --- */
+
+    --theme-gruvbox-background:    #282828;
+    --theme-gruvbox-foreground:    #ebdbb2;
+    --theme-gruvbox-dark-1:        #3c3836;
+    --theme-gruvbox-dark-2:        #504945;
+    --theme-gruvbox-dark-3:        #665c54;
+    --theme-gruvbox-dark-4:        #7c6f64;
+    --theme-gruvbox-light-1:       #fdf4c1;
+    --theme-gruvbox-light-2:       #d5c4a1;
+    --theme-gruvbox-light-3:       #bdae93;
+    --theme-gruvbox-light-4:       #a89984;
+    --theme-gruvbox-red:           #fb4934;
+    --theme-gruvbox-orange:        #fe8019;
+    --theme-gruvbox-yellow:        #fabd2f;
+    --theme-gruvbox-green:         #b8bb26;
+    --theme-gruvbox-aqua:          #8ec07c;
+    --theme-gruvbox-blue:          #83a598;
+    --theme-gruvbox-purple:        #d3869b;
+    --theme-gruvbox-builtin:       var(--theme-gruvbox-orange);
+    --theme-gruvbox-comment:       var(--theme-gruvbox-dark-4);
+    --theme-gruvbox-doc:           var(--theme-gruvbox-dark-4);
+    --theme-gruvbox-function-name: var(--theme-gruvbox-yellow);
+    --theme-gruvbox-keyword:       var(--theme-gruvbox-red);
+    --theme-gruvbox-string:        var(--theme-gruvbox-green);
+    --theme-gruvbox-type:          var(--theme-gruvbox-purple);
+    --theme-gruvbox-variable-name: var(--theme-gruvbox-blue);
+    --theme-gruvbox-rainbow1:      #458588;
+    --theme-gruvbox-rainbow2:      #b16286;
+    --theme-gruvbox-rainbow3:      #8ec07c;
+    --theme-gruvbox-rainbow4:      #d65d0e;
+
+    --theme-purple: #5c2a9d;
+
+    /* --- --- --- Syntax Highlighting for Code Sections --- --- ---  */
+
+    --code-background:           var(--theme-gruvbox-background);
+    --code-foreground:           var(--theme-gruvbox-foreground);
+    --code-builtin:              var(--theme-gruvbox-builtin);
+    --code-comment:              var(--theme-gruvbox-comment);
+    --code-doc:                  var(--theme-gruvbox-doc);
+    --code-function-name:        var(--theme-gruvbox-function-name);
+    --code-keyword:              var(--theme-gruvbox-keyword);
+    --code-string:               var(--theme-gruvbox-string);
+    --code-type:                 var(--theme-gruvbox-type);
+    --code-variable-name:        var(--theme-gruvbox-variable-name);
+    --code-rainbow1:             var(--theme-gruvbox-rainbow1);
+    --code-rainbow2:             var(--theme-gruvbox-rainbow2);
+    --code-rainbow3:             var(--theme-gruvbox-rainbow3);
+    --code-rainbow4:             var(--theme-gruvbox-rainbow4);
+
+    /*  --- --- --- Configurations --- --- --- */
+
+    --background: var(--theme-gruvbox-yellow);
+    --foreground: var(--theme-gruvbox-dark-1);
+    --foreground-secondary: #aaa;
+
+    --link-color: var(--theme-purple);
+    --link-hover-color: var(--theme-gruvbox-yellow);
+    --link-hover-background: var(--theme-purple);
+
+    --title-color: var(--theme-purple);
+    --arrows-color: var(--theme-purple);
+    --progress-background: var(--theme-purple);
+}

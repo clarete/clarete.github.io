@@ -1,0 +1,408 @@
+#+TITLE: Jardinagem de Árvores Abstratas
+#+AUTHOR: Lincoln
+#+OPTIONS: toc:nil num:nil reveal_title_slide:nil
+#+REVEAL_INIT_OPTIONS: hash: true, history: true
+#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/
+#+REVEAL_THEME: simple
+#+REVEAL_TRANS: linear
+#+REVEAL_REVEAL_JS_VERSION: 4
+#+REVEAL_EXTRA_CSS: index.css
+
+# M-x load-library<ret>ox-reveal
+# Execute 'C-c C-e R R' to export the presentation
+# (setq org-html-htmlize-output-type "css")
+
+* Jardinagem de Árvores Abstratas
+** 
+
+Link da palestra
+
+#+attr_html: :width 45%
+[[./imgs/qr-code.png]]
+
+* Um pouco sobre o jardineiro
+
+** 
+
+ * Bairro Felicidade, Belo Horizonte
+ * PSL-MG, Minas Livre, Encontro Mineiro de Software Livre
+ * Ministério da Cultura, Cultura Digital
+ * Governo do Rio Grande do Sul, Gabinete Digital
+ * Uma meia dúzia de startups, Burnout :(
+ * [[https://recurse.com][Recurse Center]]
+ * Datadog
+
+* Façamos uma pequena linguagem de programação
+** Por que? Pra que? Pra quem?
+** Este é um papo informal
+* Arquitetura geral de uma linguagem de programação
+** 
+
+[[./imgs/compilador.png]]
+
+A linguagem alvo pode ser ou uma linguagem textual, ou código de
+máquina (Bytecode, Assembly).
+
+** Execução
+
+- Interpretador de Árvores: Exemplo
+- Interpretador de Bytecode: Exemplo
+- Código de Máquina (Assembly): Intel x86, ARM, RISC-V, etc
+
+** Exemplos
+*** texto pra texto
+
+#+attr_html: :width 60%
+[[./imgs/logos/babel.svg]]
+
+*** texto pra bytecode
+
+#+attr_html: :width 60%
+[[./imgs/logos/python.svg]]
+
+*** texto pra bytecode
+
+A JVM é alvo de vários compiladores: Java, Clojure, Kotlin, Scala,
+Groovy, Jython, etc...
+
+#+attr_html: :width 60%
+[[./imgs/logos/java.svg]]
+
+*** Chrome's v8: everything all at once
+
+#+attr_html: :width 50%
+[[./imgs/v8-architecture.png]]
+
+[[https://www.fhinkel.rocks/posts/Understanding-V8-s-Bytecode][fonte da imagem]]
+
+* Parsing
+
+** 
+
+Transforma lista de caracteres em árvore de tokens
+
+#+begin_src rust
+  parse(input: string) Node
+#+end_src
+
+** 
+
+ * Algorítmos Bottom-Up or Top-Down
+ * Escrito à mão ou gerado a partir de uma gramática
+
+** 
+
+ - Context Free Grammars (LR, LL, ...)
+ - Parsing Expression Grammars
+
+** Parsing Expression Grammars
+
+*** Gramáticas
+
+e.g.: Parser de CSV
+
+@@html:<table width="100%">@@
+
+@@html:<tr><th>Gramática</th><th>Entrada</th><th>Resultado</th></tr>@@
+
+@@html:<tr><td>@@
+
+#+begin_src peg
+File <- Line*
+Line <- Val (',' Val)* '\n'
+Val  <- (![,\n] .)*
+#+end_src
+
+@@html:</td><td>@@
+
+#+begin_src text
+a,b
+c,d
+#+end_src
+
+@@html:</td><td>@@
+
+#+begin_src rust
+ File(
+   Line(
+       Val('a'), ',', Val('b'), '\n'
+   ),
+   Line(
+       Val('c'), ',', Val('d'), '\n'
+   )
+ )
+#+end_src
+
+@@html:</td></tr></table>@@
+
+*** Expressões
+
+   |------------------+-----------+------------------------|
+   | *sequence*       | =e1 e2=   |                        |
+   | *ordered choice* | =e1 / e2= |                        |
+   | *not predicate*  | =!e=      |                        |
+   | *and predicate*  | =&e=      | (sugar for =!!e=)      |
+   | *zero or more*   | =e*=      |                        |
+   | *one or more*    | =e+=      | (sugar for =ee*=)      |
+   | *optional*       | =e?=      | (sugar for =&ee / !e=) |
+
+* Expressões Aritméticas
+
+#+begin_src python
+ 1 + 2 * 3 = 7
+ (1 + 2) * 3 = 9
+#+end_src
+
+*** Primeiros Arbustos
+
+@@html:<table width="100%"><tr>@@
+@@html:<th>1 + 2 * 3 = 7</th>@@
+@@html:<th>(1 + 2) * 3 = 9</th>@@
+@@html:</tr><tr><td style="width:50%">@@
+
+#+attr_html: :width 50%
+[[./imgs/v2_arbusto1.png]]
+
+@@html:</td><td>@@
+
+#+attr_html: :width 50%
+[[./imgs/v2_arbusto2.png]]
+
+@@html:</td></tr></table>@@
+
+*** Propriedades de Operadores
+
+ - Aridade
+ - Precedência
+ - Associatividade
+
+*** Notações de Expressões
+
+ * infix
+ * prefix
+ * postfix
+
+*** Prefix
+
+#+begin_src fundamental
+ + 1 * 2 3 = 7
+ * + 1 2 3 = 9
+#+end_src
+
+*** Quem usa notação prefix?
+
+lisp é um exemplo
+
+#+begin_src lisp
+(+ 1 (* 2 3))
+(* 3 (+ 1 2))
+#+end_src
+
+*** Postfix
+
+#+begin_src fundamental
+ 3 2 * 1 + = 7
+ 1 2 + 3 * = 9
+#+end_src
+
+*** Quem usa notação postfix?
+
+Máquina de Pilha
+
+@@html:<table width="100%"><tr>@@
+@@html:<th>3 2 * 1 + = 7</th>@@
+@@html:<th>2 1 + 3 * = 9</th>@@
+@@html:</tr><tr><td>@@
+
+#+begin_src asm
+  push 3
+  push 2
+  mul
+  push 1
+  add
+#+end_src
+
+@@html:</td><td>@@
+
+#+begin_src asm
+  push 2
+  push 1
+  add
+  push 3
+  mul
+#+end_src
+
+@@html:</td></tr></table>@@
+
+* Pilhas
+
+[[./imgs/pilha.jpg]]
+
+~Array.push()~ e ~Array.pop()~
+
+* Funções Primitivas
+
+@@html:<table width="100%"><tr>@@
+@@html:<th>Textual</th>@@
+@@html:<th>Máquina de Pilha</th>@@
+@@html:</tr><tr><td>@@
+
+#+begin_src js
+print("a")
+print(25)
+#+end_src
+
+@@html:</td><td>@@
+
+#+begin_src asm
+ push "a"        ; copia a constante "a" pro topo do stack
+ prim "print" 1  ; chama a função primitiva "print"
+                 ; que tem 1 parâmetro
+
+ push 25         ; copia a constante 25 pro topo do stack
+ prim "print" 1
+#+end_src
+
+@@html:</td></tr></table>@@
+
+* Variáveis
+
+@@html:<table width="100%"><tr>@@
+@@html:<th>Textual</th>@@
+@@html:<th>Máquina de Pilha</th>@@
+@@html:</tr><tr><td>@@
+
+#+begin_src js
+  a = 1
+  print(a)
+#+end_src
+
+@@html:</td><td>@@
+
+#+begin_src asm
+  push 1     ; coloca o valor 1 no topo da pilha
+  store 0    ; remove o valor no topo da pilha
+             ; e salva na variavel 0
+
+  load 0     ; copia a variável 0 pro topo da pilha
+  prim "print" 1
+#+end_src
+
+@@html:</td></tr></table>@@
+
+* Condicionais: Galhos (Branches)
+
+@@html:<table width="100%"><tr>@@
+@@html:<th>Textual</th>@@
+@@html:<th>Máquina de Pilha</th>@@
+@@html:</tr><tr><td>@@
+
+#+begin_src js
+  if (a == b) {
+    print("oi!")
+  }
+#+end_src
+
+@@html:</td><td>@@
+
+#+begin_src asm
+        push b
+        push a
+        ; compara os dois valores no topo da pilha
+        cmp
+        ; Jump If Not Equal: Pula pro rótulo "exit"
+        ; se a comparação não for igual
+        jne exit
+        push "oi!"
+        prim "print" 1
+  exit: halt
+#+end_src
+
+@@html:</td></tr></table>@@
+
+* Repetições
+
+@@html:<table width="100%"><tr>@@
+@@html:<th>Textual</th>@@
+@@html:<th>Máquina de Pilha</th>@@
+@@html:</tr><tr><td>@@
+
+#+begin_src js
+  a = 0
+  while (a < 10) {
+    print(a)
+    a++
+  }
+#+end_src
+
+@@html:</td><td>@@
+
+#+begin_src asm
+        push 0
+        store 0
+  loop: load 0
+        push 10
+        cmp
+        jnb exit      ; Jump if not below
+        load 0
+        prim "print" 1
+        load 0
+        incr
+        store 0
+        jmp loop      ; Unconditional Jump
+  exit: halt
+#+end_src
+
+@@html:</td></tr></table>@@
+
+* Funções
+
+@@html:<table width="100%"><tr>@@
+@@html:<th>Textual</th>@@
+@@html:<th>Máquina de Pilha</th>@@
+@@html:</tr><tr><td>@@
+
+#+begin_src js
+  function sum() {
+    a = 2
+    return 40 + a
+  }
+
+  print(sum())
+#+end_src
+
+@@html:</td><td>@@
+
+#+begin_src asm
+       call sum 0
+       prim "print" 1
+       halt
+
+  sum: push 2
+       store 0
+       push 40
+       load 0
+       sum
+       ret
+#+end_src
+
+@@html:</td></tr></table>@@
+
+* O que não falamos sobre
+** Tipos
+** Biblioteca Padrão (stdlib)
+** Muuuita coisa 😅
+* Gradicido!
+
+  #+BEGIN_thanks
+
+  #+attr_html: :width 40%
+  [[./imgs/qr-code.png]]
+
+  * Perguntas?
+  * mailto:lincoln@clarete.li
+  * https://clarete.li
+  * [[https://github.com/clarete/clarete.github.io/tree/main/slides/jardinagem-de-arvores-abstratas][código da palestra]]
+
+  #+END_thanks
+
