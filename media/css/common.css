@@ -47,7 +47,6 @@ ul.posts span.date  { padding-right: 5px; text-align: right; }
 ul.posts .comment   { padding-top: 10px;  color: #666; }
 
 /* For pages that list posts */
-.content.slides > ul,
 .content.blog > ul  { list-style: none;  padding: 0; }
 .content.slides > ul > li,
 .content.blog > ul > li { margin-bottom: 10px; }
