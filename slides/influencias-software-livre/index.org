@@ -1,0 +1,91 @@
+#+TITLE: Influências do Software Livre
+#+AUTHOR: Lincoln
+#+OPTIONS: toc:nil num:nil reveal_title_slide:nil
+#+REVEAL_INIT_OPTIONS: hash: true, history: true
+#+REVEAL_ROOT: https://cdn.jsdelivr.net/npm/reveal.js@4.5.0/
+#+REVEAL_EXTRA_CSS: ./index.css
+#+REVEAL_THEME: simple
+#+REVEAL_TRANS: linear
+
+# M-x load-library<ret>ox-reveal
+# Execute 'C-c C-e R R' to export the presentation
+
+* Influências do Software Livre
+
+* Definição Prática
+
+ Licenciamento de Software e.g.: Precisa ser compatível com a lei
+ [[https://www.planalto.gov.br/ccivil_03/leis/l9609.htm][N.9609]] aqui no 🇧🇷
+
+* Pressuposições
+
+ - Sociedade Conectada Digitalmente
+ - Sistema Legal e democrático
+
+* Contexto
+
+** antes e durante os 90's
+
+ * 1970: Arpanet
+ * 1983: [[https://www.gnu.org/gnu/initial-announcement.html][Anuncio público]] do Projeto GNU
+ * 1985: [[https://www.fsf.org/history/][Fundação Software Livre]] (FSF)
+ * 1989: Copyleft e GPL
+ * 1991: [[https://www.cs.cmu.edu/~awb/linux.history.html][Anuncio público]] do Linux
+ * 1993: Anuncio do Debian, RedHat fundada
+ * 1998: [[https://opensource.org/history/][Open Source Initiative]], Netscape Livre
+
+** 2000's
+
+ * 2001: Creative Commons, FSFE
+ * 2005: FSFLA, [[https://git-scm.com/book/en/v2/Getting-Started-A-Short-History-of-Git][Criação do Git]], PSL-Brasil
+ * 2006: AWS
+ * 2008: GitHub.com
+
+** Contexto 🇧🇷
+
+ * 1995: Ciência da Computação da USP adota Linux
+ * 2000: Fórum Internacional de Software Livre
+ * 2003: Associação de Software Livre
+ * 2009: Presidente Lula visita o FISL
+ * 2014: Marco Civil da Internet (lei 12.965/2014)
+
+* Reflexão
+
+** Uma ideia vai dando forma à outra
+
+** Colaboração como meio e como objetivo
+
+** Modelos de licenciamento e criação
+
+** O Envelope é parte da Mensagem
+
+* Impacto
+
+** Infraestrutura digital e da internet
+
+Debian, Ubuntu, RedHat, Bind, Apache, etc...
+
+** Metodologia de Aprendizado e Colaboração
+
+Hoje tudo é "Open", até os fechados 😉
+
+** Modelos de Gestão e Democracia
+
+ * Infraestrutura de comunicação pública
+ * Cathedral vs Bazaar
+ * Processo de votação do Debian Project Leader
+ * Grupos de individuos se auto-organizando
+
+* Gradicido!
+
+  #+BEGIN_thanks
+
+  #+attr_html: :width 40%
+  [[./imgs/qrcode.png]]
+
+  * Perguntas?
+  * mailto:lincoln@clarete.li
+  * https://clarete.li
+
+  #+END_thanks
+

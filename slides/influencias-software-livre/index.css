@@ -1,0 +1,81 @@
+.slides section {
+    text-align: left;
+}
+
+.reveal .slides section:nth-child(1) {
+    text-align: center;
+}
+
+.reveal section img {
+    border: none;
+    box-shadow: none;
+    padding: 60px;
+}
+
+.reveal section .titleimg img {
+    width: 50%;
+}
+
+code {
+    background: none;
+}
+
+.org-src-container {
+    background: #333;
+    color: #fff;
+}
+
+.reveal pre {
+    line-height: 1.3em;
+    font-size: 0.5em;
+    box-shadow: none;
+    margin: 0;
+    padding: 20px;
+    width: 100%;
+}
+
+.thanks object {
+    width: 250px;
+    display: block;
+    float: left;
+    margin-right: -100px;
+}
+
+.thanks ul {
+    list-style: none;
+    padding: none:
+}
+
+.recaptulando {
+    color: #666;
+}
+
+.recaptulando ul {
+    list-style: none;
+}
+
+.recaptulando ul li {
+    padding-bottom: 30px;
+}
+
+.recaptulando b {
+    color: #555;
+}
+
+.thanks object {
+    width: 20%;
+    display: block;
+    float: left;
+    margin: 10% -50px 0 0;
+}
+
+.thanks ul {
+    margin-top: 10%;
+    list-style: none;
+    padding: none:
+}
+
+.thanks img {
+    position: absolute;
+    margin-left: 55%;
+}
