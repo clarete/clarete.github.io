@@ -76,6 +76,6 @@ code {
 }
 
 .thanks img {
-    position: absolute;
-    margin-left: 55%;
+    padding: 0px !important;
+    float: left;
 }
