@@ -12,6 +12,14 @@
 
 * Influências do Software Livre
 
+** 
+
+  #+attr_html: :width 40%
+  [[./imgs/qrcode.png]]
+
+
+Link da palestra
+
 * Definição Prática
 
  Licenciamento de Software e.g.: Precisa ser compatível com a lei
