@@ -1,0 +1,168 @@
+body,
+body.reveal-viewport {
+    background-color: #2a1535;
+    color: #f0eaf5;
+}
+
+.reveal a, .reveal a:visited {
+    font-weight: bold;
+    color: #e8b84b;
+}
+
+.reveal a:hover {
+    background-color: #e8b84b;
+    color: #2a1535;
+}
+
+.reveal .progress span {
+    background-color: #e8b84b;
+}
+.controls-arrow {
+    color: #e8b84b;
+}
+
+.reveal h1, .reveal h2, .reveal h3, .reveal h4, .reveal h5 {
+    padding: 0;
+    color: #e8b84b;
+    font-weight: 600;
+}
+
+/* .reveal h1 { */
+/*     font-size: 5em; */
+/*     line-height: 1.1em; */
+/* } */
+
+/* .reveal h2 { */
+/*     font-size: 2.5em; */
+/*     line-height: 1.1em; */
+/* } */
+
+/* .reveal h3 { */
+/*     font-size: 2em; */
+/*     line-height: 1.1em; */
+/* } */
+
+/* .reveal h4 { */
+/*     font-size: 1.5em; */
+/*     line-height: 1.1em; */
+/* } */
+
+.reveal table { font-size: 0.72em; }
+
+.reveal table, table {
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.reveal table td, table td {
+    vertical-align: top;
+}
+
+/* Subtle row striping for readability */
+.reveal table tbody tr:nth-child(even) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+.slides section {
+    color: #f0eaf5;
+    text-align: left;
+}
+
+.slides ol li,
+.slides ul li {
+    margin-bottom: 20px;
+}
+
+.reveal .slides section:nth-child(1) {
+
+}
+
+.reveal section img {
+    border: none;
+    box-shadow: none;
+    padding: 60px;
+}
+
+.reveal section .titleimg img {
+    width: 50%;
+}
+
+/* Inline code (backtick spans in prose) */
+code {
+    background: #1e0f2e;
+    color: #e8b84b;
+    border-radius: 5px;
+    padding: 0 4px;
+}
+
+/* Code blocks — reset the inline override above */
+.org-src-container code {
+    background: none;
+    color: #f0eaf5;
+    border-radius: 0;
+    padding: 0;
+}
+
+.org-src-container {
+    position: relative;
+    background: #160d22;
+    color: #f0eaf5;
+    border-radius: 6px;
+}
+
+/* Language label in top-right corner of code blocks */
+.org-src-container[class*="src-python"]::before  { content: "python"; }
+.org-src-container[class*="src-peg"]::before     { content: "peg"; }
+.org-src-container[class*="src-go"]::before      { content: "go"; }
+.org-src-container[class*="src-shell"]::before   { content: "shell"; }
+.org-src-container[class*="src-bash"]::before    { content: "bash"; }
+
+.org-src-container::before {
+    position: absolute;
+    top: 6px;
+    right: 12px;
+    font-size: 0.65em;
+    color: #56d1c4;
+    opacity: 0.75;
+    font-family: monospace;
+    letter-spacing: 0.05em;
+}
+
+.reveal pre {
+    /* line-height: 1.3em; */
+    /* font-size: 0.65em; */
+    box-shadow: none;
+    margin: 0;
+    padding: 20px;
+    width: 100%;
+}
+
+/* Targeted syntax color overrides — org-mode inlines these as style="color: …"
+   so we need attribute selectors instead of class-based rules.
+   These values are what Emacs/htmlize typically emits against a dark bg. */
+
+/* keywords / builtins (purple → soft violet) */
+.org-src-container span[style*="color: #875faf"] { color: #b48eff !important; }
+/* strings (brownish → warm green) */
+.org-src-container span[style*="color: #5f8700"] { color: #8ec07c !important; }
+/* comments (dark grey → muted teal) */
+.org-src-container span[style*="color: #878787"] { color: #6a9a94 !important; }
+/* type names / constants (dark blue → sky blue) */
+.org-src-container span[style*="color: #007daf"] { color: #7ecbdb !important; }
+/* function names (olive → amber) */
+.org-src-container span[style*="color: #875f00"] { color: #e8b84b !important; }
+/* class / constructor names (hot pink → bright pink) */
+.org-src-container span[style*="color: #f4649b"] { color: #f06fa0 !important; }
+
+.thanks object {
+    width: 20%;
+    display: block;
+    float: left;
+    margin: 10% -50px 0 0;
+}
+
+.thanks ul {
+    margin-top: 10%;
+    list-style: none;
+    padding: 0;
+}
