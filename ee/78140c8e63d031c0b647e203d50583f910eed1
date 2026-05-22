@@ -1,0 +1,19 @@
+slides/recurse/index.html
+  s_545e2759fb6cbb::t_37c9a7f70d238a 51-58
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "development:1.5.1",
+  "base_commit_sha": "ee78140c8e63d031c0b647e203d50583f910eed1",
+  "prompts": {},
+  "sessions": {
+    "s_545e2759fb6cbb": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e5131-f410-7a83-8267-86a0c1273295",
+        "model": "gpt-5.5"
+      },
+      "human_author": "Lincoln Clarete <lincoln@clarete.li>"
+    }
+  }
+}
