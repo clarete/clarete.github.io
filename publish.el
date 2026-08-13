@@ -38,7 +38,7 @@
 ;; Local packages this blog depends on
 (add-to-list 'load-path "~/src/github.com/clarete/langlang/extra/")
 (add-to-list 'load-path "~/src/github.com/clarete/effigy/extras/")
-(add-to-list 'load-path "~/src/github.com/clarete/templatel/")
+(add-to-list 'load-path "~/src/github.com/emacs-love/templatel/")
 (add-to-list 'load-path "~/src/github.com/emacs-love/weblorg/")
 
 ;; Configure dependencies
